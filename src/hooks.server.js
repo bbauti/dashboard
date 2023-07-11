@@ -8,11 +8,6 @@ import { goto } from '$app/navigation';
 
 import jwt from "jsonwebtoken"
 
-function goBack(defaultRoute = '/') {
-  const ref = document.referrer;
-  goto(ref.length > 0 ? ref : defaultRoute)
-}
-
 async function authorization({ event, resolve }) {
   // si no esta logueado te obliga
   const session = await event.locals.getSession();
@@ -23,7 +18,8 @@ async function authorization({ event, resolve }) {
     }
   } else {
     if (session) {
-      goBack()
+      const ref = document.referrer;
+      console.log(ref)
     }
   }
 
