@@ -1,19 +1,12 @@
 <script>
-    import { signIn, signOut } from "@auth/sveltekit/client"
-    import { page } from "$app/stores"
+	import { signIn, signOut } from '@auth/sveltekit/client';
+	import { page } from '$app/stores';
 </script>
 
-  <h1>SvelteKit Auth Example</h1>
-  <p>
-    {#if $page.data.session.user?.image}
-      <span
-        style="background-image: url('{$page.data.session.user.image}')"
-        class="avatar"
-      />
-    {/if}
-    <span class="signedInText">
-      <small>Signed in as</small><br />
-      <strong>{$page.data.session.user?.name ?? "User"}</strong>
-    </span>
-    <button on:click={() => signOut()} class="button">Sign out</button>
-  </p>
+<svelte:head>
+	<title>hola</title>
+</svelte:head>
+
+<h1>SvelteKit Auth Example</h1>
+<p>buenas bienvenida</p>
+<a href="https://youtube.com">hola</a>

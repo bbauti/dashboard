@@ -4,7 +4,6 @@ import { GITHUB_ID, GITHUB_SECRET, SUPABASE_SERVICE_ROLE_KEY, SUPABASE_URL, SUPA
 import { redirect } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 import { SupabaseAdapter } from "@auth/supabase-adapter"
-import { goto } from '$app/navigation';
 
 import jwt from "jsonwebtoken"
 
