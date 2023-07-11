@@ -1,6 +1,6 @@
 import { SvelteKitAuth } from "@auth/sveltekit";
 import GitHub from "@auth/core/providers/github";
-import { GITHUB_ID, GITHUB_SECRET, SUPABASE_SERVICE_ROLE_KEY, SUPABASE_URL } from "$env/static/private";
+import { GITHUB_ID, GITHUB_SECRET, SUPABASE_SERVICE_ROLE_KEY, SUPABASE_URL, SUPABASE_JWT_SECRET } from "$env/static/private";
 import { redirect } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 import { SupabaseAdapter } from "@auth/supabase-adapter"
