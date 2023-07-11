@@ -32,7 +32,7 @@ export const handle = sequence(
       }),
       callbacks: {
         async session({ session, user }) {
-          const signingSecret = process.env.SUPABASE_JWT_SECRET
+          const signingSecret = SUPABASE_JWT_SECRET
           if (signingSecret) {
             const payload = {
               aud: "authenticated",
