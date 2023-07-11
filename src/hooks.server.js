@@ -11,15 +11,13 @@ import jwt from "jsonwebtoken"
 async function authorization({ event, resolve }) {
   // si no esta logueado te obliga
   const session = await event.locals.getSession();
-
   if (!event.url.pathname.startsWith("/auth")) {
     if (!session) {
       throw redirect(303, "/auth");
     }
   } else {
     if (session) {
-      const ref = document.referrer;
-      console.log(ref)
+      console.log(session)
     }
   }
 
