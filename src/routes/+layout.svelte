@@ -13,6 +13,7 @@
 	} else {
 		console.log('estas en ' + $page.route.id);
 	}
+	import '@fontsource-variable/inter';
 </script>
 
 <Nav />

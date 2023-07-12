@@ -26,6 +26,7 @@
 		"@auth/core": "^0.9.0",
 		"@auth/supabase-adapter": "^0.1.2",
 		"@auth/sveltekit": "^0.3.5",
+		"@fontsource-variable/inter": "^5.0.5",
 		"@supabase/supabase-js": "^2.26.0",
 		"jsonwebtoken": "^9.0.1"
 	}

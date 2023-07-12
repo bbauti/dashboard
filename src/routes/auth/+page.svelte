@@ -7,11 +7,29 @@
 	}
 </script>
 
-<p>hola</p>
 <p>
 	{#if !$page.data.session}
-		<span class="notSignedInText">You are not signed in</span>
-		<button on:click={() => signIn('github')}>Sign In with GitHub</button>
+		<section id="login">
+			<img
+				class="smalllogo"
+				src="https://media.discordapp.net/attachments/1128453887259594783/1128769815578955816/DALLE_2023-07-12_16.27.39_-_fill_the_blank_space_with_a_B_with_a_gradient_and_it_migth_have_a_purple_background.png"
+				alt="logoplaceholder"
+				width="100px"
+			/>
+			<p id="loginTitle">Iniciar sesion en <span id="loginDashboard">Dashboard</span></p>
+			<small>Para poder acceder al servicio, <span class="loginSmall">inicia sesion</span>.</small>
+
+			<div id="buttonSection">
+				<button id="github" class="button" on:click={() => signIn('github')}>
+					<iconify-icon icon="bi:github" class="loginIcon" />
+					Iniciar con github
+				</button>
+				<button id="email" class="button">
+					<iconify-icon icon="devicon:google" id="google" class="loginIcon" />
+					Usar correo
+				</button>
+			</div>
+		</section>
 	{:else}
 		<button on:click={() => signOut()} class="button">Sign out</button>
 		<a href="/">Home</a>
@@ -19,5 +37,76 @@
 	{/if}
 </p>
 
-<style>
+<style lang="scss">
+	#login {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		margin-top: 20vh;
+	}
+
+	.smalllogo {
+		border-radius: 25px;
+	}
+
+	#loginTitle {
+		font-weight: 400;
+		font-size: 1.5rem;
+		margin-bottom: 0.3rem;
+	}
+
+	#loginDashboard {
+		font-weight: 700;
+	}
+
+	.loginSmall {
+		text-decoration: underline;
+		text-underline-offset: 0.2rem;
+		text-decoration-color: #ffffff09;
+		text-decoration-thickness: 2px;
+	}
+
+	#buttonSection {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		margin-top: 2rem;
+	}
+
+	.button {
+		font-weight: 700;
+		display: flex;
+		border-radius: 10px;
+		background-color: #f8f8f8;
+		color: #111111;
+		height: 2.5rem;
+		width: 15rem;
+		font-size: 1rem;
+		outline: none;
+		border: none;
+		text-align: left;
+		align-items: center;
+		font-family: 'Inter Variable', sans-serif;
+		cursor: pointer;
+	}
+
+	.loginIcon {
+		display: flex;
+		color: #111111;
+		width: 20px;
+		height: 20px;
+		align-items: center;
+		justify-content: center;
+		margin: 0.4rem;
+		font-size: 1.2rem;
+	}
+
+	#google {
+		color: unset;
+	}
+
+	/* #login > small {
+		margin-top: 0;
+	} */
 </style>

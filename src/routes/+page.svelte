@@ -9,4 +9,3 @@
 
 <h1>SvelteKit Auth Example</h1>
 <p>buenas bienvenida</p>
-<a href="https://youtube.com">hola</a>

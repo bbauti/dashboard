@@ -1,6 +1,10 @@
 /* Write your global styles here, in SCSS syntax. Variables and mixins from the src/variables.scss file are available here without importing */
 
 body {
-  color: $text-color;
   background-color: $background-color;
+  color: #fff;
+  font-family: Inter;
+  font-weight: 400;
+  line-height: normal;
+  font-family: "Inter Variable", sans-serif;
 }
