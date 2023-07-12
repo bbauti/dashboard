@@ -2,9 +2,50 @@
 
 body {
   background-color: $background-color;
-  color: #fff;
+  color: #f8f8f8;
   font-family: Inter;
   font-weight: 400;
   line-height: normal;
   font-family: "Inter Variable", sans-serif;
+}
+
+#buttonSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 2rem;
+}
+
+.button {
+  font-weight: 700;
+  display: flex;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+  color: $background-color;
+  height: 2.5rem;
+  width: 15rem;
+  font-size: 1rem;
+  outline: none;
+  border: none;
+  text-align: left;
+  align-items: center;
+  font-family: "Inter Variable", sans-serif;
+  cursor: pointer;
+  &:hover {
+    background-color: #b1b1b1;
+  }
+  &:active {
+    background-color: #8a8a8a;
+  }
+}
+
+.icon {
+  display: flex;
+  color: $background-color;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  margin: 0.4rem 0.4rem 0.4rem 0.2rem;
+  font-size: 1.2rem;
 }

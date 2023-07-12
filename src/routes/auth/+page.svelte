@@ -2,6 +2,16 @@
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { page } from '$app/stores';
 
+	import emailLogin from '../../components/modals/emailLogin.svelte';
+
+	import { toast } from 'svelte-sonner';
+
+	import { openModal } from 'svelte-modals';
+
+	function modalEmail() {
+		openModal(emailLogin, { title: 'Alert', message: 'This is an alert' });
+	}
+
 	function redirect() {
 		throw redirect(301, '/');
 	}
@@ -20,12 +30,17 @@
 			<small>Para poder acceder al servicio, <span class="loginSmall">inicia sesion</span>.</small>
 
 			<div id="buttonSection">
-				<button id="github" class="button" on:click={() => signIn('github')}>
-					<iconify-icon icon="bi:github" class="loginIcon" />
-					Iniciar con github
+				<button
+					id="github"
+					class="button"
+					on:click={() => signIn('github')}
+					on:click={() => toast('Iniciando sesion...')}
+				>
+					<iconify-icon icon="bi:github" class="icon" />
+					Iniciar con GitHub
 				</button>
-				<button id="email" class="button">
-					<iconify-icon icon="devicon:google" id="google" class="loginIcon" />
+				<button id="email" class="button" on:click={modalEmail}>
+					<iconify-icon icon="ic:round-email" id="mail" class="icon" />
 					Usar correo
 				</button>
 			</div>
@@ -67,43 +82,13 @@
 		text-decoration-thickness: 2px;
 	}
 
-	#buttonSection {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-		margin-top: 2rem;
-	}
-
-	.button {
-		font-weight: 700;
-		display: flex;
-		border-radius: 10px;
-		background-color: #f8f8f8;
-		color: #111111;
-		height: 2.5rem;
-		width: 15rem;
-		font-size: 1rem;
-		outline: none;
-		border: none;
-		text-align: left;
-		align-items: center;
-		font-family: 'Inter Variable', sans-serif;
-		cursor: pointer;
-	}
-
-	.loginIcon {
-		display: flex;
-		color: #111111;
-		width: 20px;
-		height: 20px;
-		align-items: center;
-		justify-content: center;
-		margin: 0.4rem;
-		font-size: 1.2rem;
-	}
-
-	#google {
+	#mail {
 		color: unset;
+	}
+
+	#email {
+		background-color: #0e0e0e;
+		color: #f8f8f8;
 	}
 
 	/* #login > small {
