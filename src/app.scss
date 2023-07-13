@@ -1,6 +1,191 @@
 /* Write your global styles here, in SCSS syntax. Variables and mixins from the src/variables.scss file are available here without importing */
 
 body {
+  background-color: $bg;
   color: $text-color;
-  background-color: $background-color;
+  font-family: Inter;
+  font-weight: 400;
+  line-height: normal;
+  font-family: "Inter Variable", sans-serif;
+}
+
+main {
+  padding: 1rem;
+}
+
+#buttonSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 2rem;
+}
+
+.button {
+  font-weight: 700;
+  display: flex;
+  border-radius: 10px;
+  background-color: $text-color;
+  color: $bg;
+  height: 2.5rem;
+  width: 15rem;
+  font-size: 1rem;
+  outline: none;
+  border: none;
+  text-align: left;
+  align-items: center;
+  font-family: "Inter Variable", sans-serif;
+  cursor: pointer;
+  &:hover {
+    background-color: $t-darker;
+  }
+  &:active {
+    background-color: $t-darkest;
+  }
+}
+
+.icon {
+  display: flex;
+  color: $bg;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  margin: 0.4rem 0.4rem 0.4rem 0.2rem;
+  font-size: 1.2rem;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.overlay {
+  position: fixed;
+  z-index: -40;
+  background-color: rgb(0 0 0 / 86%);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.modalContents {
+  width: 80vw;
+  max-width: 400px;
+  font-family: "Inter Variable", sans-serif;
+  font-weight: 600;
+  border-radius: 10px;
+  background: $bg;
+  color: $text-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: auto;
+}
+
+.contents {
+  padding: 16px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input {
+  padding: 1rem;
+  border: 1px solid $t-opacity;
+  background-color: $bg-darker;
+  border-radius: 10px;
+  color: $text-color;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+}
+
+::placeholder {
+  font-family: "Inter Variable", sans-serif;
+  font-weight: 500;
+}
+
+.tabButton {
+  font-family: "Inter Variable", sans-serif;
+  color: $text-color;
+  padding: 0.8rem;
+  border-radius: 10px 10px 0 0;
+  border: unset;
+  border-bottom: 2px solid transparent;
+  width: 5rem;
+  margin: 0.3rem;
+  background: unset;
+  max-width: 8rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    border-radius: 10px;
+    background-color: $bg-darker;
+  }
+}
+
+.smallActionButton {
+  display: flex;
+  font-family: "Inter Variable", sans-serif;
+  color: $text-color;
+  height: 1rem;
+  align-items: center;
+  padding: 0.8rem;
+  border-radius: 10px 10px 0 0;
+  border: unset;
+  border-bottom: 2px solid transparent;
+  margin: 0.3rem;
+  background: unset;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    border-radius: 10px;
+    background-color: $bg-darker;
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalTitle {
+  margin: 0;
+  margin-bottom: 2rem;
+}
+
+.closeModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border-radius: 5px;
+  height: 10px;
+  background: none;
+  color: $text-color;
+  border: unset;
+  width: 10px;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: $danger-opacity;
+  }
+}
+
+.smallAction {
+  display: flex;
+  margin-top: 0.5rem;
+  justify-content: center;
 }

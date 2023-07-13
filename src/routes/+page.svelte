@@ -1,12 +1,20 @@
 <script>
-	import { signIn, signOut } from '@auth/sveltekit/client';
-	import { page } from '$app/stores';
+	import { Auth } from '@supabase/auth-ui-svelte';
+	import { ThemeSupa } from '@supabase/auth-ui-shared';
+
+	export let data;
+
+	let { supabase } = data;
+	$: ({ supabase } = data);
+
 </script>
 
 <svelte:head>
-	<title>hola</title>
+	<title>User Management</title>
 </svelte:head>
 
-<h1>SvelteKit Auth Example</h1>
-<p>buenas bienvenida</p>
-<a href="https://youtube.com">hola</a>
+{#if data.sessio}
+	<a href="/account">account</a>
+{:else}
+	<a href="/login">login</a>
+{/if}
