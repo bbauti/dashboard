@@ -2,30 +2,59 @@
 	import { closeModal } from 'svelte-modals';
 	import { fly } from 'svelte/transition';
 
-	// provided by <Modals />
 	export let isOpen;
 
 	export let title;
 	export let message;
+
+	let email;
+	let password;
+
+	const handleSignUp = async () => {
+		await supabase.auth.signUp({
+			email,
+			password,
+			options: {
+				emailRedirectTo: `${location.origin}/auth/callback`
+			}
+		});
+	};
+
+	const handleSignIn = async () => {
+		await supabase.auth.signInWithPassword({
+			email,
+			password
+		});
+	};
 </script>
 
 {#if isOpen}
 	<div role="dialog" class="modal" transition:fly|global={{ y: 50, duration: 300 }}>
 		<div class="contents">
-			<form>
-				<div class="input">
-					<label for="username">Usuario</label>
-					<input type="text" name="username" id="username" placeholder="Usuario" />
-				</div>
+			<form on:submit={handleSignUp}>
 				<div class="input">
 					<label for="email">Correo</label>
-					<input type="email" name="email" id="email" placeholder="Correo" />
+					<input type="email" name="email" id="email" placeholder="Correo" bind:value={email} />
 				</div>
-			</form>
-			<div class="actions">
-				<button id="submitModal" class="button">
+				<div class="input">
+					<label for="password">Contraseña</label>
+					<input
+						type="password"
+						name="password"
+						id="password"
+						placeholder="Contraseña"
+						bind:value={password}
+					/>
+				</div>
+				<button id="submitModal" class="button" type="submit">
 					<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
 					Crear cuenta
+				</button>
+			</form>
+			<div class="actions">
+				<button id="submitModal" class="button" on:click={handleSignIn}>
+					<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
+					Iniciar sesion
 				</button>
 				<button id="closeModal" class="button" on:click={closeModal}>
 					<iconify-icon icon="gg:close" id="closeIcon" class="icon" />

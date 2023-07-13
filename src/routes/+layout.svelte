@@ -5,6 +5,8 @@
 	import Nav from '../components/nav.svelte';
 	import '@fontsource-variable/inter';
 
+	import '../app.scss';
+
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 
