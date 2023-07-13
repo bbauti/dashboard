@@ -86,20 +86,6 @@
 				use:content
 				transition:fly={{ y: 50, duration: 300 }}
 			>
-				<!-- <div class="modalTabs">
-					<button
-						class="tabButton {current === 'login' ? 'current' : ''}"
-						type="button"
-						id="loginButton"
-						on:click={() => handleTabClick('login')}>Login</button
-					>
-					<button
-						class="tabButton {current === 'register' ? 'current' : ''}"
-						type="button"
-						id="registerButton"
-						on:click={() => handleTabClick('register')}>Registro</button
-					>
-				</div> -->
 				<div class="contents">
 					{#if current === 'login'}
 						<div class="modalHeader">
@@ -222,12 +208,6 @@
 						</div>
 					{/if}
 				</div>
-				<!-- <div class="actions">
-					<button id="closeModal" class="button" {...$close} use:close>
-						<iconify-icon icon="gg:close" id="closeIcon" class="icon" />
-						Cancelar
-					</button>
-				</div> -->
 			</div>
 		{/if}
 	</div>
@@ -271,7 +251,7 @@
 	.loginSmall {
 		text-decoration: underline;
 		text-underline-offset: 0.2rem;
-		text-decoration-color: #ffffff09;
+		text-decoration-color: $bg-darker;
 		text-decoration-thickness: 2px;
 	}
 
@@ -280,8 +260,8 @@
 	}
 
 	#emailButton {
-		background-color: #0e0e0e;
-		color: #f8f8f8;
+		background-color: $bg-darker;
+		color: $text-color;
 	}
 
 	label {
@@ -298,13 +278,13 @@
 	}
 
 	#closeModal {
-		background-color: #ff3a20;
+		background-color: $danger;
 		max-width: 7.5rem;
 		font-weight: 700;
 	}
 
 	.submitModal {
-		background-color: #181818;
+		background-color: $bg-light;
 		color: $text-color;
 		width: 100%;
 		font-weight: 500;
@@ -316,8 +296,8 @@
 	}
 
 	.wrong {
-		border-color: #ef0808;
-		color: #ff9a9a;
+		border-color: $danger;
+		color: $danger-light;
 	}
 
 	.signOutButton {
@@ -325,9 +305,9 @@
 		margin-top: 1rem;
 		padding: 0.5rem 1rem;
 		background-color: unset;
-		border: 1px solid red;
+		border: 1px solid $danger;
 		border-radius: 10px;
-		color: red;
+		color: $danger;
 	}
 
 	/* #login > small {
