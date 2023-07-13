@@ -5,6 +5,15 @@ export const actions = {
     const formData = await request.formData()
     const email = formData.get('email')
     const password = formData.get('password')
+    const confirmPassword = formData.get("confirmPassword")
+    
+    if (!email || !password) {
+      return fail(500, { message: 'Debes introducir el correo y contraseñas.', success: false, email })
+    }
+
+    if (confirmPassword !== password) {
+      return fail(500, { message: 'Las contraseñas deben ser las mismas.', success: false, email })
+    }
 
     const { error } = await supabase.auth.signUp({
       email,
@@ -15,7 +24,7 @@ export const actions = {
     })
 
     if (error) {
-      return fail(500, { message: 'Server error. Try again later.', success: false, email })
+      return fail(500, { message: 'Error en el servidor.', success: false, email })
     }
 
     return {
@@ -28,6 +37,10 @@ export const actions = {
     const email = formData.get('email')
     const password = formData.get('password')
 
+    if (!email || !password) {
+      return fail(500, { message: 'Debes introducir el correo y contraseñas.', success: false, email })
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -35,7 +48,7 @@ export const actions = {
 
     if (error) {
         console.log(error)
-      return fail(500, { message: 'Server error. Try again later.', success: false, email })
+      return fail(500, { message: 'Error en el servidor.', success: false, email })
     }
 
     return {

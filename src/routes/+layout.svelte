@@ -36,7 +36,10 @@
 		on:click={closeModal}
 	/>
 </Modals>
-<slot />
+
+<main>
+	<slot />
+</main>
 
 <style>
 	.backdrop {

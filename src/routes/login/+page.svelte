@@ -1,15 +1,12 @@
 <script>
-	import emailLogin from '../../components/modals/emailLogin.svelte';
-
 	import { toast } from 'svelte-sonner';
 
 	import { fly } from 'svelte/transition';
 
 	import { fade } from 'svelte/transition';
 
-	import { enhance } from '$app/forms'
-	export let form
-
+	import { enhance } from '$app/forms';
+	export let form;
 
 	export let data;
 
@@ -18,6 +15,8 @@
 
 	let email;
 	let password;
+
+	let selected;
 
 	const handleSignUp = async () => {
 		await supabase.auth.signUp({
@@ -46,9 +45,15 @@
 		});
 	}
 
+	let current = 'login';
+
+	function handleTabClick(el) {
+		current = el;
+	}
+
 	import { createDialog } from '@melt-ui/svelte';
 
-  	const { trigger, portal, overlay, content, title, description, close, open } = createDialog();
+	const { trigger, portal, overlay, content, title, description, close, open } = createDialog();
 </script>
 
 {#if !data.session}
@@ -72,8 +77,7 @@
 				<iconify-icon icon="bi:github" class="icon" />
 				Iniciar con GitHub
 			</button>
-			<button id="email" class="button" {...$trigger}
-			use:trigger>
+			<button id="emailButton" class="button" {...$trigger} use:trigger>
 				<iconify-icon icon="ic:round-email" id="mail" class="icon" />
 				Usar correo
 			</button>
@@ -82,45 +86,115 @@
 	<!-- Modal -->
 	<div use:portal class="modal">
 		{#if $open}
-			<div {...$overlay} class="overlay" transition:fade={{ duration: 100 }}/>
-			<div class="contents"
+			<div {...$overlay} class="overlay" transition:fade={{ duration: 100 }} />
+			<div
+				class="modalContents"
 				{...$content}
 				use:content
 				transition:fly={{ y: 50, duration: 300 }}
 			>
+				<!-- <div class="modalTabs">
+					<button
+						class="tabButton {current === 'login' ? 'current' : ''}"
+						type="button"
+						id="loginButton"
+						on:click={() => handleTabClick('login')}>Login</button
+					>
+					<button
+						class="tabButton {current === 'register' ? 'current' : ''}"
+						type="button"
+						id="registerButton"
+						on:click={() => handleTabClick('register')}>Registro</button
+					>
+				</div> -->
 				<div class="contents">
-					<h1>Usar correo</h1>
-					<form method="post" action="?/register" use:enhance>
-						<div class="input">
-							<label for="email">Correo</label>
-							<input type="email" name="email" id="email" placeholder="Correo" value={form?.email ?? ''} />
+					{#if current === 'login'}
+						<div class="modalHeader">
+							<h1 class="modalTitle">Login</h1>
+							<button class="closeModal" {...$close} use:close>
+								<iconify-icon icon="lucide:x" class="closeModalIcon" />
+							</button>
 						</div>
-						<div class="input">
-							<label for="password">Contraseña</label>
-							<input
-								type="password"
-								name="password"
-								id="password"
-								placeholder="Contraseña"
-							/>
+						<form method="post" action="?/login" use:enhance>
+							<div class="input">
+								<label for="email">Correo</label>
+								<input
+									type="email"
+									name="email"
+									id="email"
+									placeholder="nombre@dominio.com"
+									value={form?.email ?? ''}
+								/>
+							</div>
+							<div class="input">
+								<label for="password">Contraseña</label>
+								<input type="password" name="password" id="password" placeholder="•••••" />
+							</div>
+							<button id="loginModal" class="button submitModal">
+								<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
+								Iniciar sesion
+							</button>
+						</form>
+						<div class="smallAction">
+							<button
+								class="smallActionButton {current === 'register' ? 'current' : ''}"
+								type="button"
+								id="registerButton"
+								on:click={() => handleTabClick('register')}>No tenes cuenta?</button
+							>
 						</div>
-						<button id="submitModal" class="button">
-							<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
-							Crear cuenta
-						</button>
-						<button id="submitModal" class="button" formaction="?/login">
-							<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
-							Iniciar sesion
-						</button>
-					</form>
-					<div class="actions">
-						<button id="closeModal" class="button" {...$close}
-						use:close>
-							<iconify-icon icon="gg:close" id="closeIcon" class="icon" />
-							Cancelar
-						</button>
-					</div>
+					{:else if current === 'register'}
+						<div class="modalHeader">
+							<h1 class="modalTitle">Register</h1>
+							<button class="closeModal" {...$close} use:close>
+								<iconify-icon icon="lucide:x" class="closeModalIcon" />
+							</button>
+						</div>
+						<form method="post" action="?/register" use:enhance>
+							<div class="input">
+								<label for="email">Correo</label>
+								<input
+									type="email"
+									name="email"
+									id="email"
+									placeholder="nombre@dominio.com"
+									value={form?.email ?? ''}
+								/>
+							</div>
+							<div class="input">
+								<label for="password">Contraseña</label>
+								<input type="password" name="password" id="password" placeholder="•••••" />
+							</div>
+							<div class="input">
+								<label for="confirmPassword">Confirmar contraseña</label>
+								<input
+									type="password"
+									name="confirmPassword"
+									id="confirmPassword"
+									placeholder="•••••"
+								/>
+							</div>
+							<button id="registerModal" class="button submitModal">
+								<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
+								Crear cuenta
+							</button>
+						</form>
+						<div class="smallAction">
+							<button
+								class="smallActionButton {current === 'login' ? 'current' : ''}"
+								type="button"
+								id="loginButton"
+								on:click={() => handleTabClick('login')}>Ya tenes una cuenta?</button
+							>
+						</div>
+					{/if}
 				</div>
+				<!-- <div class="actions">
+					<button id="closeModal" class="button" {...$close} use:close>
+						<iconify-icon icon="gg:close" id="closeIcon" class="icon" />
+						Cancelar
+					</button>
+				</div> -->
 			</div>
 		{/if}
 	</div>
@@ -131,7 +205,6 @@
 {/if}
 
 <style lang="scss">
-
 	#login {
 		display: flex;
 		flex-direction: column;
@@ -165,69 +238,9 @@
 		color: unset;
 	}
 
-	#email {
+	#emailButton {
 		background-color: #0e0e0e;
 		color: #f8f8f8;
-	}
-
-	.modal {
-		position: fixed;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		left: 0;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		pointer-events: none;
-	}
-
-	.overlay {
-		position: fixed;
-		z-index: -40;
-		background-color: rgba(14, 14, 14, 0.685);
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-	}
-
-	.contents {
-		min-width: 240px;
-		font-family: 'Inter Variable', sans-serif;
-		font-weight: 600;
-		border-radius: 10px;
-		padding: 16px;
-		background: $text-color;
-		color: $background-color;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		pointer-events: auto;
-	}
-
-	form {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	input {
-		padding: 1rem;
-		border: 1px solid white;
-		background-color: $background-color;
-		border-radius: 10px;
-		color: $text-color;
-	}
-
-	.input {
-		display: flex;
-		flex-direction: column;
-	}
-
-	::placeholder {
-		font-family: 'Inter Variable', sans-serif;
-		font-weight: 500;
 	}
 
 	label {
@@ -236,7 +249,8 @@
 	}
 
 	.actions {
-		margin-top: 32px;
+		margin: 16px;
+		margin-top: 0;
 		display: flex;
 		gap: 10px;
 		justify-content: flex-end;
@@ -248,17 +262,17 @@
 		font-weight: 700;
 	}
 
-	#submitModal {
+	.submitModal {
 		background-color: #181818;
 		color: $text-color;
-		max-width: 10rem;
+		width: 100%;
 		font-weight: 500;
+		justify-content: center;
 	}
 
 	#submitIcon {
 		color: $text-color;
 	}
-
 
 	/* #login > small {
 		margin-top: 0;
