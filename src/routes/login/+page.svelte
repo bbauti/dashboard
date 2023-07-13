@@ -47,8 +47,18 @@
 
 	let current = 'login';
 
+	$: message = form?.message;
+
+	$: success = form?.success;
+
+	$: if (form?.message) {
+		console.log(form?.message);
+	}
+
 	function handleTabClick(el) {
 		current = el;
+		success = null;
+		message = null;
 	}
 
 	import { createDialog } from '@melt-ui/svelte';
@@ -117,8 +127,12 @@
 						</div>
 						<form method="post" action="?/login" use:enhance>
 							<div class="input">
-								<label for="email">Correo</label>
+								<label
+									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
+									for="email">Correo</label
+								>
 								<input
+									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
 									type="email"
 									name="email"
 									id="email"
@@ -127,9 +141,23 @@
 								/>
 							</div>
 							<div class="input">
-								<label for="password">Contraseña</label>
-								<input type="password" name="password" id="password" placeholder="•••••" />
+								<label
+									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
+									for="password">Contraseña</label
+								>
+								<input
+									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
+									type="password"
+									name="password"
+									id="password"
+									placeholder="•••••"
+								/>
 							</div>
+							{#if success === true}
+								<p style="color:green;">{message}</p>
+							{:else if success === false}
+								<p style="color:red;">{message}</p>
+							{/if}
 							<button id="loginModal" class="button submitModal">
 								<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
 								Iniciar sesion
@@ -152,8 +180,12 @@
 						</div>
 						<form method="post" action="?/register" use:enhance>
 							<div class="input">
-								<label for="email">Correo</label>
+								<label
+									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
+									for="email">Correo</label
+								>
 								<input
+									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
 									type="email"
 									name="email"
 									id="email"
@@ -162,18 +194,36 @@
 								/>
 							</div>
 							<div class="input">
-								<label for="password">Contraseña</label>
-								<input type="password" name="password" id="password" placeholder="•••••" />
+								<label
+									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
+									for="password">Contraseña</label
+								>
+								<input
+									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
+									type="password"
+									name="password"
+									id="password"
+									placeholder="•••••"
+								/>
 							</div>
 							<div class="input">
-								<label for="confirmPassword">Confirmar contraseña</label>
+								<label
+									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
+									for="confirmPassword">Confirmar contraseña</label
+								>
 								<input
+									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
 									type="password"
 									name="confirmPassword"
 									id="confirmPassword"
 									placeholder="•••••"
 								/>
 							</div>
+							{#if success === true}
+								<p style="color:green;">{message}</p>
+							{:else if success === false}
+								<p style="color:red;">{message}</p>
+							{/if}
 							<button id="registerModal" class="button submitModal">
 								<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
 								Crear cuenta
@@ -272,6 +322,11 @@
 
 	#submitIcon {
 		color: $text-color;
+	}
+
+	.wrong {
+		border-color: #ef0808;
+		color: #ff9a9a;
 	}
 
 	/* #login > small {

@@ -8,11 +8,11 @@ export const actions = {
     const confirmPassword = formData.get("confirmPassword")
     
     if (!email || !password) {
-      return fail(500, { message: 'Debes introducir el correo y contraseñas.', success: false, email })
+      return fail(500, { message: 'Debes introducir el correo y contraseña', success: false, email })
     }
 
     if (confirmPassword !== password) {
-      return fail(500, { message: 'Las contraseñas deben ser las mismas.', success: false, email })
+      return fail(500, { message: 'Las contraseñas deben ser las mismas', success: false, email })
     }
 
     const { error } = await supabase.auth.signUp({
@@ -24,11 +24,11 @@ export const actions = {
     })
 
     if (error) {
-      return fail(500, { message: 'Error en el servidor.', success: false, email })
+      return fail(500, { message: 'Datos incorrectos', success: false, email })
     }
 
     return {
-      message: 'registrado',
+      message: 'Registrado correctamente!',
       success: true,
     }
   },
@@ -38,7 +38,7 @@ export const actions = {
     const password = formData.get('password')
 
     if (!email || !password) {
-      return fail(500, { message: 'Debes introducir el correo y contraseñas.', success: false, email })
+      return fail(500, { message: 'Debes introducir el correo y contraseñas', success: false, email })
     }
 
     const { error } = await supabase.auth.signInWithPassword({
@@ -48,11 +48,11 @@ export const actions = {
 
     if (error) {
         console.log(error)
-      return fail(500, { message: 'Error en el servidor.', success: false, email })
+      return fail(500, { message: 'Datos incorrectos', success: false, email })
     }
 
     return {
-      message: 'logueado',
+      message: 'Autenticado correctamente!',
       success: true,
     }
   },
