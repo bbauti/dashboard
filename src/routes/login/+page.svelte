@@ -18,23 +18,6 @@
 
 	let selected;
 
-	const handleSignUp = async () => {
-		await supabase.auth.signUp({
-			email,
-			password,
-			options: {
-				emailRedirectTo: `${location.origin}/auth/callback`
-			}
-		});
-	};
-
-	const handleSignIn = async () => {
-		await supabase.auth.signInWithPassword({
-			email,
-			password
-		});
-	};
-
 	const handleSignOut = async () => {
 		await supabase.auth.signOut();
 	};
@@ -249,9 +232,17 @@
 		{/if}
 	</div>
 {:else}
-	<button on:click={() => handleSignOut()} class="button">Sign out</button>
-	<a href="/">Home</a>
-	<img src={data.session.user.image} />
+	<section id="login">
+		<img
+			class="smalllogo"
+			src="https://media.discordapp.net/attachments/1128453887259594783/1128769815578955816/DALLE_2023-07-12_16.27.39_-_fill_the_blank_space_with_a_B_with_a_gradient_and_it_migth_have_a_purple_background.png"
+			alt="logoplaceholder"
+			width="100px"
+		/>
+		<p id="loginTitle">Ya iniciaste sesion!</p>
+		<small>Queres volver al <a class="loginSmall" href="/">inicio?</a></small>
+		<button on:click={() => handleSignOut()} class="signOutButton">Sign out</button>
+	</section>
 {/if}
 
 <style lang="scss">
@@ -327,6 +318,16 @@
 	.wrong {
 		border-color: #ef0808;
 		color: #ff9a9a;
+	}
+
+	.signOutButton {
+		margin: 0 auto;
+		margin-top: 1rem;
+		padding: 0.5rem 1rem;
+		background-color: unset;
+		border: 1px solid red;
+		border-radius: 10px;
+		color: red;
 	}
 
 	/* #login > small {
