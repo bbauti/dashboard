@@ -1,25 +1,27 @@
 <script>
-	import '../app.scss';
-
 	import { Toaster } from 'svelte-sonner';
-
 	import { Modals, closeModal } from 'svelte-modals';
-
 	import { fade } from 'svelte/transition';
-
-	import { page } from '$app/stores';
 	import Nav from '../components/nav.svelte';
-
-	if (!$page.route.id.includes('auth')) {
-		if (!$page.data.session) {
-			console.log('no estas logueado');
-		} else {
-			console.log('tas logueado');
-		}
-	} else {
-		console.log('estas en ' + $page.route.id);
-	}
 	import '@fontsource-variable/inter';
+
+	import { invalidate } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	export let data;
+
+	let { supabase, session } = data;
+	$: ({ supabase, session } = data);
+
+	onMount(() => {
+		const { data } = supabase.auth.onAuthStateChange((event, _session) => {
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth');
+			}
+		});
+
+		return () => data.subscription.unsubscribe();
+	});
 </script>
 
 <!-- <Nav /> -->

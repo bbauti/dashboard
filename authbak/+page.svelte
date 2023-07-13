@@ -2,7 +2,7 @@
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { page } from '$app/stores';
 
-	import emailLogin from '../../components/modals/emailLogin.svelte';
+	import emailLogin from '../src/components/modals/emailLogin.svelte';
 
 	import { toast } from 'svelte-sonner';
 
