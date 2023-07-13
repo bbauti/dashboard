@@ -7,6 +7,9 @@
 
 	import { fade } from 'svelte/transition';
 
+	import { enhance } from '$app/forms'
+	export let form
+
 
 	export let data;
 
@@ -87,10 +90,10 @@
 			>
 				<div class="contents">
 					<h1>Usar correo</h1>
-					<form on:submit={handleSignUp}>
+					<form method="post" action="?/register" use:enhance>
 						<div class="input">
 							<label for="email">Correo</label>
-							<input type="email" name="email" id="email" placeholder="Correo" bind:value={email} />
+							<input type="email" name="email" id="email" placeholder="Correo" value={form?.email ?? ''} />
 						</div>
 						<div class="input">
 							<label for="password">Contraseña</label>
@@ -99,19 +102,18 @@
 								name="password"
 								id="password"
 								placeholder="Contraseña"
-								bind:value={password}
 							/>
 						</div>
-						<button id="submitModal" class="button" type="submit">
+						<button id="submitModal" class="button">
 							<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
 							Crear cuenta
 						</button>
-					</form>
-					<div class="actions">
-						<button id="submitModal" class="button" on:click={handleSignIn}>
+						<button id="submitModal" class="button" formaction="?/login">
 							<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
 							Iniciar sesion
 						</button>
+					</form>
+					<div class="actions">
 						<button id="closeModal" class="button" {...$close}
 						use:close>
 							<iconify-icon icon="gg:close" id="closeIcon" class="icon" />
