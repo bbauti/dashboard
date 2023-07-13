@@ -3,16 +3,15 @@
 
 	import { toast } from 'svelte-sonner';
 
-	import { openModal } from 'svelte-modals';
+	import { fly } from 'svelte/transition';
+
+	import { fade } from 'svelte/transition';
+
 
 	export let data;
 
 	let { supabase } = data;
 	$: ({ supabase } = data);
-
-	function modalEmail() {
-		openModal(emailLogin, { title: 'Alert', message: 'This is an alert' });
-	}
 
 	let email;
 	let password;
@@ -43,6 +42,10 @@
 			provider: 'github'
 		});
 	}
+
+	import { createDialog } from '@melt-ui/svelte';
+
+  	const { trigger, portal, overlay, content, title, description, close, open } = createDialog();
 </script>
 
 {#if !data.session}
@@ -66,12 +69,59 @@
 				<iconify-icon icon="bi:github" class="icon" />
 				Iniciar con GitHub
 			</button>
-			<button id="email" class="button" on:click={modalEmail}>
+			<button id="email" class="button" {...$trigger}
+			use:trigger>
 				<iconify-icon icon="ic:round-email" id="mail" class="icon" />
 				Usar correo
 			</button>
 		</div>
 	</section>
+	<!-- Modal -->
+	<div use:portal class="modal">
+		{#if $open}
+			<div {...$overlay} class="overlay" transition:fade={{ duration: 100 }}/>
+			<div class="contents"
+				{...$content}
+				use:content
+				transition:fly={{ y: 50, duration: 300 }}
+			>
+				<div class="contents">
+					<h1>Usar correo</h1>
+					<form on:submit={handleSignUp}>
+						<div class="input">
+							<label for="email">Correo</label>
+							<input type="email" name="email" id="email" placeholder="Correo" bind:value={email} />
+						</div>
+						<div class="input">
+							<label for="password">Contraseña</label>
+							<input
+								type="password"
+								name="password"
+								id="password"
+								placeholder="Contraseña"
+								bind:value={password}
+							/>
+						</div>
+						<button id="submitModal" class="button" type="submit">
+							<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
+							Crear cuenta
+						</button>
+					</form>
+					<div class="actions">
+						<button id="submitModal" class="button" on:click={handleSignIn}>
+							<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
+							Iniciar sesion
+						</button>
+						<button id="closeModal" class="button" {...$close}
+						use:close>
+							<iconify-icon icon="gg:close" id="closeIcon" class="icon" />
+							Cancelar
+						</button>
+					</div>
+				</div>
+			</div>
+		{/if}
+	</div>
 {:else}
 	<button on:click={() => handleSignOut()} class="button">Sign out</button>
 	<a href="/">Home</a>
@@ -79,6 +129,7 @@
 {/if}
 
 <style lang="scss">
+
 	#login {
 		display: flex;
 		flex-direction: column;
@@ -116,6 +167,96 @@
 		background-color: #0e0e0e;
 		color: #f8f8f8;
 	}
+
+	.modal {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		pointer-events: none;
+	}
+
+	.overlay {
+		position: fixed;
+		z-index: -40;
+		background-color: rgba(14, 14, 14, 0.685);
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+
+	.contents {
+		min-width: 240px;
+		font-family: 'Inter Variable', sans-serif;
+		font-weight: 600;
+		border-radius: 10px;
+		padding: 16px;
+		background: $text-color;
+		color: $background-color;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		pointer-events: auto;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	input {
+		padding: 1rem;
+		border: 1px solid white;
+		background-color: $background-color;
+		border-radius: 10px;
+		color: $text-color;
+	}
+
+	.input {
+		display: flex;
+		flex-direction: column;
+	}
+
+	::placeholder {
+		font-family: 'Inter Variable', sans-serif;
+		font-weight: 500;
+	}
+
+	label {
+		margin-left: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.actions {
+		margin-top: 32px;
+		display: flex;
+		gap: 10px;
+		justify-content: flex-end;
+	}
+
+	#closeModal {
+		background-color: #ff3a20;
+		max-width: 7.5rem;
+		font-weight: 700;
+	}
+
+	#submitModal {
+		background-color: #181818;
+		color: $text-color;
+		max-width: 10rem;
+		font-weight: 500;
+	}
+
+	#submitIcon {
+		color: $text-color;
+	}
+
 
 	/* #login > small {
 		margin-top: 0;

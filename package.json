@@ -28,6 +28,7 @@
 		"@auth/supabase-adapter": "^0.1.2",
 		"@auth/sveltekit": "^0.3.5",
 		"@fontsource-variable/inter": "^5.0.5",
+		"@melt-ui/svelte": "^0.19.1",
 		"@supabase/auth-helpers-sveltekit": "^0.10.1",
 		"@supabase/auth-ui-shared": "^0.1.6",
 		"@supabase/auth-ui-svelte": "^0.2.2",
