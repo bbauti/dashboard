@@ -6,7 +6,6 @@
 
 	let { supabase } = data;
 	$: ({ supabase } = data);
-
 </script>
 
 <svelte:head>
