@@ -20,8 +20,6 @@ export const load = async ({ locals: { supabase, getSession } }) => {
     .eq('id', session.user.id)
     .single()
 
-  console.log(profile)
-
   return { session, profile }
 }
 
@@ -43,7 +41,6 @@ export const actions = {
     })
 
     if (error) {
-      console.log(error)
       return fail(500, {
         firstName,
         lastName,
@@ -59,38 +56,46 @@ export const actions = {
   },
   editProfile: async ({ request, locals: { supabase, getSession } }) => {
     const formData = await request.formData()
-    const firstName = formData.get('firstName')
-    const lastName = formData.get('lastName')
+    const avatar = formData.get('avatar')
 
     const session = await getSession()
 
     const email = session.user.email
 
-    console.log(firstName)
-    console.log(lastName)
-    console.log(email)
+    async function uploadAvatar(file) {
+      const { data, error } = await supabase
+        .storage
+        .from('avatars')
+        .upload(`public/${session?.user.id}.png`, file, {
+          upsert: true
+        })
+        return {data, error}
+    }
 
-    // const { error } = await supabase.from('profiles').upsert({
-    //   id: session.user.id,
-    //   first_name: firstName,
-    //   last_name: lastName,
-    //   updated_at: new Date(),
-    // })
+    async function getAvatarUrl() {
+      const { data } = supabase
+        .storage
+        .from('avatars')
+        .getPublicUrl(`public/${session?.user.id}.png`)
+      return data['publicUrl']
+    }
 
-    // if (error) {
-    //   console.log(error)
-    //   return fail(500, {
-    //     firstName,
-    //     lastName,
-    //     email
-    //   })
-    // }
+    async function changeProfileAvatar(url) {
+      const { error } = await supabase.from('profiles').upsert({
+        id: session.user.id,
+        avatar_url: url,
+        updated_at: new Date(),
+      })
+      return error
+    }
 
-    // return {
-    //   firstName,
-    //   lastName,
-    //   email
-    // }
+    uploadAvatar(avatar)
+    const url = await getAvatarUrl()
+    console.log(changeProfileAvatar(url))
+
+    return {
+      url,
+    }
   },
   signout: async ({ locals: { supabase, getSession } }) => {
     const session = await getSession()
@@ -127,23 +132,19 @@ export const actions = {
     const session = await getSession()
 
     if (password.length < 8) {
-      console.log('muy corta')
       return fail(500, { message: 'Las contraseña debe ser mayor a 8 caracteres', success: false })
     }
 
     if (password !== passwordConfirm) {
-      console.log('no es igual')
       return fail(500, { message: 'Las contraseñas deben ser iguales', success: false })
     }
     
     const { data, error } = await supabase.auth.updateUser({
       password: password
     })    
-    console.log(error)
     if (error) {
       return fail(500, { message: 'Hubo un error', success: false })
     }
-    console.log(data)
     return { message: "contraseña cambiada correctamente", success: true }
 
   },

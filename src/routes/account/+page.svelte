@@ -1,6 +1,7 @@
 <script>
 	import { enhance } from '$app/forms';
 	import { last } from '@melt-ui/svelte/internal/helpers';
+	import { toast } from 'svelte-sonner';
 
 	export let data;
 	export let form;
@@ -42,7 +43,6 @@
 				method: 'POST',
 				body: data
 			}).then((response) => {
-				console.log(response);
 				editingPersonal = false;
 				location.reload();
 			});
@@ -51,21 +51,21 @@
 		}
 	}
 
-	async function editProfile() {
-		let firstName = document.getElementById('firstName').value;
-		let lastName = document.getElementById('lastName').value;
+	async function editProfile(el) {
 		if (editingProfile === true) {
+			let avatar = document.getElementById('avatarUpload');
+			let file = avatar.files[0];
 			editingProfile = 'loading';
 			const data = new FormData();
-			data.append('firstName', firstName);
-			data.append('lastName', lastName);
+			data.append('avatar', file);
 			const res = await fetch('?/editProfile', {
 				method: 'POST',
 				body: data
 			}).then((response) => {
-				console.log(response);
 				editingProfile = false;
-				location.reload();
+				toast(
+					'Avatar actualizado correctamente! Los cambios pueden tardar un tiempo en tomar efecto...'
+				);
 			});
 		} else if (editingProfile === false) {
 			editingProfile = true;
@@ -86,7 +86,6 @@
 			body: data
 		});
 		const resp = await res.json();
-		console.log(resp);
 	}
 
 	let passwordLoading;
@@ -138,7 +137,7 @@
 				<h3 class="mb-8">Perfil</h3>
 				<div class="border-2 border-secondary rounded-box w-[76vw] p-5 flex gap-16">
 					{#if avatarUrl}
-						<img src={avatarUrl} alt="avatar" class="w-24" />
+						<img src={avatarUrl} alt="avatar" class="w-24 h-24 rounded-full m-0 object-cover" />
 					{:else}
 						<div class="avatar placeholder">
 							<div class="bg-secondary text-neutral-content rounded-full w-24">
@@ -152,10 +151,12 @@
 					</div>
 					<div class="ml-auto">
 						{#if editingProfile === true}
-							<button class="btn btn-xs btn-success text-right" on:click={() => editProfile()}>
-								Enviar
-								<iconify-icon icon="mingcute:send-fill" class="text-base" />
-							</button>
+							<!-- on:click={() => editProfile()} -->
+							<label for="avatarUpload" class="btn btn-xs btn-success text-right">
+								Subir avatar
+								<iconify-icon icon="basil:upload-solid" class="text-lg" />
+							</label>
+							<input id="avatarUpload" type="file" class="hidden" on:input={() => editProfile()} />
 						{:else if editingProfile === false}
 							<button class="btn btn-xs btn-error text-right" on:click={() => editProfile()}>
 								Editar
