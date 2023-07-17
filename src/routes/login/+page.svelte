@@ -141,7 +141,7 @@
 						{:else if current === 'register'}
 							<h2 class="mt-0">Registro</h2>
 							<form method="post" action="?/register" use:enhance>
-								<div id="inputs" class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+								<div id="inputs" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 									<div class="form-control mx-auto w-fit">
 										<label class="label" for="firstName">
 											<span class="label-text">Nombre</span>

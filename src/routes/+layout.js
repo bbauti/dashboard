@@ -16,5 +16,14 @@ export const load = async ({ fetch, data, depends }) => {
     data: { session },
   } = await supabase.auth.getSession()
 
+  if (session) {
+    const { data: profile } = await supabase
+    .from('profiles')
+    .select(`first_name, last_name, avatar_url`)
+    .eq('id', session.user.id)
+    .single()
+    return { supabase, session, profile }
+  }
+
   return { supabase, session }
 }

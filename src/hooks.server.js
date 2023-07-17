@@ -1,7 +1,10 @@
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit'
+import { themes } from '$lib/themes'
+
 
 export const handle = async ({ event, resolve }) => {
+
   event.locals.supabase = createSupabaseServerClient({
     supabaseUrl: PUBLIC_SUPABASE_URL,
     supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
@@ -18,9 +21,22 @@ export const handle = async ({ event, resolve }) => {
     return session
   }
 
+  const theme = event.cookies.get('theme')
+
+  if (!theme || !themes.includes(theme)) {
+		return await resolve(event, {
+      filterSerializedResponseHeaders(name) {
+        return name === 'content-range'
+      },
+    })
+	}
+
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
       return name === 'content-range'
     },
+		transformPageChunk: ({ html }) => {
+			return html.replace('data-theme=""', `data-theme="${theme}"`)
+		},
   })
 }
