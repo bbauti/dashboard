@@ -141,54 +141,90 @@
 						{:else if current === 'register'}
 							<h2 class="mt-0">Registro</h2>
 							<form method="post" action="?/register" use:enhance>
-								<div class="form-control mx-auto w-fit">
-									<label class="label" for="emailInput">
-										<span class="label-text">Correo</span>
-									</label>
-									<input
-										class="input input-bordered {success === true
-											? 'input-success'
-											: success === false
-											? 'input-error'
-											: ''}"
-										type="email"
-										name="emailInput"
-										id="emailInput"
-										placeholder="nombre@dominio.com"
-										value={form?.email ?? ''}
-									/>
-								</div>
-								<div class="form-control mx-auto w-fit">
-									<label class="label" for="passwordInput">
-										<span class="label-text">Contraseña</span>
-									</label>
-									<input
-										class="input input-bordered {success === true
-											? 'input-success'
-											: success === false
-											? 'input-error'
-											: ''}"
-										type="password"
-										name="passwordInput"
-										id="passwordInput"
-										placeholder="•••••"
-									/>
-								</div>
-								<div class="form-control mx-auto w-fit">
-									<label class="label" for="confirmPassword">
-										<span class="label-text">Confirmar contraseña</span>
-									</label>
-									<input
-										class="input input-bordered {success === true
-											? 'input-success'
-											: success === false
-											? 'input-error'
-											: ''}"
-										type="password"
-										name="confirmPassword"
-										id="confirmPassword"
-										placeholder="•••••"
-									/>
+								<div id="inputs" class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+									<div class="form-control mx-auto w-fit">
+										<label class="label" for="firstName">
+											<span class="label-text">Nombre</span>
+										</label>
+										<input
+											class="input input-bordered {success === true
+												? 'input-success'
+												: success === false
+												? 'input-error'
+												: ''}"
+											type="text"
+											name="firstName"
+											id="firstName"
+											placeholder="Nombre"
+											value={form?.firstName ?? ''}
+										/>
+									</div>
+									<div class="form-control mx-auto w-fit">
+										<label class="label" for="lastName">
+											<span class="label-text">Apellido</span>
+										</label>
+										<input
+											class="input input-bordered {success === true
+												? 'input-success'
+												: success === false
+												? 'input-error'
+												: ''}"
+											type="text"
+											name="lastName"
+											id="lastName"
+											placeholder="Apellido"
+											value={form?.lastName ?? ''}
+										/>
+									</div>
+									<div class="form-control mx-auto w-fit">
+										<label class="label" for="emailInput">
+											<span class="label-text">Correo</span>
+										</label>
+										<input
+											class="input input-bordered {success === true
+												? 'input-success'
+												: success === false
+												? 'input-error'
+												: ''}"
+											type="email"
+											name="emailInput"
+											id="emailInput"
+											placeholder="nombre@dominio.com"
+											value={form?.email ?? ''}
+										/>
+									</div>
+									<div class="form-control mx-auto w-fit">
+										<label class="label" for="passwordInput">
+											<span class="label-text">Contraseña</span>
+										</label>
+										<input
+											class="input input-bordered {success === true
+												? 'input-success'
+												: success === false
+												? 'input-error'
+												: ''}"
+											type="password"
+											name="passwordInput"
+											id="passwordInput"
+											placeholder="•••••"
+										/>
+									</div>
+									<div class="form-control mx-auto w-fit">
+										<label class="label" for="confirmPassword">
+											<span class="label-text">Confirmar contraseña</span>
+										</label>
+										<input
+											class="input input-bordered {success === true
+												? 'input-success'
+												: success === false
+												? 'input-error'
+												: ''}"
+											type="password"
+											name="confirmPassword"
+											id="confirmPassword"
+											placeholder="•••••"
+										/>
+									</div>
 								</div>
 								{#if success === true}
 									<p style="color:green;">{message}</p>
@@ -214,141 +250,6 @@
 			</div>
 		</div>
 	</section>
-	<!-- Modal -->
-	<div use:portal class="modal">
-		{#if $open}
-			<div {...$overlay} class="overlay" transition:fade={{ duration: 100 }} />
-			<div
-				class="modalContents"
-				{...$content}
-				use:content
-				transition:fly={{ y: 50, duration: 300 }}
-			>
-				<div class="contents">
-					{#if current === 'login'}
-						<div class="modalHeader">
-							<h1 class="modalTitle">Login</h1>
-							<button class="closeModal">
-								<iconify-icon icon="lucide:x" class="closeModalIcon" />
-							</button>
-						</div>
-						<form method="post" action="?/login" use:enhance>
-							<div class="input">
-								<label
-									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
-									for="email">Correo</label
-								>
-								<input
-									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
-									type="email"
-									name="email"
-									id="email"
-									placeholder="nombre@dominio.com"
-									value={form?.email ?? ''}
-								/>
-							</div>
-							<div class="input">
-								<label
-									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
-									for="password">Contraseña</label
-								>
-								<input
-									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
-									type="password"
-									name="password"
-									id="password"
-									placeholder="•••••"
-								/>
-							</div>
-							{#if success === true}
-								<p style="color:green;">{message}</p>
-							{:else if success === false}
-								<p style="color:red;">{message}</p>
-							{/if}
-							<button id="loginModal" class="button submitModal">
-								<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
-								Iniciar sesion
-							</button>
-						</form>
-						<div class="smallAction">
-							<button
-								class="smallActionButton {current === 'register' ? 'current' : ''}"
-								type="button"
-								id="registerButton"
-								on:click={() => handleTabClick('register')}>No tenes cuenta?</button
-							>
-						</div>
-					{:else if current === 'register'}
-						<div class="modalHeader">
-							<h1 class="modalTitle">Register</h1>
-							<button class="closeModal" {...$close} use:close>
-								<iconify-icon icon="lucide:x" class="closeModalIcon" />
-							</button>
-						</div>
-						<form method="post" action="?/register" use:enhance>
-							<div class="input">
-								<label
-									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
-									for="email">Correo</label
-								>
-								<input
-									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
-									type="email"
-									name="email"
-									id="email"
-									placeholder="nombre@dominio.com"
-									value={form?.email ?? ''}
-								/>
-							</div>
-							<div class="input">
-								<label
-									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
-									for="password">Contraseña</label
-								>
-								<input
-									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
-									type="password"
-									name="password"
-									id="password"
-									placeholder="•••••"
-								/>
-							</div>
-							<div class="input">
-								<label
-									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
-									for="confirmPassword">Confirmar contraseña</label
-								>
-								<input
-									class={success === true ? 'correct' : success === false ? 'wrong' : ''}
-									type="password"
-									name="confirmPassword"
-									id="confirmPassword"
-									placeholder="•••••"
-								/>
-							</div>
-							{#if success === true}
-								<p style="color:green;">{message}</p>
-							{:else if success === false}
-								<p style="color:red;">{message}</p>
-							{/if}
-							<button id="registerModal" class="button submitModal">
-								<iconify-icon icon="ic:round-email" id="submitIcon" class="icon" />
-								Crear cuenta
-							</button>
-						</form>
-						<div class="smallAction">
-							<button
-								class="smallActionButton {current === 'login' ? 'current' : ''}"
-								type="button"
-								id="loginButton"
-								on:click={() => handleTabClick('login')}>Ya tenes una cuenta?</button
-							>
-						</div>
-					{/if}
-				</div>
-			</div>
-		{/if}
-	</div>
 {:else}
 	<section id="login" class="prose hero min-h-screen mx-auto">
 		<div class="hero-content text-center flex-col">
@@ -446,4 +347,14 @@
 	/* #login > small {
 		margin-top: 0;
 	} */
-</style> -->
+</!-->
+
+<style lang="postcss">
+	#inputs {
+		scrollbar-width: none;
+	}
+
+	#inputs::-webkit-scrollbar {
+		display: none;
+	}
+</style>
