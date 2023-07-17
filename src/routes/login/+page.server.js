@@ -1,14 +1,17 @@
 import { fail } from '@sveltejs/kit'
 
 export const actions = {
-  register: async ({ request, url, locals: { supabase } }) => {
+  register: async ({ request, url, locals: { supabase, getSession } }) => {
+    const session = await getSession()
     const formData = await request.formData()
-    const email = formData.get('email')
-    const password = formData.get('password')
+    const firstName = formData.get('firstName')
+    const lastName = formData.get('lastName')
+    const email = formData.get('emailInput')
+    const password = formData.get('passwordInput')
     const confirmPassword = formData.get("confirmPassword")
     
-    if (!email || !password) {
-      return fail(500, { message: 'Debes introducir el correo y contraseña', success: false, email })
+    if (!email || !password || !firstName || !lastName) {
+      return fail(500, { message: 'Debes introducir todos los campos.', success: false, email })
     }
 
     if (confirmPassword !== password) {
@@ -20,6 +23,10 @@ export const actions = {
       password,
       options: {
         emailRedirectTo: `${url.origin}/auth/callback`,
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+        },
       },
     })
 
@@ -32,23 +39,23 @@ export const actions = {
       success: true,
     }
   },
-  login: async ({ request, url, locals: { supabase } }) => {
+  login: async ({ request, url, locals: { supabase, getSession } }) => {
+    const session = await getSession()
     const formData = await request.formData()
-    const email = formData.get('email')
-    const password = formData.get('password')
+    const email = formData.get('emailInput')
+    const password = formData.get('passwordInput')
 
     if (!email || !password) {
       return fail(500, { message: 'Debes introducir el correo y contraseñas', success: false, email })
     }
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
     })
 
     if (error) {
-        console.log(error)
-      return fail(500, { message: 'Datos incorrectos', success: false, email })
+      return fail(500, { message: 'Datos incorrectos. Comprobaste el correo electronico?', success: false, email })
     }
 
     return {

@@ -2,15 +2,7 @@
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { page } from '$app/stores';
 
-	import emailLogin from '../src/components/modals/emailLogin.svelte';
-
 	import { toast } from 'svelte-sonner';
-
-	import { openModal } from 'svelte-modals';
-
-	function modalEmail() {
-		openModal(emailLogin, { title: 'Alert', message: 'This is an alert' });
-	}
 
 	function redirect() {
 		throw redirect(301, '/');
@@ -39,10 +31,10 @@
 					<iconify-icon icon="bi:github" class="icon" />
 					Iniciar con GitHub
 				</button>
-				<button id="email" class="button" on:click={modalEmail}>
+				<!-- <button id="email" class="button" on:click={modalEmail}>
 					<iconify-icon icon="ic:round-email" id="mail" class="icon" />
 					Usar correo
-				</button>
+				</button> -->
 			</div>
 		</section>
 	{:else}
