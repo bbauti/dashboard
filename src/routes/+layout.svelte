@@ -2,9 +2,12 @@
 	import '../app.postcss';
 	import { Toaster } from 'svelte-sonner';
 	import { fade } from 'svelte/transition';
-	import Nav from '../components/nav.svelte';
+	import HorizontalNav from '../components/horizontalNav.svelte';
 	import '@fontsource-variable/inter';
 
+	import { page } from '$app/stores';
+
+	let path = $page.url.pathname;
 	import { onMount } from 'svelte';
 	import { themeChange } from 'theme-change';
 
@@ -14,8 +17,8 @@
 
 	export let data;
 
-	let { supabase, session } = data;
-	$: ({ supabase, session } = data);
+	let { supabase, session, profile } = data;
+	$: ({ supabase, session, profile } = data);
 
 	onMount(() => {
 		themeChange(false);
@@ -27,14 +30,20 @@
 
 		return () => data.subscription.unsubscribe();
 	});
+	console.log(path);
 </script>
 
-<!-- <Nav /> -->
 <Toaster />
-<button data-toggle-theme="dark,light" data-act-class="ACTIVECLASS" class="absolute"
-	>cambiar tema?god</button
->
 
-<main>
-	<slot />
+<main class="">
+	{#if session}
+		<HorizontalNav data={profile} />
+	{/if}
+	{#if path === '/login' && !session}
+		<slot />
+	{:else}
+		<section class="lg:pl-56 pt-[4rem] w-full">
+			<slot />
+		</section>
+	{/if}
 </main>
