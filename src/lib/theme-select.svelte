@@ -30,7 +30,7 @@
 <select
 	bind:value={current_theme}
 	data-choose-theme
-	class="select select-bordered min-h-[2rem] capitalize h-[2rem] min-w-[1rem] w-[15ch] mr-3"
+	class="select select-bordered min-h-[3rem] capitalize h-[3rem] min-w-[1rem] w-full mr-3"
 	on:change={set_theme}
 >
 	{#each themes as theme}
