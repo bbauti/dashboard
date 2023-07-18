@@ -39,7 +39,7 @@
 	{#if session}
 		<HorizontalNav data={profile} />
 	{/if}
-	{#if path === '/login' && !session}
+	{#if !session}
 		<slot />
 	{:else}
 		<section class="lg:pl-56 pt-[4rem] w-full">
