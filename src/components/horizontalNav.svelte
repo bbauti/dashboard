@@ -68,23 +68,9 @@
 				Inicio
 			</a>
 		</li>
+		<div class="divider" />
 		<li>
-			<a href="/">
-				<iconify-icon icon="majesticons:home" />
-				Inicio
-			</a>
-		</li>
-		<li>
-			<a href="/">
-				<iconify-icon icon="majesticons:home" />
-				Inicio
-			</a>
-		</li>
-		<li>
-			<a href="/">
-				<iconify-icon icon="majesticons:home" />
-				Inicio
-			</a>
+			<ThemeSelect />
 		</li>
 	</ul>
 {/if}
@@ -104,7 +90,6 @@
 			</div>
 			<div class="flex items-center">
 				<ul class="menu menu-horizontal items-center p-0">
-					<ThemeSelect />
 					<div class="dropdown dropdown-end">
 						{#if avatarUrl}
 							<label tabindex="0" class="btn btn-ghost btn-circle avatar">
@@ -191,23 +176,9 @@
 					Inicio
 				</a>
 			</li>
+			<div class="divider" />
 			<li>
-				<a href="/">
-					<iconify-icon icon="majesticons:home" />
-					Inicio
-				</a>
-			</li>
-			<li>
-				<a href="/">
-					<iconify-icon icon="majesticons:home" />
-					Inicio
-				</a>
-			</li>
-			<li>
-				<a href="/">
-					<iconify-icon icon="majesticons:home" />
-					Inicio
-				</a>
+				<ThemeSelect />
 			</li>
 		</ul>
 	</div>
