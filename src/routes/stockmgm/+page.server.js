@@ -1,13 +1,20 @@
 import {fail} from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
-  
+let st=0
+let fin=7
+
+
+
+
+
+
 export const load = async ({ locals: { supabase, getSession } }) => {
      const session = await getSession()
      if (!session) {
          throw redirect(303, '/')
      }
     const { data: datos } = await supabase.from('stock').select()
-
+     .range(st,fin)
     return {
         datos,
     }
@@ -19,13 +26,14 @@ export const actions = {
         const formData = await request.formData()
         const producto = formData.get('producto')
         const quantity = formData.get('amount')
+        const value = formData.get('value')
          if(!producto || !quantity){
              return fail(500, { message: 'Debes introducir el correo y contraseña', success: false});
          }else{
             
             const {error} = await supabase
             .from("stock")
-            .insert({product:producto, quantity:quantity})
+            .insert({product:producto, quantity:quantity, value:value})
             return {stock: data ?? [],}
          }
     },
@@ -55,5 +63,20 @@ export const actions = {
             .update({ product: producto, quantity:quantity })
             .eq('id',id)
             return {stock: data ?? []}}
+        },
+
+        advance: async () => {
+            fin+=7
+            st+=7
+            return;
+        },
+        goback: async () => {
+            if (st===0){
+                return;
+            }else{
+                fin-=7
+                st-=7
+                return;
+            }
         },
 }
