@@ -8,15 +8,15 @@ import { fade } from 'svelte/transition';
 import { enhance } from '$app/forms';
 export let form
 export let data;
+
 let ide;
 let { datos, supabase} = data;
 $: ({datos, supabase} = data);
 let producto="";
 let amount=0;
-let selected = [];
+let value;
 let current
 $: success = form?.success;
-
 
 </script>
 
@@ -42,6 +42,12 @@ $: success = form?.success;
                     : success === false
                     ? 'input-error'
                     : ''}" name="producto" id="producto" placeholder="nombre" bind:value={producto}> <br>
+                <label for="value"><h3>Precio</h3></label>
+                <input type="number" class="input input-bordered {success === true
+                  ? 'input-success'
+                  : success === false
+                  ? 'input-error'
+                  : ''}" name="value" id="value" placeholder="$$$$$$" bind:value={value}> <br>
                     <label for="amount"><h3>Cantidad</h3></label>
                 <input type="number" class="input input-bordered{success === true
                     ? 'input-info'
@@ -73,6 +79,12 @@ $: success = form?.success;
                         : success === false
                         ? 'input-error'
                         : ''}" name="producto" placeholder="nombre" bind:value={producto}>
+                    <label for="value"><h3>Precio</h3></label>
+                    <input type="number" class="input input-bordered {success === true
+                      ? 'input-success'
+                      : success === false
+                      ? 'input-error'
+                      : ''}" name="value" id="value" placeholder="$$$$$$" bind:value={value}> 
                     <input style="display:none;" type="text"id="ide" name="ide"   bind:value={current}><br>
                     <label for="amount"><h3>Cantidad</h3></label>
                     <input type="number" class="input input-bordered{success === true
@@ -106,7 +118,7 @@ $: success = form?.success;
 
 
     <div class="overflow-x-auto">
-        <table class="table">
+        <table class="table ">
           <!-- head -->
           <thead>
             <tr>
@@ -114,9 +126,10 @@ $: success = form?.success;
 
               </th>
 
-                  <th class="text-lg">Producto</th>
+                  <th class="text-lg text-right">Producto</th>
                   
-                  <th class="text-lg">Cantidades</th>
+                  <th class="text-lg text-center">Cantidades</th>
+                  <th class="text-lg text-left"> Precio</th>
                   <th>     
                       <button class="btn justify-start font-bold" onclick="crear.showModal()"><iconify-icon icon="twemoji:plus" id="mail" class="icon" /></button>
                     </th>
@@ -128,23 +141,22 @@ $: success = form?.success;
             {#each datos as producto}
             <tr>
               <th >
-                <label class="text-center">
+                <label class="text-right">
                     <form method="post" action="?/deleteProduct">
                          <input style="display:none;" type="text"id="ide" name="ide"   bind:value={producto.id}>
                         <input type="submit" class="p-3 bg-error text-lg" value="&#128465;">
                     </form>
                 </label>
               </th>
-              <div>
-                  <div>
-                    <div class="p-8 text-base font-bold">{producto.product}</div>
-                  </div>
-                </div>
-              <td class="p-8 text-base font-bold">
-                {producto.quantity}
-              </td>
+                    <td class="text-right text-base font-bold">
+                      {producto.product}
+                    </td>
+                  <td class="text-center text-base font-bold">
+                    {producto.quantity}
+                  </td>
+              <td class="text-left text-base font-semibold">${producto.value}</td>
               <td>
-                <button class="btn justify-center bg-primary font-bold" on:click={()=> current=producto.id} onclick="update.showModal()"><iconify-icon icon="mingcute:pencil-2-fill" id="mail" class="icon " /></button>
+                <button class="btn justify-left bg-primary font-bold" on:click={()=> current=producto.id} onclick="update.showModal()"><iconify-icon icon="mingcute:pencil-2-fill" id="mail" class="icon " /></button>
               
             </td>
             </tr>
@@ -159,9 +171,13 @@ $: success = form?.success;
               <th>
 
                   <div class="join">
-                    <button class="join-item btn">«</button>
-                    <button class="join-item btn">Page 22</button>
-                    <button class="join-item btn">»</button>
+                    <form action="?/goback" method="post">
+                      <button type="submit" class="join-item btn">«</button>
+                    </form>
+                    <button class="join-item btn">:)</button>
+                    <form action="?/advance" method="post">
+                      <button type="submit" class="join-item btn" >»</button>
+                    </form>
                   </div>
               </th>
               <th>
@@ -172,12 +188,5 @@ $: success = form?.success;
           
         </table>
       </div>
-            
-    <div class="prose ">
-        
-        {#if success ===false}
-        <h1 class="text-rose-950">COMPLETA LOS CAMPOS PELELE</h1>
-        {/if}
-        
-    </div>
+          
 
