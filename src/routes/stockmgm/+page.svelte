@@ -2,9 +2,9 @@
 import { toast } from 'svelte-sonner';
 
 import { fly } from 'svelte/transition';
-    
+
 import { fade } from 'svelte/transition';
-    
+
 import { enhance } from '$app/forms';
 export let form
 export let data;
@@ -17,6 +17,47 @@ let amount=0;
 let value;
 let current
 $: success = form?.success;
+let currentPage=1;
+const perPage = 8;
+let pageData = [];
+let loading = true
+let next
+
+    async function loadData() {
+      const { data: newData, error } = await supabase
+        .from('stock')
+        .select()
+        .range((currentPage - 1) * perPage, currentPage * perPage - 1); //esto ni idea bien que hace, es un copy je
+      if (error) {
+        console.error(error);
+        return
+      }
+      if (newData.length < perPage) {
+        next = false
+      } else {
+        next = true
+      }
+      pageData = newData;
+      loading = false
+    }
+
+    loadData();
+
+    function nextPage() {
+      loading = true;
+      pageData = [];
+      currentPage++;
+      loadData();
+    }
+
+    function prevPag() {
+      if (currentPage > 1) {
+        loading = true
+        pageData = []
+        currentPage--;
+        loadData();
+      }
+    }
 
 </script>
 
@@ -34,7 +75,7 @@ $: success = form?.success;
                 >
             </form>
             <form method="post" action="?/addProduct" class="prose" use:enhance>
-                                            
+
             <h2>Crea un producto</h2>
             <label for="producto"><h3>Nombre</h3></label>
                 <input type="text" class="input input-bordered {success === true
@@ -57,7 +98,7 @@ $: success = form?.success;
                 <button type="submit" class="btn btn-primary font-normal normal-case mt-2"><iconify-icon icon="twemoji:plus" id="mail" class="icon " /> </button>
                 <button type="reset" class="btn btn-error font-normal normal-case mt-2"><iconify-icon icon="fluent:arrow-reset-48-regular" id="mail" class="icon " /> </button>
             </form>
-            
+
         </div>
         <form method="dialog" class="modal-backdrop">
             <button>close</button>
@@ -72,7 +113,7 @@ $: success = form?.success;
                     >
                 </form>
                 <form method="post" action="?/updateProduct" class="prose" use:enhance>
-                        <h2>Actualizar</h2>                  
+                        <h2>Actualizar</h2>
                         <label for="producto"><h3>Nombre</h3></label>
                     <input type="text" id="producto" class="input input-bordered {success === true
                         ? 'input-success'
@@ -84,7 +125,7 @@ $: success = form?.success;
                       ? 'input-success'
                       : success === false
                       ? 'input-error'
-                      : ''}" name="value" id="value" placeholder="$$$$$$" bind:value={value}> 
+                      : ''}" name="value" id="value" placeholder="$$$$$$" bind:value={value}>
                     <input style="display:none;" type="text"id="ide" name="ide"   bind:value={current}><br>
                     <label for="amount"><h3>Cantidad</h3></label>
                     <input type="number" class="input input-bordered{success === true
@@ -95,13 +136,13 @@ $: success = form?.success;
                     <button type="submit" class="btn btn-primary font-normal normal-case mt-2"><iconify-icon icon="mingcute:pencil-2-fill" id="mail" class="icon " /> </button>
                     <button type="reset" class="btn btn-error font-normal normal-case mt-2"><iconify-icon icon="fluent:arrow-reset-48-regular" id="mail" class="icon " /> </button>
                 </form>
-                
+
             </div>
             <form method="dialog" class="modal-backdrop">
                 <button>close</button>
             </form>
         </dialog>
-    
+
     <div class="hero min-h-screen bg-base-200">
         <div class="hero-content text-center">
           <div class="max-w-md">
@@ -111,9 +152,9 @@ $: success = form?.success;
           </div>
         </div>
       </div>
-    
 
-    
+
+
 
 
 
@@ -127,10 +168,10 @@ $: success = form?.success;
               </th>
 
                   <th class="text-lg text-right">Producto</th>
-                  
+
                   <th class="text-lg text-center">Cantidades</th>
                   <th class="text-lg text-left"> Precio</th>
-                  <th>     
+                  <th>
                       <button class="btn justify-start font-bold" onclick="crear.showModal()"><iconify-icon icon="twemoji:plus" id="mail" class="icon" /></button>
                     </th>
                     <th></th>
@@ -138,7 +179,8 @@ $: success = form?.success;
           </thead>
           <tbody>
             <!-- row 1 -->
-            {#each datos as producto}
+            {#if pageData.length > 0}
+            {#each pageData as producto}
             <tr>
               <th >
                 <label class="text-right">
@@ -157,11 +199,11 @@ $: success = form?.success;
               <td class="text-left text-base font-semibold">${producto.value}</td>
               <td>
                 <button class="btn justify-left bg-primary font-bold" on:click={()=> current=producto.id} onclick="update.showModal()"><iconify-icon icon="mingcute:pencil-2-fill" id="mail" class="icon " /></button>
-              
+
             </td>
             </tr>
             {/each}
-           
+           {/if}
           <!-- foot -->
           <tfoot>
             <tr>
@@ -171,22 +213,25 @@ $: success = form?.success;
               <th>
 
                   <div class="join">
-                    <form action="?/goback" method="post">
-                      <button type="submit" class="join-item btn">«</button>
-                    </form>
-                    <button class="join-item btn">:)</button>
-                    <form action="?/advance" method="post">
-                      <button type="submit" class="join-item btn" >»</button>
-                    </form>
+
+                    {#if currentPage >1}
+                    <button on:click={() => prevPag()} class="join-item btn">«</button>
+                    {/if}
+                    {#if next === true}
+                    <button on:click={() => nextPage()} class="join-item btn" >»</button>
+                    {/if}
+
+                    {#if loading}
+                    <button class="join-item btn"><span class="loading loading-spinner loading-xl"></span></button>
+                    {/if}
                   </div>
-              </th>
+                </th>
               <th>
 
               </th>
             </tr>
           </tfoot>
-          
+
         </table>
       </div>
-          
 
