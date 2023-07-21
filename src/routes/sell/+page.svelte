@@ -5,6 +5,8 @@
   let { supabase} = data;
   $: ({ supabase} = data);
 
+  // Products grid
+
   let currentPage = 1;
   const perPage = 6;
   let pageData = [];
@@ -13,10 +15,24 @@
   let totalPages;
   let isSearch = false
 
-  let finalPrice = 0;
-
   let products = []
   let uniqueProducts = []
+
+
+  // Payment
+
+  let finalPrice = 0;
+  let cuotas = 1
+  let precioCuotas = 0
+  let precioFinalImp = 0
+
+  // Taxes
+
+  let envio = 500
+
+  let iva = 0.15
+
+  // Loads data
 
   async function loadData() {
     loading = true
@@ -36,6 +52,10 @@
     isSearch = false
   }
 
+  loadData()
+
+  // Searchs for data in the DB
+
   async function searchData(input) {
     loading = true
     let inputEl = document.getElementById("search")
@@ -54,7 +74,7 @@
     loading = false
   }
 
-  loadData()
+  // Goes to the next page and redraws grid
 
   function nextPage() {
     loading = true
@@ -62,6 +82,8 @@
     currentPage++;
     loadData();
   }
+
+  // Goes to the previous page and redraws grid
 
   function prevPage() {
     if (currentPage > 1) {
@@ -72,6 +94,8 @@
     }
   }
 
+    // Goes to the first page and redraws grid
+
   function goToFirstPage() {
   if (currentPage > 1) {
     loading = true;
@@ -80,6 +104,8 @@
     loadData();
   }
 }
+
+  // Goes to the last page and redraws grid
 
 function goToLastPage() {
   if (currentPage < totalPages) {
@@ -90,6 +116,8 @@ function goToLastPage() {
   }
 }
 
+  // Goes to a especific page and redraws grid
+
 function goToPage(page) {
   if (page >= 1 && page <= totalPages) {
     loading = true;
@@ -99,54 +127,81 @@ function goToPage(page) {
   }
 }
 
-// let productDiv = document.getElementById("sel"+product.id)
-//   let productEl = document.getElementById(product.id)
-//   if (document.getElementById("quantity"+product.id)) {
-//       let el = document.getElementById("quantity"+product.id)
-//       let int = parseInt(el.innerHTML)
-//       el.innerHTML = int + 1
-//     } else {
-//       const node = document.createElement("p");
-//       node.style.position = "absolute"
-//       node.style.top = "20px"
-//       node.style.right = "25px"
-//       node.style.fontSize = "1.5rem"
-//       node.style.fontWeight = "600"
-//       const textnode = document.createTextNode("1");
-//       node.setAttribute("id", "quantity"+product.id)
-//       node.appendChild(textnode);
-//       productDiv.appendChild(node)
-//     }
-//     productEl.style.border = '1px solid white'
+  // Updates the visual part of the selected products
+
+function updateContent(product) {
+  let productEl = document.getElementById(product.id)
+  let productDiv = document.getElementById("div"+product.id)
+  let productQuant = document.getElementById("quant"+product.id)
+  if (getAmount(product) === 0) {
+    productEl.classList.remove("border", "border-white")
+    productQuant.remove()
+    return
+  }
+  if (!productEl.classList.contains("border", "border-white")) {
+    productEl.classList.add("border", "border-white")
+  }
+  if (productQuant) {
+    productQuant.textContent = getAmount(product)
+  } else {
+    let quant = document.createElement("p")
+    quant.textContent = getAmount(product)
+    quant.setAttribute('id', 'quant'+product.id);
+    quant.className = "absolute top-5 right-5 text-2xl font-semibold"
+    productDiv.appendChild(quant)
+  }
+}
+
+  // Adds a product to the cart
 
 function addProduct(product) {
   products.push(product)
-  console.log("agregar")
-  console.log(products)
   products = products
   uniqueProducts = [...new Set(products)];
   getFinalPrice()
+  updateContent(product)
 }
 
+  // Removes a product to the cart
+
 function removeProduct(product) {
+  if (!products.includes(product)) {
+    return
+  }
   let productToDelete = products.findIndex((el) => el.id === product.id);
+  console.log(productToDelete)
   products.splice(productToDelete, 1);
-  console.log("borrar")
-  console.log(products)
   uniqueProducts = [...new Set(products)];
   getFinalPrice()
-  // products = products.filter((id) => id !== product.id);
+  updateContent(product)
 }
+
+ // Deletes all the products with the same id from the cart
+
+function deleteProduct(product) {
+  if (!products.includes(product)) {
+    return
+  }
+  products = products.filter(item => item.id !== product.id);
+  products = products
+  uniqueProducts = [...new Set(products)];
+  getFinalPrice()
+  updateContent(product)
+}
+
+ //Get amount of duplicated products on the cart
 
 function getAmount(product) {
   let count = 0;
   products.forEach(el => {
-    if (el === product) {
+    if (el.id === product.id) {
       count++
     }
   });
   return count;
 }
+
+// Gets the subtotal of the cart
 
 function getFinalPrice() {
   let price = 0;
@@ -156,18 +211,18 @@ function getFinalPrice() {
   finalPrice = price
 }
 
-function deleteProduct(product) {
-  products = products.filter(item => item.id !== product.id);
-  products = products
-  uniqueProducts = [...new Set(products)];
-  getFinalPrice()
-}
+// Resets the selected products and price
 
 function processPayment() {
   products = []
   uniqueProducts = []
+  cuotas = 0
   finalPrice = 0
+  precioFinalImp = 0
 }
+
+$: precioFinalImp = finalPrice + (finalPrice * iva) + (cuotas === 3 ? finalPrice * 0.15 : cuotas === 6 ? finalPrice * 0.25 : cuotas === 12 ? finalPrice * 0.40 : cuotas === 18 ? finalPrice * 0.60 : cuotas === 24 ? finalPrice * 0.90 : 0) + envio;
+
 
 </script>
 <section class="mt-5 flex items-end justify-center gap-2">
@@ -192,22 +247,23 @@ function processPayment() {
 
 {#if pageData.length > 0 && !loading}
 <section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 m-10">
-    {#each pageData as item}
-      <div id={item.id} class="card bg-base-200 shadow-xl">
-        <div id="sel{item.id}" class="relative">
+    {#each pageData as item, index}
+      <div id={item.id} class="card bg-base-200 shadow-xl {getAmount(item) !== 0 ? "border border-white selected" : ""}">
+        <div id="div{item.id}" class="relative">
+          {#if (getAmount(item) !== 0)}
+            <p id="quant{item.id}" class="absolute top-5 right-5 text-2xl font-semibold">{getAmount(item)}</p>
+          {/if}
         </div>
         <div class="card-body">
           <h2 class="card-title">{item.product}</h2>
           <h2>{item.id}</h2>
           <p>{item.quantity}</p>
           <div class='card-actions flex justify-between mt-5'>
-            <div class="">
-              <button class="btn btn-success btn-square" on:click={addProduct(item)}>+</button>
-              <button class="btn btn-error btn-square" on:click={removeProduct(item)}>-</button>
+            <div class="flex gap-2">
+              <button class="btn btn-primary btn-square btn" on:click={addProduct(item)}>+</button>
+              <button class="btn btn-outline btn-square btn-error" on:click={removeProduct(item)}>-</button>
             </div>
-            <div class="">
-              <button class="btn btn-neutral">${item.value}</button>
-            </div>
+            <button class="btn btn-neutral">${item.value}</button>
           </div>
         </div>
       </div>
@@ -283,12 +339,78 @@ function processPayment() {
     {/each}
     <footer class="flex flex-col">
       <div class="flex flex-row justify-between">
-        <p class="font-bold m-0 text-xl">Total:<p>
+        <p class="font-bold m-0 text-xl">Subtotal:<p>
         <p class="font-bold m-0 text-xl">${finalPrice}</p>
       </div>
       <div class="flex mt-5 mb-10">
-        <button class="btn btn-primary btn-wide mx-auto" on:click={() => processPayment()}>Procesar pago</button>
+        <button class="btn btn-primary btn-wide mx-auto" onclick="processPayment.showModal()">Procesar pago</button>
       </div>
     </footer>
 </section>
+<dialog id="processPayment" class="modal">
+  <div class="modal-box w-fit">
+    <form method="dialog">
+      <button class="btn btn-sm btn-square btn-ghost absolute right-2 top-2"
+        ><iconify-icon icon="lucide:x" class="closeModalIcon" /></button
+      >
+    </form>
+    <h2 class="mt-0 font-bold text-2xl">Precio final</h2>
+    <div class="divider"/>
+    <div class="form-control w-full max-w-xs">
+      <label class="label">
+        <span class="label-text">Cuotas</span>
+      </label>
+      <select id="cuotas" on:change={(e) => cuotas = parseInt(e.target.value)} class="select select-primary w-full max-w-xs">
+        <option selected>1</option>
+        <option>3</option>
+        <option>6</option>
+        <option>12</option>
+        <option>18</option>
+        <option>24</option>
+      </select>
+    </div>
+    <div class="divider"/>
+    <section class="flex flex-col">
+      <div class="flex flex-row justify-between">
+        <p class="font-medium m-0 text-xl">Subtotal:<p>
+        <p class="font-medium m-0 text-xl">${finalPrice}</p>
+      </div>
+      <div class="flex flex-row justify-between">
+        <p class="m-0 text-lg">Iva:<p>
+        <p class="m-0 text-lg">10%</p>
+      </div>
+      <div class="flex flex-row justify-between">
+        <p class="m-0 text-lg">Envio:<p>
+        <p class="m-0 text-lg">${envio}</p>
+      </div>
+      {#if cuotas > 1}
+        <div class="flex flex-row justify-between">
+          <p class="m-0 text-lg">Cuotas:<p>
+            {#if cuotas === 3}
+              <p class="m-0 text-lg">15%</p>
+            {:else if cuotas === 6}
+              <p class="m-0 text-lg">25%</p>
+            {:else if cuotas === 12}
+              <p class="m-0 text-lg">40%</p>
+            {:else if cuotas === 18}
+            <p class="m-0 text-lg">60%</p>
+            {:else if cuotas === 24}
+            <p class="m-0 text-lg">90%</p>
+            {/if}
+        </div>
+      {/if}
+    </section>
+    <div class="divider"/>
+      <div class="flex flex-row justify-between mb-6">
+        <p class="font-bold m-0 text-xl">Total:<p>
+        <p class="font-bold m-0 text-xl">${precioFinalImp}</p>
+      </div>
+    <form method="dialog">
+      <button class="btn btn-success btn-wide mx-auto" on:click={() => processPayment()}>Enviar pago</button>
+    </form>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
 {/if}
