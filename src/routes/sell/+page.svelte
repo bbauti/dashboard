@@ -214,6 +214,9 @@ function getFinalPrice() {
 // Resets the selected products and price
 
 function processPayment() {
+  products.forEach(product => {
+    deleteProduct(product)
+  });
   products = []
   uniqueProducts = []
   cuotas = 0
@@ -221,7 +224,7 @@ function processPayment() {
   precioFinalImp = 0
 }
 
-$: precioFinalImp = finalPrice + (finalPrice * iva) + (cuotas === 3 ? finalPrice * 0.15 : cuotas === 6 ? finalPrice * 0.25 : cuotas === 12 ? finalPrice * 0.40 : cuotas === 18 ? finalPrice * 0.60 : cuotas === 24 ? finalPrice * 0.90 : 0) + envio;
+$: precioFinalImp = (finalPrice + (finalPrice * iva) + (cuotas === 3 ? finalPrice * 0.15 : cuotas === 6 ? finalPrice * 0.25 : cuotas === 12 ? finalPrice * 0.40 : cuotas === 18 ? finalPrice * 0.60 : cuotas === 24 ? finalPrice * 0.90 : 0) + envio).toFixed(2);
 
 
 </script>
