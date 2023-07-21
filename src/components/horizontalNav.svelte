@@ -2,6 +2,12 @@
 	export let data;
 	import ThemeSelect from '$lib/theme-select.svelte';
 
+	import { page } from '$app/stores';
+
+	let path
+
+	$: path = $page.url.pathname;
+
 	let width;
 	let firstName = data.first_name ?? '';
 	let lastName = data.last_name ?? '';
@@ -13,59 +19,22 @@
 {#if width >= 1024}
 	<ul class="menu bg-base-100 w-56 top-[4rem] h-full box fixed z-10">
 		<li>
-			<a href="/">
+			<a href="/" class="{path === "/" ? "active" : ""}">
 				<iconify-icon icon="majesticons:home" />
 				Inicio
 			</a>
 		</li>
+		<div class="divider"/>
 		<li>
-			<a href="/">
-				<iconify-icon icon="majesticons:home" />
-				Inicio
-			</a>
-		</li>
-		<div class="divider" />
-		<li>
-			<a href="/">
-				<iconify-icon icon="majesticons:home" />
-				Inicio
+			<a href="/sell" class="{path === "/sell" ? "active" : ""}">
+				<iconify-icon icon="fluent:cart-16-filled"></iconify-icon>
+				Carrito
 			</a>
 		</li>
 		<li>
-			<a href="/">
-				<iconify-icon icon="majesticons:home" />
-				Inicio
-			</a>
-		</li>
-		<li>
-			<a href="/">
-				<iconify-icon icon="majesticons:home" />
-				Inicio
-			</a>
-		</li>
-		<li>
-			<a href="/">
-				<iconify-icon icon="majesticons:home" />
-				Inicio
-			</a>
-		</li>
-		<div class="divider" />
-		<li>
-			<a href="/">
-				<iconify-icon icon="majesticons:home" />
-				Inicio
-			</a>
-		</li>
-		<li>
-			<a href="/">
-				<iconify-icon icon="majesticons:home" />
-				Inicio
-			</a>
-		</li>
-		<li>
-			<a href="/">
-				<iconify-icon icon="majesticons:home" />
-				Inicio
+			<a href="/stockmgm" class="{path === "/stockmgm" ? "active" : ""}">
+				<iconify-icon icon="solar:box-bold" />
+				Stock
 			</a>
 		</li>
 		<div class="divider" />
@@ -119,61 +88,27 @@
 	</div>
 	<div class="drawer-side z-20">
 		<label for="my-drawer-3" class="drawer-overlay" />
-		<ul class="menu bg-base-100 w-56 top-[4rem] h-full box fixed z-10">
+		<ul class="menu bg-base-100 w-56 h-full box fixed z-10">
+			<li class="flex-1 px-2 h-[4rem] max-h-[4rem] mx-2">
+				<a href="/" class="btn btn-ghost normal-case text-xl">Dashboard</a>
+			</li>
 			<li>
-				<a href="/">
+				<a href="/" class="{path === "/" ? "active" : ""}">
 					<iconify-icon icon="majesticons:home" />
 					Inicio
 				</a>
 			</li>
+			<div class="divider"/>
 			<li>
-				<a href="/">
-					<iconify-icon icon="majesticons:home" />
-					Inicio
-				</a>
-			</li>
-			<div class="divider" />
-			<li>
-				<a href="/">
-					<iconify-icon icon="majesticons:home" />
-					Inicio
+				<a href="/sell" class="{path === "/sell" ? "active" : ""}">
+					<iconify-icon icon="fluent:cart-16-filled"></iconify-icon>
+					Carrito
 				</a>
 			</li>
 			<li>
-				<a href="/">
-					<iconify-icon icon="majesticons:home" />
-					Inicio
-				</a>
-			</li>
-			<li>
-				<a href="/">
-					<iconify-icon icon="majesticons:home" />
-					Inicio
-				</a>
-			</li>
-			<li>
-				<a href="/">
-					<iconify-icon icon="majesticons:home" />
-					Inicio
-				</a>
-			</li>
-			<div class="divider" />
-			<li>
-				<a href="/">
-					<iconify-icon icon="majesticons:home" />
-					Inicio
-				</a>
-			</li>
-			<li>
-				<a href="/">
-					<iconify-icon icon="majesticons:home" />
-					Inicio
-				</a>
-			</li>
-			<li>
-				<a href="/">
-					<iconify-icon icon="majesticons:home" />
-					Inicio
+				<a href="/stockmgm" class="{path === "/stockmgm" ? "active" : ""}">
+					<iconify-icon icon="solar:box-bold" />
+					Stock
 				</a>
 			</li>
 			<div class="divider" />
