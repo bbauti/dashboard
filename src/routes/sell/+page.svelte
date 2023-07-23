@@ -10,7 +10,8 @@
 	// Products grid
 
 	let currentPage = 1;
-	const perPage = 6;
+	let perPage = '6';
+	$: console.log(perPage);
 	let pageData = [];
 	let loading = true;
 	let next;
@@ -40,14 +41,14 @@
 		const { data: newData, count: cant } = await supabase
 			.from('stock')
 			.select('*', { count: 'exact' })
-			.range((currentPage - 1) * perPage, currentPage * perPage - 1)
+			.range((currentPage - 1) * parseInt(perPage), currentPage * parseInt(perPage) - 1)
 			.order('id', { ascending: true });
-		if (newData.length < perPage) {
+		if (newData.length < parseInt(perPage)) {
 			next = false;
 			totalPages = currentPage;
 		} else {
 			next = true;
-			totalPages = Math.ceil(cant / perPage);
+			totalPages = Math.ceil(cant / parseInt(perPage));
 		}
 		pageData = newData;
 		loading = false;
@@ -282,9 +283,25 @@
 <section class="bg-neutral w-full p-5 min-h-screen lg:rounded-tl-box">
 	<h1 class="font-semibold mb-5 text-2xl">Carrito</h1>
 	<div class="bg-base-100 rounded-box min-h-[calc(100vh-6rem)] py-6">
-		<h1 class="font-semibold mt-10 mb-5 text-center text-4xl">Calcular precios</h1>
+		<header class="relative">
+			<select
+				name="perPage"
+				id="perPage"
+				class="select select-primary w-full max-w-[5rem] absolute top-0 right-6"
+				bind:value={perPage}
+				on:change={() => loadData()}
+			>
+				<option value="3">3</option>
+				<option value="6">6</option>
+				<option value="9">9</option>
+				<option value="12">12</option>
+			</select>
+			<h1 class="font-semibold pt-0 lg:pt-10 pb-5 text-center text-4xl max-w-[12rem] lg:max-w-none">
+				Calcular precios
+			</h1>
+		</header>
 		<section class="mt-5 flex justify-center items-end gap-2">
-			<div class="form-control">
+			<div class="form-control max-w-[10rem] lg:max-w-none">
 				<label class="label" for="search">
 					<span class="label-text text-lg pl-[0.8rem]">Busqueda</span>
 				</label>
@@ -369,10 +386,12 @@
 		{/if}
 
 		{#if !loading && !isSearch}
-			<div class="flex justify-center gap-2 mt-5 mb-10">
+			<div class="flex justify-center gap-1 lg:gap-2 mt-5 mb-10">
 				<button on:click={goToFirstPage} disabled={currentPage === 1} class="btn">1</button>
-				<button on:click={prevPage} disabled={currentPage === 1} class="btn"
-					><iconify-icon icon="typcn:arrow-left" /></button
+				<button
+					on:click={prevPage}
+					disabled={currentPage === 1}
+					class="btn max-w-[1rem] lg:max-w-none"><iconify-icon icon="typcn:arrow-left" /></button
 				>
 				{#if currentPage >= 2}
 					<button on:click={() => goToPage(currentPage - 1)} class="btn">{currentPage - 1}</button>
@@ -381,8 +400,10 @@
 				{#if currentPage <= totalPages - 1}
 					<button on:click={() => goToPage(currentPage + 1)} class="btn">{currentPage + 1}</button>
 				{/if}
-				<button on:click={nextPage} disabled={currentPage === totalPages} class="btn"
-					><iconify-icon icon="typcn:arrow-right" /></button
+				<button
+					on:click={nextPage}
+					disabled={currentPage === totalPages}
+					class="btn max-w-[1rem] lg:max-w-none"><iconify-icon icon="typcn:arrow-right" /></button
 				>
 				<button on:click={goToLastPage} disabled={currentPage === totalPages} class="btn"
 					>{totalPages}</button
@@ -400,7 +421,7 @@
 			<section class="w-full prose mx-auto max-w-max flex gap-5 flex-col">
 				<h2 class="text-center mt-20 mb-10">Carrito</h2>
 				{#each uniqueProducts as item, index}
-					<div class="card w-96 min-h-[10rem] bg-secondary shadow-xl relative">
+					<div class="card w-[18rem] lg:w-96 min-h-[10rem] bg-secondary shadow-xl relative">
 						<div class="card-body justify-between">
 							<div class="flex justify-between items-center">
 								<h2 class="m-0">{item.product}</h2>
