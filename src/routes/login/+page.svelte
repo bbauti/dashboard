@@ -34,10 +34,6 @@
 
 	$: success = form?.success;
 
-	$: if (form?.message) {
-		console.log(form?.message);
-	}
-
 	function handleTabClick(el) {
 		current = el;
 		success = null;

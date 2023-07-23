@@ -11,7 +11,6 @@
 
 	let currentPage = 1;
 	let perPage = '6';
-	$: console.log(perPage);
 	let pageData = [];
 	let loading = true;
 	let next;
@@ -226,21 +225,17 @@
 	// Resets the selected products and price
 
 	async function updateProducts(arr) {
-		try {
-			const formData = new URLSearchParams();
-			formData.append(`products`, JSON.stringify(arr));
-			formData.append('price', precioFinalImp);
-			const response = await fetch('?/updateProducts', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				body: formData.toString()
-			});
-			const data = await response.json();
-		} catch (error) {
-			console.error('Error:', error);
-		}
+		const formData = new URLSearchParams();
+		formData.append(`products`, JSON.stringify(arr));
+		formData.append('price', precioFinalImp);
+		const response = await fetch('?/updateProducts', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: formData.toString()
+		});
+		const data = await response.json();
 	}
 
 	async function processPayment() {
