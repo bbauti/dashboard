@@ -9,15 +9,9 @@ let fin=7
 
 
 export const load = async ({ locals: { supabase, getSession } }) => {
-     const session = await getSession()
-     if (!session) {
-         throw redirect(303, '/')
-     }
     const { data: datos } = await supabase.from('stock').select()
      .range(st,fin)
-    return {
-        datos,
-    }
+    return { datos }
 }
 export const actions = {
     

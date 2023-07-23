@@ -4,7 +4,7 @@
 
 	import { page } from '$app/stores';
 
-	let path
+	let path;
 
 	$: path = $page.url.pathname;
 
@@ -19,20 +19,20 @@
 {#if width >= 1024}
 	<ul class="menu bg-base-100 w-56 top-[4rem] h-full box fixed z-10">
 		<li>
-			<a href="/" class="{path === "/" ? "active" : ""}">
+			<a href="/" class={path === '/' ? 'active' : ''}>
 				<iconify-icon icon="majesticons:home" />
 				Inicio
 			</a>
 		</li>
-		<div class="divider"/>
+		<div class="divider" />
 		<li>
-			<a href="/sell" class="{path === "/sell" ? "active" : ""}">
-				<iconify-icon icon="fluent:cart-16-filled"></iconify-icon>
+			<a href="/sell" class={path === '/sell' ? 'active' : ''}>
+				<iconify-icon icon="fluent:cart-16-filled" />
 				Carrito
 			</a>
 		</li>
 		<li>
-			<a href="/stockmgm" class="{path === "/stockmgm" ? "active" : ""}">
+			<a href="/stockmgm" class={path === '/stockmgm' ? 'active' : ''}>
 				<iconify-icon icon="solar:box-bold" />
 				Stock
 			</a>
@@ -93,20 +93,20 @@
 				<a href="/" class="btn btn-ghost normal-case text-xl">Dashboard</a>
 			</li>
 			<li>
-				<a href="/" class="{path === "/" ? "active" : ""}">
+				<a href="/" class={path === '/' ? 'active' : ''}>
 					<iconify-icon icon="majesticons:home" />
 					Inicio
 				</a>
 			</li>
-			<div class="divider"/>
+			<div class="divider" />
 			<li>
-				<a href="/sell" class="{path === "/sell" ? "active" : ""}">
-					<iconify-icon icon="fluent:cart-16-filled"></iconify-icon>
+				<a href="/sell" class={path === '/sell' ? 'active' : ''}>
+					<iconify-icon icon="fluent:cart-16-filled" />
 					Carrito
 				</a>
 			</li>
 			<li>
-				<a href="/stockmgm" class="{path === "/stockmgm" ? "active" : ""}">
+				<a href="/stockmgm" class={path === '/stockmgm' ? 'active' : ''}>
 					<iconify-icon icon="solar:box-bold" />
 					Stock
 				</a>

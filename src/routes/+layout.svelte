@@ -5,9 +5,6 @@
 	import HorizontalNav from '../components/horizontalNav.svelte';
 	import '@fontsource-variable/inter';
 
-	import { page } from '$app/stores';
-
-	let path = $page.url.pathname;
 	import { onMount } from 'svelte';
 	import { themeChange } from 'theme-change';
 
@@ -30,7 +27,6 @@
 
 		return () => data.subscription.unsubscribe();
 	});
-	console.log(path);
 </script>
 
 <Toaster />
