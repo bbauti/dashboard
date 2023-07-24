@@ -87,9 +87,9 @@
 				body: data
 			}).then((response) => {
 				if (notifications) {
-					toast.success('Notificaciones activadas! Recarga la pagina para que tome efecto.');
+					toast.success('Toasts activados! Recarga la pagina para que tome efecto.');
 				} else {
-					toast.success('Notificaciones desactivadas! Recarga la pagina para que tome efecto.');
+					toast.success('Toasts desactivados! Recarga la pagina para que tome efecto.');
 				}
 			});
 		}

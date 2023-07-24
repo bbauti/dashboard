@@ -27,18 +27,12 @@
 		return products;
 	}
 
-	function mostrarToast(prod, count) {
-		if (!count) {
-			count = 1;
-		}
-		toast.error(`${count} | Bajo stock (${prod.quantity}) en ${prod.product}`);
-		count++;
-		setTimeout(() => {
-			const siguienteProducto = outdatedProducts.shift();
-			if (siguienteProducto) {
-				mostrarToast(siguienteProducto, count);
-			}
-		}, 500);
+	function mostrarToast(arr) {
+		arr.forEach((prod, index) => {
+			setTimeout(() => {
+				toast.error(`Bajo stock (${prod.quantity}) en ${prod.product}`);
+			}, index * 500);
+		});
 	}
 
 	onMount(async () => {
@@ -53,7 +47,7 @@
 			outdatedProducts = await getProducts();
 			if (profile.stockNotifications) {
 				if (outdatedProducts) {
-					mostrarToast(outdatedProducts[0]);
+					mostrarToast(outdatedProducts);
 				}
 			}
 		}
@@ -66,7 +60,7 @@
 
 <main class="">
 	{#if session}
-		<HorizontalNav data={profile} />
+		<HorizontalNav data={profile} products={getProducts()} />
 	{/if}
 	{#if !session}
 		<slot />

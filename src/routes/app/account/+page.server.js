@@ -106,8 +106,6 @@ export const actions = {
       .update({ stockNotifications: notifications })
       .eq('id', session.user.id)
 
-    console.log(data)
-
     return {}
   },
   signout: async ({ locals: { supabase, getSession } }) => {
