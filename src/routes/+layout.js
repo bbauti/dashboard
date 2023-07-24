@@ -19,7 +19,7 @@ export const load = async ({ fetch, data, depends }) => {
   if (session) {
     const { data: profile } = await supabase
     .from('profiles')
-    .select(`first_name, last_name, avatar_url`)
+    .select(`first_name, last_name, avatar_url, stockNotifications`)
     .eq('id', session.user.id)
     .single()
     return { supabase, session, profile }

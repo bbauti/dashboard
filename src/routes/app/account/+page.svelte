@@ -15,6 +15,8 @@
 	let lastName = profile?.last_name ?? '';
 	let avatarUrl = profile?.avatar_url ?? '';
 
+	let stockNotifications = profile?.stockNotifications.toString();
+
 	let email = session.user.email;
 
 	// const handleSubmit = () => {
@@ -51,9 +53,9 @@
 		}
 	}
 
-	async function editProfile(el) {
+	async function editProfile() {
 		if (editingProfile === true) {
-			let avatar = document.getElementById('avatarUpload');
+			let select = document.getElementById('avatarUpload');
 			let file = avatar.files[0];
 			editingProfile = 'loading';
 			const data = new FormData();
@@ -63,12 +65,33 @@
 				body: data
 			}).then((response) => {
 				editingProfile = false;
-				toast(
+				toast.success(
 					'Avatar actualizado correctamente! Los cambios pueden tardar un tiempo en tomar efecto...'
 				);
 			});
 		} else if (editingProfile === false) {
 			editingProfile = true;
+		}
+	}
+
+	async function editSettings() {
+		let stockNotifications = document.getElementById('stockNotifications');
+		let notificationsValue = stockNotifications.value;
+		let notifications =
+			notificationsValue === 'true' ? true : notificationsValue === 'false' ? false : null;
+		if (notificationsValue !== null) {
+			const data = new FormData();
+			data.append('notifications', notificationsValue);
+			const res = await fetch('?/editSettings', {
+				method: 'POST',
+				body: data
+			}).then((response) => {
+				if (notifications) {
+					toast.success('Toasts activados! Recarga la pagina para que tome efecto.');
+				} else {
+					toast.success('Toasts desactivados! Recarga la pagina para que tome efecto.');
+				}
+			});
 		}
 	}
 
@@ -118,6 +141,12 @@
 			<li class="mt-[0.5rem]">
 				<button class={current === 'profile' ? 'active' : ''} on:click={() => (current = 'profile')}
 					>Perfil</button
+				>
+			</li>
+			<li>
+				<button
+					class={current === 'settings' ? 'active' : ''}
+					on:click={() => (current = 'settings')}>Ajustes</button
 				>
 			</li>
 			<li>
@@ -237,6 +266,23 @@
 							</div>
 						</div>
 					</form>
+				</div>
+			{:else if current === 'settings'}
+				<h3 class="mb-8 text-2xl font-bold leading-none tracking-tight">Ajustes</h3>
+				<div class="border-2 border-secondary rounded-box w-full p-5">
+					<h2 class="mt-0 lg:text-start text-center">Toasts</h2>
+					<div class="flex items-center lg:items-start flex-col gap-5 mt-5">
+						<select
+							bind:value={stockNotifications}
+							on:change={() => editSettings()}
+							name="stockNotifications"
+							id="stockNotifications"
+							class="select select-primary w-full max-w-xs"
+						>
+							<option value="true" selected={stockNotifications === true}>Activadas</option>
+							<option value="false" selected={stockNotifications === false}>Desactivadas</option>
+						</select>
+					</div>
 				</div>
 			{:else if current === 'security'}
 				<h3 class="mb-8 text-2xl font-bold leading-none tracking-tight">Seguridad</h3>
