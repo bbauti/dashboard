@@ -4,7 +4,6 @@ import { themes } from '$lib/themes'
 import { redirect } from '@sveltejs/kit'
 
 
-
 export const handle = async ({ event, resolve }) => {
 
   event.locals.supabase = createSupabaseServerClient({
@@ -23,11 +22,18 @@ export const handle = async ({ event, resolve }) => {
     return session
   }
 
-  if (!event.url.pathname.startsWith('/auth') && !event.url.pathname.startsWith('/login') ) {
-    const session = await event.locals.supabase.auth.getSession()
+  if (event.url.pathname.startsWith('/app')) {
+    const session = await event.locals.getSession()
     if (!session) {
       // the user is not signed in
-      throw redirect(303, '/login')
+      throw redirect(303, '/')
+    }
+  }
+
+  if (event.url.pathname === ('/')) {
+    const session = await event.locals.getSession()
+    if (session) {
+      throw redirect(303, '/app/')
     }
   }
 

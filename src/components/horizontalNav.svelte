@@ -19,20 +19,20 @@
 {#if width >= 1024}
 	<ul class="menu bg-base-100 w-56 top-[4rem] h-full box fixed z-10">
 		<li>
-			<a href="/" class={path === '/' ? 'active' : ''}>
+			<a href="/app/" class={path === '/app/' ? 'active' : ''}>
 				<iconify-icon icon="majesticons:home" />
 				Inicio
 			</a>
 		</li>
 		<div class="divider" />
 		<li>
-			<a href="/sell" class={path === '/sell' ? 'active' : ''}>
+			<a href="/app/sell" class={path === '/app/sell' ? 'active' : ''}>
 				<iconify-icon icon="fluent:cart-16-filled" />
 				Carrito
 			</a>
 		</li>
 		<li>
-			<a href="/stockmgm" class={path === '/stockmgm' ? 'active' : ''}>
+			<a href="/app/stockmgm" class={path === '/app/stockmgm' ? 'active' : ''}>
 				<iconify-icon icon="solar:box-bold" />
 				Stock
 			</a>
@@ -55,7 +55,7 @@
 				</label>
 			</div>
 			<div class="flex-1 px-2 mx-2">
-				<a href="/" class="btn btn-ghost normal-case text-xl">Dashboard</a>
+				<a href="/app/" class="btn btn-ghost normal-case text-xl">Dashboard</a>
 			</div>
 			<div class="flex items-center">
 				<ul class="menu menu-horizontal items-center p-0">
@@ -77,7 +77,7 @@
 							class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
 						>
 							<li>
-								<a href="/account" class="justify-between"> Perfil </a>
+								<a href="/app/account" class="justify-between"> Perfil </a>
 							</li>
 							<li><a href="/auth/logout">Cerrar sesion</a></li>
 						</ul>
@@ -90,23 +90,23 @@
 		<label for="my-drawer-3" class="drawer-overlay" />
 		<ul class="menu bg-base-100 w-56 h-full box fixed z-10">
 			<li class="flex-1 px-2 h-[4rem] max-h-[4rem] mx-2">
-				<a href="/" class="btn btn-ghost normal-case text-xl">Dashboard</a>
+				<a href="/app/" class="btn btn-ghost normal-case text-xl">Dashboard</a>
 			</li>
 			<li>
-				<a href="/" class={path === '/' ? 'active' : ''}>
+				<a href="/app/" class={path === '/app/' ? 'active' : ''}>
 					<iconify-icon icon="majesticons:home" />
 					Inicio
 				</a>
 			</li>
 			<div class="divider" />
 			<li>
-				<a href="/sell" class={path === '/sell' ? 'active' : ''}>
+				<a href="/app/sell" class={path === '/app/sell' ? 'active' : ''}>
 					<iconify-icon icon="fluent:cart-16-filled" />
 					Carrito
 				</a>
 			</li>
 			<li>
-				<a href="/stockmgm" class={path === '/stockmgm' ? 'active' : ''}>
+				<a href="/app/stockmgm" class={path === '/app/stockmgm' ? 'active' : ''}>
 					<iconify-icon icon="solar:box-bold" />
 					Stock
 				</a>

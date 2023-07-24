@@ -87,7 +87,7 @@ export const actions = {
 
     uploadAvatar(avatar)
     const url = await getAvatarUrl()
-    console.log(changeProfileAvatar(url))
+    changeProfileAvatar(url)
 
     return {
       url,

@@ -1,5 +1,6 @@
+
 /** @type {import('./$types').PageServerLoad} */
-export async function load() {
+export const load = async () => {
     return {};
 };
 export const actions = {

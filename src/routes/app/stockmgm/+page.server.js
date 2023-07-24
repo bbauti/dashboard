@@ -1,14 +1,8 @@
 import {fail} from '@sveltejs/kit'
-import { redirect } from '@sveltejs/kit'
 let st=0
 let fin=7
 
-
-
-
-
-
-export const load = async ({ locals: { supabase, getSession } }) => {
+export const load = async ({ locals: { supabase } }) => {
     const { data: datos } = await supabase.from('stock').select()
      .range(st,fin)
     return { datos }
