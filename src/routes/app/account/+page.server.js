@@ -12,7 +12,7 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select(`first_name, last_name, avatar_url`)
+    .select(`first_name, last_name, avatar_url, stockNotifications`)
     .eq('id', session.user.id)
     .single()
 
@@ -92,6 +92,23 @@ export const actions = {
     return {
       url,
     }
+  },
+  editSettings: async ({ request, locals: { supabase, getSession } }) => {
+    const formData = await request.formData()
+    const notifications = formData.get('notifications')
+
+    const session = await getSession()
+
+    console.log(notifications)
+
+    const { data } = await supabase
+      .from('profiles')
+      .update({ stockNotifications: notifications })
+      .eq('id', session.user.id)
+
+    console.log(data)
+
+    return {}
   },
   signout: async ({ locals: { supabase, getSession } }) => {
     const session = await getSession()
