@@ -32,9 +32,11 @@
 				'Content-Type': 'application/x-www-form-urlencoded'
 			},
 			body: formData
-		}).then(async (response) => {
-			console.log(await response);
+		}).then(() => {
 			toast.success('Impuesto actualizado correctamente!');
+			setTimeout(() => {
+				toast('Para ver los cambios, recarga la página.');
+			}, 1000);
 		});
 	}
 

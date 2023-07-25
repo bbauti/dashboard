@@ -142,6 +142,10 @@
 		let productDiv = document.getElementById('div' + product.id);
 		let productQuant = document.getElementById('amount' + product.id);
 		let productSelectedQuant = document.getElementById('quant' + product.id);
+
+		if (!productEl) {
+			return;
+		}
 		if (getAmount(product) === 0) {
 			productEl.classList.remove('border', 'border-white');
 			productSelectedQuant.remove();
@@ -168,7 +172,9 @@
 			return;
 		}
 		let productQuant = document.getElementById('amount' + product.id);
-		productQuant.textContent = parseInt(productQuant.textContent) - 1;
+		if (productQuant) {
+			productQuant.textContent = parseInt(productQuant.textContent) - 1;
+		}
 		product.quantity--;
 		products.push(product);
 		products = products;
@@ -184,7 +190,9 @@
 			return;
 		}
 		let productQuant = document.getElementById('amount' + product.id);
-		productQuant.textContent = parseInt(productQuant.textContent) + 1;
+		if (productQuant) {
+			productQuant.textContent = parseInt(productQuant.textContent) + 1;
+		}
 		let productToDelete = products.findIndex((el) => el.id === product.id);
 		product.quantity++;
 		products.splice(productToDelete, 1);
@@ -368,8 +376,11 @@
 						</div>
 						<div class="card-body">
 							<h2 class="card-title">{item.product}</h2>
-							<h2>{item.id}</h2>
-							<p id="amount{item.id}">{item.quantity}</p>
+							<p
+								class="btn btn-xs cursor-default w-fit btn-secondary capitalize no-animation hover:none"
+							>
+								Stock: <span id="amount{item.id}">{item.quantity}</span>
+							</p>
 							<div class="card-actions flex justify-between mt-5">
 								<div class="flex gap-2">
 									<button
