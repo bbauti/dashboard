@@ -49,6 +49,13 @@
 		</li>
 		<div class="divider" />
 		<li>
+			<a href="/app/settings" class={path === '/app/settings' ? 'active' : ''}>
+				<iconify-icon icon="ic:round-settings" />
+				Ajustes
+			</a>
+		</li>
+		<div class="divider" />
+		<li>
 			<ThemeSelect />
 		</li>
 	</ul>
@@ -225,6 +232,13 @@
 				<a href="/app/stockmgm" class={path === '/app/stockmgm' ? 'active' : ''}>
 					<iconify-icon icon="solar:box-bold" />
 					Stock
+				</a>
+			</li>
+			<div class="divider" />
+			<li>
+				<a href="/app/settings" class={path === '/app/settings' ? 'active' : ''}>
+					<iconify-icon icon="ic:round-settings" />
+					Ajustes
 				</a>
 			</li>
 			<div class="divider" />

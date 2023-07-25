@@ -22,7 +22,12 @@ export const load = async ({ fetch, data, depends }) => {
     .select(`first_name, last_name, avatar_url, stockNotifications`)
     .eq('id', session.user.id)
     .single()
-    return { supabase, session, profile }
+
+    const { data: taxes } = await supabase
+    .from('taxes')
+    .select()
+    .order('id', { ascending: true })
+    return { supabase, session, profile, taxes }
   }
 
   return { supabase, session }

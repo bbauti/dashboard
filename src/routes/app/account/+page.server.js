@@ -99,8 +99,6 @@ export const actions = {
 
     const session = await getSession()
 
-    console.log(notifications)
-
     const { data } = await supabase
       .from('profiles')
       .update({ stockNotifications: notifications })
