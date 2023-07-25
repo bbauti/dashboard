@@ -4,8 +4,8 @@
 	import { onMount, beforeUpdate } from 'svelte';
 	import { writable } from 'svelte/store';
 
-	let { supabase } = data;
-	$: ({ supabase } = data);
+	let { supabase, taxes } = data;
+	$: ({ supabase, taxes } = data);
 
 	// Products grid
 
@@ -24,14 +24,20 @@
 
 	let finalPrice = 0;
 	let cuotas = 1;
-	let precioCuotas = 0;
 	let precioFinalImp = 0;
 
 	// Taxes
 
-	let envio = 500;
+	let envio = taxes.find((item) => item.tax === 'shipping').amount;
+	let iva = taxes.find((item) => item.tax === 'iva').amount;
 
-	let iva = 0.15;
+	// Cuotas
+
+	let cuotas3 = taxes.find((item) => item.tax === '3cuotas').amount;
+	let cuotas6 = taxes.find((item) => item.tax === '6cuotas').amount;
+	let cuotas12 = taxes.find((item) => item.tax === '12cuotas').amount;
+	let cuotas18 = taxes.find((item) => item.tax === '18cuotas').amount;
+	let cuotas24 = taxes.find((item) => item.tax === '24cuotas').amount;
 
 	// Loads data
 
@@ -222,6 +228,14 @@
 		finalPrice = price;
 	}
 
+	function getDecimal(number) {
+		number = number.toString().split('.')[1];
+		if (number.length < 2) {
+			return number + '0';
+		}
+		return number;
+	}
+
 	// Resets the selected products and price
 
 	async function updateProducts(arr) {
@@ -260,18 +274,19 @@
 	$: precioFinalImp = formatCurrency.format(
 		finalPrice +
 			finalPrice * iva +
-			(cuotas === 3
-				? finalPrice * 0.15
-				: cuotas === 6
-				? finalPrice * 0.25
-				: cuotas === 12
-				? finalPrice * 0.4
-				: cuotas === 18
-				? finalPrice * 0.6
-				: cuotas === 24
-				? finalPrice * 0.9
-				: 0) +
-			envio
+			500 +
+			(finalPrice + finalPrice * iva + 500) *
+				(cuotas === 3
+					? cuotas3
+					: cuotas === 6
+					? cuotas6
+					: cuotas === 12
+					? cuotas12
+					: cuotas === 18
+					? cuotas18
+					: cuotas === 24
+					? cuotas24
+					: 0)
 	);
 </script>
 
@@ -523,15 +538,15 @@
 								<p class="m-0 text-lg">Cuotas:</p>
 								<p>
 									{#if cuotas === 3}
-										<p class="m-0 text-lg">15%</p>
+										<p class="m-0 text-lg">{getDecimal(cuotas3)}%</p>
 									{:else if cuotas === 6}
-										<p class="m-0 text-lg">25%</p>
+										<p class="m-0 text-lg">{getDecimal(cuotas6)}%</p>
 									{:else if cuotas === 12}
-										<p class="m-0 text-lg">40%</p>
+										<p class="m-0 text-lg">{getDecimal(cuotas12)}%</p>
 									{:else if cuotas === 18}
-										<p class="m-0 text-lg">60%</p>
+										<p class="m-0 text-lg">{getDecimal(cuotas18)}%</p>
 									{:else if cuotas === 24}
-										<p class="m-0 text-lg">90%</p>
+										<p class="m-0 text-lg">{getDecimal(cuotas24)}%</p>
 									{/if}
 								</p>
 							</div>
