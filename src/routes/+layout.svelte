@@ -1,26 +1,41 @@
 <script>
 	import '../app.postcss';
-	import { Toaster } from 'svelte-sonner';
+	import { Toaster, toast } from 'svelte-sonner';
 	import { fade } from 'svelte/transition';
 	import HorizontalNav from '../components/horizontalNav.svelte';
 	import '@fontsource-variable/inter';
 
-	import { page } from '$app/stores';
-
-	let path = $page.url.pathname;
 	import { onMount } from 'svelte';
 	import { themeChange } from 'theme-change';
 
-	// import '../app.scss';
-
 	import { invalidate } from '$app/navigation';
 
+	const waitFor = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
 	export let data;
+
+	let outdatedProducts;
 
 	let { supabase, session, profile } = data;
 	$: ({ supabase, session, profile } = data);
 
-	onMount(() => {
+	async function getProducts() {
+		const { data: products, error } = await supabase
+			.from('stock')
+			.select('id, product, quantity')
+			.lte('quantity', 10);
+		return products;
+	}
+
+	function mostrarToast(arr) {
+		arr.forEach((prod, index) => {
+			setTimeout(() => {
+				toast.error(`Bajo stock (${prod.quantity}) en ${prod.product}`);
+			}, index * 500);
+		});
+	}
+
+	onMount(async () => {
 		themeChange(false);
 		const { data } = supabase.auth.onAuthStateChange((event, _session) => {
 			if (_session?.expires_at !== session?.expires_at) {
@@ -28,16 +43,24 @@
 			}
 		});
 
+		if (session) {
+			outdatedProducts = await getProducts();
+			if (profile.stockNotifications) {
+				if (outdatedProducts) {
+					mostrarToast(outdatedProducts);
+				}
+			}
+		}
+
 		return () => data.subscription.unsubscribe();
 	});
-	console.log(path);
 </script>
 
-<Toaster />
+<Toaster richColors closeButton />
 
 <main class="">
 	{#if session}
-		<HorizontalNav data={profile} />
+		<HorizontalNav data={profile} products={getProducts()} />
 	{/if}
 	{#if !session}
 		<slot />

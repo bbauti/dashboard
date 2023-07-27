@@ -25,6 +25,10 @@
 			current_theme = theme;
 		}
 	}
+
+	$: if (current_theme === "") {
+		current_theme = "dark"
+	}
 </script>
 
 <select
@@ -33,7 +37,7 @@
 	class="select select-bordered min-h-[3rem] capitalize h-[3rem] min-w-[1rem] w-full mr-3"
 	on:change={set_theme}
 >
-	{#each themes as theme}
-		<option value={theme} class="capitalize">{theme}</option>
+	{#each themes as theme, index}
+		<option value={theme} selected={index === 1} class="capitalize">{theme}</option>
 	{/each}
 </select>

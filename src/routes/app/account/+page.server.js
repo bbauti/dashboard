@@ -10,13 +10,9 @@ import { createClient } from '@supabase/supabase-js'
 export const load = async ({ locals: { supabase, getSession } }) => {
   const session = await getSession()
 
-  if (!session) {
-    throw redirect(303, '/')
-  }
-
   const { data: profile } = await supabase
     .from('profiles')
-    .select(`first_name, last_name, avatar_url`)
+    .select(`first_name, last_name, avatar_url, stockNotifications`)
     .eq('id', session.user.id)
     .single()
 
@@ -91,11 +87,24 @@ export const actions = {
 
     uploadAvatar(avatar)
     const url = await getAvatarUrl()
-    console.log(changeProfileAvatar(url))
+    changeProfileAvatar(url)
 
     return {
       url,
     }
+  },
+  editSettings: async ({ request, locals: { supabase, getSession } }) => {
+    const formData = await request.formData()
+    const notifications = formData.get('notifications')
+
+    const session = await getSession()
+
+    const { data } = await supabase
+      .from('profiles')
+      .update({ stockNotifications: notifications })
+      .eq('id', session.user.id)
+
+    return {}
   },
   signout: async ({ locals: { supabase, getSession } }) => {
     const session = await getSession()
