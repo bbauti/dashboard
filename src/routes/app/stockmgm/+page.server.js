@@ -1,12 +1,18 @@
 import {fail} from '@sveltejs/kit'
-let st=0
-let fin=7
 
-export const load = async ({ locals: { supabase } }) => {
-    const { data: datos } = await supabase.from('stock').select()
-     .range(st,fin)
-    return { datos }
-}
+import { redirect } from '@sveltejs/kit'
+
+ export const load = async ({ locals: { supabase, getSession } }) => {
+      const session = await getSession()
+      if (!session) {
+          throw redirect(303, '/')
+      }
+     const { data: datos } = await supabase.from('stock').select()
+     return {
+         datos,
+     }
+ }
+
 export const actions = {
     
     addProduct: async ({ request, url, locals: { supabase } }) => {  
@@ -51,20 +57,5 @@ export const actions = {
             .update({ product: producto, quantity:quantity })
             .eq('id',id)
             return {stock: data ?? []}}
-        },
-
-        advance: async () => {
-            fin+=7
-            st+=7
-            return;
-        },
-        goback: async () => {
-            if (st===0){
-                return;
-            }else{
-                fin-=7
-                st-=7
-                return;
-            }
         },
 }
