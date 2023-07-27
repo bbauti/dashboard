@@ -4,12 +4,12 @@ Dashboard de eCommerce desarrollado para la una diplomatura en programación de 
 
 ## Screenshots
 
-<img src="https://i.imgur.com/SqQoLyg.jpg" alt="index" width="500"/>
+<img src="https://i.imgur.com/EZ1n9Ny.gif" alt="index" width="500"/>
 
 
 ## 🔑 API Keys
 
-Keys de SupaBase necesarios para el funcionamiento de la app. Se agregan en un archivo `.env` en el root del proyecto.
+Keys de Supabase necesarios para el funcionamiento de la app. Se agregan en un archivo `.env` en el root del proyecto.
 
 
 
@@ -25,16 +25,16 @@ Keys de SupaBase necesarios para el funcionamiento de la app. Se agregan en un a
 #### Dev
 
 ```bash
-  $ npm install
-  $ npm run dev
+$ npm install
+$ npm run dev
 ```
 
 #### Build
 
 ```bash
-  $ npm install
-  $ npm run build
-  $ npm run preview
+$ npm install
+$ npm run build
+$ npm run preview
 ```
 
 
