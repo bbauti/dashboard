@@ -44,6 +44,13 @@
 
 	onMount(async () => {
 		themeChange(false);
+		if (typeof window !== 'undefined') {
+			const theme = window.localStorage.getItem('theme');
+			if (theme && themes.includes(theme)) {
+				document.documentElement.setAttribute('data-theme', theme);
+				current_theme = theme;
+			}
+		}
 		const { data } = supabase.auth.onAuthStateChange((event, _session) => {
 			if (_session?.expires_at !== session?.expires_at) {
 				invalidate('supabase:auth');
@@ -62,7 +69,7 @@
 		return () => data.subscription.unsubscribe();
 	});
 
-	let current_theme = 'dark';
+	let current_theme;
 
 	function changeTheme(userTheme) {
 		const theme = userTheme;
