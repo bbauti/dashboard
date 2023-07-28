@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { blur } from 'svelte/transition';
+	import { goto } from '$app/navigation';
 
 	export let data;
 
@@ -11,6 +12,9 @@
 	let loading = true;
 
 	onMount(() => {
+		if (session) {
+			goto('/app/');
+		}
 		loading = false;
 		// por cada boton, compruebo si el mouse se mueve, y si es asi, le paso las coords al css
 		document.querySelectorAll('.button').forEach((button) => {
