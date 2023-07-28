@@ -13,6 +13,8 @@
 
 	import { invalidate } from '$app/navigation';
 
+	const themes = ['dark', 'light'];
+
 	inject({ mode: dev ? 'development' : 'production' });
 
 	export let data;
@@ -59,6 +61,19 @@
 
 		return () => data.subscription.unsubscribe();
 	});
+
+	let current_theme = 'dark';
+
+	function changeTheme(userTheme) {
+		const theme = userTheme;
+		if (themes.includes(theme)) {
+			const one_year = 60 * 60 * 24 * 365;
+			window.localStorage.setItem('theme', theme);
+			document.cookie = `theme=${theme}; max-age=${one_year}; path=/; SameSite=Lax`;
+			document.documentElement.setAttribute('data-theme', theme);
+			current_theme = theme;
+		}
+	}
 </script>
 
 <Toaster richColors closeButton />
@@ -69,6 +84,17 @@
 	{/if}
 	{#if !session}
 		<slot />
+		<nav class="fixed bottom-4 left-4 flex gap-2 rounded-xl p-2 border-2 border-secondary/50">
+			<button
+				class="btn btn-square btn-sm {current_theme === 'dark' ? 'btn-success' : 'btn-secondary'}"
+				on:click={() => changeTheme('dark')}
+				><iconify-icon icon="akar-icons:moon-fill" />
+			</button><button
+				class="btn btn-square btn-sm {current_theme === 'light' ? 'btn-success' : 'btn-secondary'}"
+				on:click={() => changeTheme('light')}
+				><iconify-icon icon="akar-icons:sun-fill" />
+			</button>
+		</nav>
 	{:else}
 		<section class="lg:pl-56 pt-[4rem] w-full">
 			<slot />

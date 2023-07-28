@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { onMount } from 'svelte';
 	import { themes } from './themes';
 
@@ -14,8 +14,8 @@
 		}
 	});
 
-	function set_theme(event: Event) {
-		const select = event.target as HTMLSelectElement;
+	function set_theme(event) {
+		const select = event.target;
 		const theme = select.value;
 		if (themes.includes(theme)) {
 			const one_year = 60 * 60 * 24 * 365;
@@ -26,8 +26,8 @@
 		}
 	}
 
-	$: if (current_theme === "") {
-		current_theme = "dark"
+	$: if (current_theme === '') {
+		current_theme = 'dark';
 	}
 </script>
 
