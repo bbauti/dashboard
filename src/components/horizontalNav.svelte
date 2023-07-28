@@ -53,6 +53,12 @@
 				Team
 			</a>
 		</li>
+		<li>
+			<a href="/app/sales" class={path === '/app/sales' ? 'active' : ''}>
+				<iconify-icon icon="solar:card-bold" />
+				Ventas
+			</a>
+		</li>
 		<div class="divider" />
 		<li>
 			<a href="/app/settings" class={path === '/app/settings' ? 'active' : ''}>
@@ -244,6 +250,12 @@
 				<a href="/app/team" class={path === '/app/team' ? 'active' : ''}>
 					<iconify-icon icon="fluent:people-team-24-filled" />
 					Team
+				</a>
+			</li>
+			<li>
+				<a href="/app/sales" class={path === '/app/sales' ? 'active' : ''}>
+					<iconify-icon icon="solar:card-bold" />
+					Ventas
 				</a>
 			</li>
 			<div class="divider" />
