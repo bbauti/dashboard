@@ -1,6 +1,8 @@
 <script>
 	export let data;
 
+	import { formatMoney } from '$lib/helpers';
+
 	import { onMount, beforeUpdate } from 'svelte';
 	import { writable } from 'svelte/store';
 
@@ -271,15 +273,7 @@
 		precioFinalImp = 0;
 	}
 
-	let formatOptions = {
-		style: 'currency',
-		currency: 'ARS',
-		minimumFractionDigits: 2
-	};
-
-	let formatCurrency = new Intl.NumberFormat('es-AR', formatOptions);
-
-	$: precioFinalImp = formatCurrency.format(
+	$: precioFinalImp = formatMoney(
 		finalPrice +
 			finalPrice * iva +
 			500 +
@@ -394,7 +388,7 @@
 										disabled={item.quantity < 1}>-</button
 									>
 								</div>
-								<button class="btn btn-neutral">{formatCurrency.format(item.value)}</button>
+								<button class="btn btn-neutral">{formatMoney(item.value)}</button>
 							</div>
 						</div>
 					</div>
@@ -446,7 +440,7 @@
 						<div class="card-body justify-between">
 							<div class="flex justify-between items-center">
 								<h2 class="m-0">{item.product}</h2>
-								<h2 class="m-0">{formatCurrency.format(getAmount(item) * item.value)}</h2>
+								<h2 class="m-0">{formatMoney(getAmount(item) * item.value)}</h2>
 							</div>
 							<div class="flex items-start">
 								<button class="btn btn-xs cursor-default capitalize">Stock: {item.quantity}</button>
@@ -492,7 +486,7 @@
 					<div class="flex flex-row justify-between">
 						<p class="font-bold m-0 text-xl">Subtotal:</p>
 						<p />
-						<p class="font-bold m-0 text-xl">{formatCurrency.format(finalPrice)}</p>
+						<p class="font-bold m-0 text-xl">{formatMoney(finalPrice)}</p>
 					</div>
 					<div class="flex mt-5 mb-10">
 						<button class="btn btn-primary btn-wide mx-auto" onclick="processPayment.showModal()"
@@ -532,7 +526,7 @@
 						<div class="flex flex-row justify-between">
 							<p class="font-medium m-0 text-xl">Subtotal:</p>
 							<p />
-							<p class="font-medium m-0 text-xl">{formatCurrency.format(finalPrice)}</p>
+							<p class="font-medium m-0 text-xl">{formatMoney(finalPrice)}</p>
 						</div>
 						<div class="flex flex-row justify-between">
 							<p class="m-0 text-lg">Iva:</p>
@@ -542,7 +536,7 @@
 						<div class="flex flex-row justify-between">
 							<p class="m-0 text-lg">Envio:</p>
 							<p />
-							<p class="m-0 text-lg">{formatCurrency.format(envio)}</p>
+							<p class="m-0 text-lg">{formatMoney(envio)}</p>
 						</div>
 						{#if cuotas > 1}
 							<div class="flex flex-row justify-between">
