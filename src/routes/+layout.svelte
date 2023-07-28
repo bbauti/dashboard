@@ -5,12 +5,15 @@
 	import HorizontalNav from '../components/horizontalNav.svelte';
 	import '@fontsource-variable/inter';
 
+	import { dev } from '$app/environment';
+	import { inject } from '@vercel/analytics';
+
 	import { onMount } from 'svelte';
 	import { themeChange } from 'theme-change';
 
 	import { invalidate } from '$app/navigation';
 
-	const waitFor = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+	inject({ mode: dev ? 'development' : 'production' });
 
 	export let data;
 
@@ -18,6 +21,8 @@
 
 	let { supabase, session, profile } = data;
 	$: ({ supabase, session, profile } = data);
+
+	const waitFor = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
 	async function getProducts() {
 		const { data: products, error } = await supabase
