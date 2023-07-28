@@ -13,11 +13,12 @@ Keys de Supabase necesarios para el funcionamiento de la app. Se agregan en un a
 
 
 
-| Parametro                  | Type     | Descripcion |
-|----------------------------|----------|-------------|
-| `PUBLIC_SUPABASE_URL`      | `string` | Public key  |
-| `PUBLIC_SUPABASE_ANON_KEY` | `string` | Anon key    |
-| `SUPABASE_ROLE_KEY`        | `string` | Role key    |
+| Parametro                  | Type     | Descripcion             |
+|----------------------------|----------|-------------------------|
+| `PUBLIC_SUPABASE_URL`      | `string` | Public key              |
+| `PUBLIC_SUPABASE_ANON_KEY` | `string` | Anon key                |
+| `SUPABASE_ROLE_KEY`        | `string` | Role key                |
+| `LOGIN_CODE`               | `string` | Codigo de invitacion    |
 
 
 ## 💻 Deployment
