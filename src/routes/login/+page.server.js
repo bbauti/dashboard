@@ -1,4 +1,19 @@
-import { fail } from '@sveltejs/kit'
+import { fail, redirect } from '@sveltejs/kit'
+import { LOGIN_CODE } from '$env/static/private'
+
+export const load = async ({ cookies, locals: { getSession } }) => {
+  const session = await getSession()
+  if (session) {
+    throw redirect(303, '/app/')
+  }
+  const code = cookies.get('code')
+  if (LOGIN_CODE === code) {
+    return {code: true, session: await getSession()}
+  }
+  return {
+    session: await getSession(),
+  }
+}
 
 export const actions = {
   register: async ({ request, url, locals: { supabase, getSession } }) => {
@@ -61,6 +76,15 @@ export const actions = {
     return {
       message: 'Autenticado correctamente!',
       success: true,
+      logged: true,
     }
   },
+  sendCode: async ({ request, url, locals: { supabase, getSession } }) => {
+    const formData = await request.formData()
+    const code = formData.get('code')
+    if (code === LOGIN_CODE) {
+      return {code: true}
+    }
+    return {code: false}
+  }
 }
