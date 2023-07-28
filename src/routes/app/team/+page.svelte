@@ -1,5 +1,5 @@
 <script>
-	import { parseMoney, formatMoney } from '$lib/helpers';
+	import { parseMoney, formatMoney, getTime, timeAgo } from '$lib/helpers';
 
 	export let data;
 
@@ -55,55 +55,6 @@
 	};
 
 	users.load();
-
-	function time(utc) {
-		const dateObj = new Date(utc);
-		const timezone = 'America/Argentina/Buenos_Aires';
-		const formatter = new Intl.DateTimeFormat('es-AR', {
-			timeZone: timezone,
-			year: 'numeric',
-			month: '2-digit',
-			day: '2-digit',
-			hour: '2-digit',
-			minute: '2-digit',
-			second: '2-digit'
-		});
-		const argentinaTime = formatter.format(dateObj);
-		return argentinaTime;
-	}
-
-	function timeAgo(timestamp) {
-		const argentinaTime = new Date(timestamp);
-		const now = new Date();
-
-		// Calcula la diferencia en milisegundos entre el timestamp en Argentina y el momento actual
-		const timeDifferenceMs = now - argentinaTime;
-
-		// Convierte la diferencia de tiempo a horas y minutos
-		const yearsAgo = Math.floor(timeDifferenceMs / (1000 * 60 * 60 * 24 * 365));
-		const daysAgo = Math.floor((timeDifferenceMs / (1000 * 60 * 60 * 24)) % 365);
-		const hoursAgo = Math.floor((timeDifferenceMs / (1000 * 60 * 60)) % 24);
-		const minutesAgo = Math.floor((timeDifferenceMs / (1000 * 60)) % 60);
-
-		// Genera el mensaje de tiempo transcurrido
-		let timeAgoMessage = 'Ultima vez hace ';
-		if (yearsAgo > 0) {
-			timeAgoMessage += `${yearsAgo} año${yearsAgo > 1 ? 's' : ''}`;
-		} else if (daysAgo > 0) {
-			timeAgoMessage += `${daysAgo} día${daysAgo > 1 ? 's' : ''}`;
-			if (hoursAgo > 0) {
-				timeAgoMessage += ` y ${hoursAgo} hora${hoursAgo > 1 ? 's' : ''}`;
-			}
-		} else if (hoursAgo > 0) {
-			timeAgoMessage += `${hoursAgo} hora${hoursAgo > 1 ? 's' : ''}`;
-			if (minutesAgo > 0) {
-				timeAgoMessage += ` y ${minutesAgo} minuto${minutesAgo > 1 ? 's' : ''}`;
-			}
-		} else {
-			timeAgoMessage += `${minutesAgo} minuto${minutesAgo > 1 ? 's' : ''}`;
-		}
-		return timeAgoMessage;
-	}
 </script>
 
 <section class="bg-neutral w-full p-5 min-h-screen lg:rounded-tl-box">
@@ -157,7 +108,7 @@
 							<td class="rounded-md">{users.products(item)}</td>
 							<td class="rounded-md">{timeAgo(item.users.last_sign_in_at)}</td>
 							<td class="rounded-md {index === pageData.length - 1 ? 'rounded-br-[0.8rem]' : ''}"
-								>{time(item.users.created_at)}</td
+								>{getTime(item.users.created_at)}</td
 							>
 						</tr>
 					{/each}
