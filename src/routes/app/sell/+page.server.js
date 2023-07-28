@@ -17,7 +17,6 @@ export const actions = {
             const { error } = await supabase
                 .from('sells')
                 .insert({ price: price, id: session.user.id, product_amount: amount })  
-            console.log(await error)
             return error
         } 
         try {
