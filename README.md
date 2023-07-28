@@ -48,6 +48,8 @@ Visita la [wiki del repo](https://github.com/bbauti/dashboard/wiki)
 
 [dash.bbauti.me](https://dash.bbauti.me)
 
+Para el codigo de invitacion de la demo, pedinoslo por MD a mi o a Pato.
+
 ## 🔧 Tech Stack
 
 **Client:** Sveltekit, TailwindCSS, DaisyUI, 
