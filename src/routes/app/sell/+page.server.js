@@ -4,7 +4,8 @@ export const load = async () => {
     return {};
 };
 export const actions = {
-    updateProducts: async ({ request, locals: { supabase } }) => {  
+    updateProducts: async ({ request, locals: { supabase, getSession } }) => { 
+        const session = await getSession()
         async function updateQuantity(product) {
             const { error } = await supabase
                 .from('stock')
@@ -12,17 +13,18 @@ export const actions = {
                 .eq('id', product.id)    
             return error
         } 
-        async function addSell(price) {
+        async function addSell(price, amount) {
             const { error } = await supabase
                 .from('sells')
-                .insert({ price: price })  
+                .insert({ price: price, id: session.user.id, product_amount: amount })  
+            console.log(await error)
             return error
         } 
         try {
             const data = await request.formData();
             let products = JSON.parse(data.get("products"))
             let price = data.get("price")
-            await addSell(price)
+            await addSell(price, products.length)
             products.forEach(async product => {
                 await updateQuantity(product)
             });
