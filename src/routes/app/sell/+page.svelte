@@ -19,6 +19,13 @@
 	let totalPages;
 	let isSearch = false;
 
+	let backup = [];
+
+	$: if (pageData.length > 0) {
+		console.log(backup);
+		backup = pageData.slice();
+	}
+
 	let products = [];
 	let uniqueProducts = [];
 
@@ -296,7 +303,7 @@
 	<title>Carrito</title>
 </svelte:head>
 
-<section class="bg-neutral w-full p-5 min-h-screen lg:rounded-tl-box">
+<section class="bg-neutral w-full p-5 min-h-screen">
 	<h1 class="font-semibold mb-5 text-2xl">Carrito</h1>
 	<div class="bg-base-100 rounded-box min-h-[calc(100vh-6rem)] py-6">
 		<header class="relative">
@@ -308,9 +315,12 @@
 				on:change={() => loadData()}
 			>
 				<option value="3">3</option>
-				<option value="6">6</option>
-				<option value="9">9</option>
-				<option value="12">12</option>
+				<!-- TODO Temporal fix -->
+				{#if backup.length >= 3}
+					<option value="6">6</option>
+					<option value="9">9</option>
+					<option value="12">12</option>
+				{/if}
 			</select>
 			<h1 class="font-semibold pt-0 lg:pt-10 pb-5 text-center text-4xl max-w-[12rem] lg:max-w-none">
 				Calcular precios
@@ -405,13 +415,53 @@
 					</div>
 				{/each}
 			</section>
+		{:else if loading}
+			<section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 m-10">
+				{#each backup as item, index}
+					<div id={item.id} class="card bg-base-200 shadow-xl">
+						<div id="div{item.id}" class="relative">
+							{#if getAmount(item) > 0}
+								<p id="quant{item.id}" class="absolute top-2 right-5 text-2xl font-semibold">
+									{getAmount(item)}
+								</p>
+							{:else if item.quantity < 1}
+								<p
+									id="quant{item.id}"
+									class="absolute top-2 right-5 text-error text-xl font-semibold"
+								>
+									Sin stock
+								</p>
+							{/if}
+						</div>
+						<div class="card-body">
+							<h2 class="card-title">{item.product}</h2>
+							<p
+								class="btn btn-xs cursor-default w-fit btn-secondary capitalize no-animation hover:none"
+							>
+								Stock: <span id="amount{item.id}">{item.quantity}</span>
+							</p>
+							<div class="card-actions flex justify-between mt-5">
+								<div class="flex gap-2">
+									<button name="add" class="btn btn-primary btn-square" disabled>+</button>
+									<button name="remove" class="btn btn-outline btn-square btn-error" disabled
+										>-</button
+									>
+								</div>
+								<button name="price" class="btn btn-neutral cursor-default no-animation hover:none"
+									>{formatMoney(item.value)}</button
+								>
+							</div>
+						</div>
+					</div>
+				{/each}
+			</section>
 		{:else if pageData.length <= 0 && !loading}
 			<div class="prose">
 				<h1>No se encontraron resultados</h1>
 			</div>
 		{/if}
 
-		{#if !loading && !isSearch}
+		{#if !isSearch}
 			<div class="flex justify-center gap-1 lg:gap-2 mt-5 mb-10">
 				<button name="firstPage" on:click={goToFirstPage} disabled={currentPage === 1} class="btn"
 					>1</button
@@ -446,12 +496,6 @@
 					class="btn">{totalPages}</button
 				>
 			</div>
-		{/if}
-
-		{#if loading}
-			<span
-				class="loading loading-spinner loading-xl text-6xl mx-auto flex items-center justify-center mt-40"
-			/>
 		{/if}
 
 		{#if products.length > 0}

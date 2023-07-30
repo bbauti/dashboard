@@ -47,7 +47,7 @@
 	<title>Ventas</title>
 </svelte:head>
 
-<section class="bg-neutral w-full p-5 min-h-screen lg:rounded-tl-box">
+<section class="bg-neutral w-full p-5 min-h-screen">
 	<h1 class="font-semibold mb-5 text-2xl">Ventas</h1>
 	<div class="bg-base-100 rounded-box min-h-[calc(100vh-6rem)] flex flex-col overflow-auto p-10">
 		<h1 class="mx-auto mb-8 font-bold text-2xl">Ventas del comercio</h1>

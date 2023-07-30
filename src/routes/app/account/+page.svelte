@@ -134,7 +134,7 @@
 	<title>Perfil</title>
 </svelte:head>
 
-<section class="bg-neutral w-full p-5 min-h-screen lg:rounded-tl-box">
+<section class="bg-neutral w-full p-5 min-h-screen">
 	<h1 class="font-semibold mb-5 text-2xl">Ajustes de cuenta</h1>
 	<div
 		class="bg-base-100 rounded-box flex-col lg:flex-row min-h-[calc(100vh-6rem)] overflow-hidden flex"
@@ -388,7 +388,7 @@
 							</form>
 							<h2 class="mt-0 text-error">Borrar cuenta</h2>
 							<p>Confirma la accion.</p>
-							<button class="btn btn-error" name='delete' on:click={() => deleteAccount()}
+							<button class="btn btn-error" name="delete" on:click={() => deleteAccount()}
 								>Borrar</button
 							>
 						</div>
