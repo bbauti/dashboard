@@ -157,13 +157,14 @@
 									{:else if success === false}
 										<p style="color:red;">{message}</p>
 									{/if}
-									<button class="btn mt-4 btn-neutral" name="login" aria-label="Login">
+									<button class="btn mt-4 btn-neutral" name="loginUser" aria-label="Login">
 										<iconify-icon icon="ic:round-email" />
 										Iniciar sesion
 									</button>
 								</form>
 								<button
 									class="btn btn-ghost btn-sm btn-accent font-normal normal-case mt-2"
+									name="registerUser"
 									type="button"
 									on:click={() => handleTabClick('register')}>No tenes cuenta?</button
 								>
@@ -260,7 +261,7 @@
 									{:else if success === false}
 										<p style="color:red;">{message}</p>
 									{/if}
-									<button class="btn mt-4 btn-neutral" name="register" aria-label="Register">
+									<button class="btn mt-4 btn-neutral" name="register1" aria-label="Register">
 										<iconify-icon icon="ic:round-email" />
 										Crear cuenta
 									</button>
@@ -273,7 +274,7 @@
 							{/if}
 						</div>
 						<form method="dialog" class="modal-backdrop">
-							<button name="close">close</button>
+							<button name="closeee">close</button>
 						</form>
 					</dialog>
 				</div>
@@ -321,7 +322,7 @@
 								class="input input-bordered w-full max-w-xs"
 							/>
 						</div>
-						<button type="submit" name="send" class="btn btn-primary mt-10">Enviar</button>
+						<button type="submit" name="sendd" class="btn btn-primary mt-10">Enviar</button>
 					</form>
 				</div>
 			</div>
@@ -338,7 +339,7 @@
 			/>
 			<h2 class="mt-0 mb-2">Ya iniciaste sesion!</h2>
 			<small>Queres volver al <a class="font-bold text-sm" href="/">inicio?</a></small>
-			<button name="logout" on:click={() => handleSignOut()} class="mt-5 btn btn-error"
+			<button name="logoutt" on:click={() => handleSignOut()} class="mt-5 btn btn-error"
 				>Cerrar sesion</button
 			>
 		</div>

@@ -84,7 +84,7 @@
 				{#if index > 0}
 					<div class="border border-secondary rounded-box min-w-[10rem] p-5 relative">
 						<button
-							name="tax"
+							name="tax{taxes.id}"
 							id="button{taxes.id}"
 							class="btn btn-square btn-sm btn-ghost absolute top-2 right-2"
 							on:click={() => {
@@ -110,7 +110,7 @@
 				{:else}
 					<div class="border border-secondary rounded-box min-w-[10rem] p-5 relative">
 						<button
-							name="tax"
+							name="taax{taxes.id}"
 							id="button{taxes.id}"
 							class="btn btn-square btn-sm btn-ghost absolute top-2 right-2"
 							on:click={() => {

@@ -82,7 +82,7 @@
 					: success === false
 					? 'input-error'
 					: ''}"
-				name="producto"
+				name="producto1"
 				id="producto"
 				placeholder="nombre"
 				bind:value={producto}
@@ -95,7 +95,7 @@
 					: success === false
 					? 'input-error'
 					: ''}"
-				name="value"
+				name="value1"
 				id="value"
 				placeholder="$$$$$$"
 				bind:value
@@ -108,27 +108,30 @@
 					: success === false
 					? 'input-error'
 					: ''}"
-				name="amount"
+				name="amount2"
 				id="amount"
 				bind:value={amount}
 			/> <br />
-			<button name="addProduct" type="submit" class="btn btn-primary font-normal normal-case mt-2"
+			<button
+				name="addProductStock"
+				type="submit"
+				class="btn btn-primary font-normal normal-case mt-2"
 				><iconify-icon icon="twemoji:plus" id="mail" class="icon" />
 			</button>
-			<button name="reset" type="reset" class="btn btn-error font-normal normal-case mt-2"
+			<button name="resetStock" type="reset" class="btn btn-error font-normal normal-case mt-2"
 				><iconify-icon icon="fluent:arrow-reset-48-regular" id="mail" class="icon" />
 			</button>
 		</form>
 	</div>
 	<form method="dialog" class="modal-backdrop">
-		<button name="close">close</button>
+		<button name="closeStock">close</button>
 	</form>
 </dialog>
 <!-- Modal update -->
 <dialog id="update" class="modal">
 	<div class="modal-box w-fit">
 		<form method="dialog">
-			<button name="closeModal" class="btn btn-sm btn-square btn-ghost absolute right-2 top-2"
+			<button name="closeModalStock" class="btn btn-sm btn-square btn-ghost absolute right-2 top-2"
 				><iconify-icon icon="lucide:x" class="closeModalIcon" /></button
 			>
 		</form>
@@ -173,16 +176,16 @@
 				id="amount"
 				bind:value={producto.quantity}
 			/> <br />
-			<button name="submit" type="submit" class="btn btn-primary font-normal normal-case mt-2"
+			<button name="submitStock1" type="submit" class="btn btn-primary font-normal normal-case mt-2"
 				><iconify-icon icon="mingcute:pencil-2-fill" id="mail" class="icon" />
 			</button>
-			<button name="reset" type="reset" class="btn btn-error font-normal normal-case mt-2"
+			<button name="resetStock1" type="reset" class="btn btn-error font-normal normal-case mt-2"
 				><iconify-icon icon="fluent:arrow-reset-48-regular" id="mail" class="icon" />
 			</button>
 		</form>
 	</div>
 	<form method="dialog" class="modal-backdrop">
-		<button name="closeModal">close</button>
+		<button name="closeModalStock1">close</button>
 	</form>
 </dialog>
 
@@ -210,7 +213,7 @@
 				<th class="text-lg text-center">Cantidades</th>
 				<th class="text-lg text-left"> Precio</th>
 				<th>
-					<button name="openModal" class="btn justify-start font-bold" onclick="crear.showModal()"
+					<button name="openModal2" class="btn justify-start font-bold" onclick="crear.showModal()"
 						><iconify-icon icon="twemoji:plus" id="mail" class="icon" /></button
 					>
 				</th>
@@ -268,14 +271,14 @@
 				<th>
 					<div class="join">
 						{#if currentPage > 1}
-							<button name="next" on:click={() => prevPag()} class="join-item btn">«</button>
+							<button name="nextStock" on:click={() => prevPag()} class="join-item btn">«</button>
 						{/if}
 						{#if next === true}
-							<button name="prev" on:click={() => nextPage()} class="join-item btn">»</button>
+							<button name="prevStock" on:click={() => nextPage()} class="join-item btn">»</button>
 						{/if}
 
 						{#if loading}
-							<button name="loading" class="join-item btn"
+							<button name="loadingStock" class="join-item btn"
 								><span class="loading loading-spinner loading-xl" /></button
 							>
 						{/if}
