@@ -236,13 +236,14 @@
 									{:else if success === false}
 										<p style="color:red;">{message}</p>
 									{/if}
-									<button class="btn mt-4 btn-neutral" name="login" aria-label="Login">
+									<button class="btn mt-4 btn-neutral" name="loginUser" aria-label="Login">
 										<iconify-icon icon="ic:round-email" />
 										Iniciar sesion
 									</button>
 								</form>
 								<button
 									class="btn btn-ghost btn-sm btn-accent font-normal normal-case mt-2"
+									name="registerUser"
 									type="button"
 									on:click={() => handleTabClick('register')}>No tenes cuenta?</button
 								>
@@ -339,7 +340,7 @@
 									{:else if success === false}
 										<p style="color:red;">{message}</p>
 									{/if}
-									<button class="btn mt-4 btn-neutral" name="register" aria-label="Register">
+									<button class="btn mt-4 btn-neutral" name="register1" aria-label="Register">
 										<iconify-icon icon="ic:round-email" />
 										Crear cuenta
 									</button>
@@ -352,7 +353,7 @@
 							{/if}
 						</div>
 						<form method="dialog" class="modal-backdrop">
-							<button name="close">close</button>
+							<button name="closeee">close</button>
 						</form>
 					</dialog>
 				</div>
