@@ -388,7 +388,7 @@
 							</form>
 							<h2 class="mt-0 text-error">Borrar cuenta</h2>
 							<p>Confirma la accion.</p>
-							<button class="btn btn-error" name='delete' on:click={() => deleteAccount()} name="confirmDelete"
+							<button class="btn btn-error" name='delete' on:click={() => deleteAccount()}
 								>Borrar</button
 							>
 						</div>
