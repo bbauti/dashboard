@@ -1,13 +1,15 @@
 <script>
 	import { toast } from 'svelte-sonner';
 
-	import { fly } from 'svelte/transition';
-
+	import { blur } from 'svelte/transition';
 	import { fade } from 'svelte/transition';
 
-	import { enhance } from '$app/forms';
-	export let form;
+	import { createDialog } from '@melt-ui/svelte';
+	import { onMount } from 'svelte';
 
+	import { enhance } from '$app/forms';
+
+	export let form;
 	export let data;
 
 	let { supabase } = data;
@@ -19,6 +21,8 @@
 	let code = false;
 
 	$: code = data.code;
+
+	let loading = true;
 
 	let selected;
 
@@ -67,8 +71,67 @@
 		message = null;
 	}
 
-	import { createDialog } from '@melt-ui/svelte';
-	import { onMount } from 'svelte';
+	onMount(() => {
+		loading = false;
+		//creo un canvas para la imagen de fondo
+		let canvas = document.getElementById('canvas'),
+			ctx = canvas.getContext('2d'),
+			pic = new Image();
+
+		// dependiendo del width de la pantalla va a ser tener distinto width
+
+		function setCanvasDimensions(context) {
+			context.canvas.width = context.canvas.clientWidth;
+			context.canvas.height = context.canvas.clientHeight;
+		}
+
+		function getImageSize(context, image) {
+			let canvasWidth = context.canvas.width,
+				canvasHeight = context.canvas.height,
+				canvasRatio = canvasHeight / canvasWidth,
+				imageWidth = image.naturalWidth,
+				imageHeight = image.naturalHeight,
+				imageRatio = imageHeight / imageWidth,
+				widthValue = imageRatio > canvasRatio ? canvasWidth : canvasHeight / imageRatio,
+				heightValue = imageRatio > canvasRatio ? canvasWidth * imageRatio : canvasHeight,
+				adjX = imageRatio > canvasRatio ? 0 : (canvasWidth - widthValue) / 2,
+				adjY = imageRatio > canvasRatio ? (canvasHeight - heightValue) / 2 : 0;
+
+			return {
+				width: widthValue,
+				height: heightValue,
+				offsetX: adjX,
+				offsetY: adjY
+			};
+		}
+
+		//imrpime la image
+
+		function drawSizedImage(context, image) {
+			let { offsetX, offsetY, width, height } = getImageSize(context, image);
+			context.drawImage(pic, offsetX, offsetY, width, height);
+		}
+
+		setCanvasDimensions(ctx);
+		pic.src = '/login.svg';
+
+		// al cargar la imagen la imprime
+
+		pic.onload = function () {
+			drawSizedImage(ctx, this);
+		};
+
+		//cada vez que cambia el width de la pagina se cambia el size de la imagen
+
+		window.addEventListener(
+			'resize',
+			() => {
+				setCanvasDimensions(ctx);
+				drawSizedImage(ctx, pic);
+			},
+			false
+		);
+	});
 
 	const { trigger, portal, overlay, content, title, description, close, open } = createDialog();
 </script>
@@ -77,12 +140,26 @@
 	<title>Login</title>
 </svelte:head>
 
-{#if !data.session}
+<div class="grain" />
+
+{#if loading}
+	<div
+		class="fixed flex items-center bg-base-100 justify-center z-[500] h-screen w-screen"
+		out:fade
+	>
+		<span class="loading loading-spinner loading-lg" />
+	</div>
+{/if}
+
+<section class="flex items-center justify-center min-h-screen">
 	{#if code}
-		<section id="login" class="prose hero min-h-screen mx-auto">
+		<section
+			id="login"
+			class="prose hero min-h-[calc(100vh-5rem)] max-w-[80vw] lg:max-w-[50ch] mx-auto rounded-box border-accent/[0.02] border-2 shadow-2xl"
+		>
 			<div class="hero-content text-center flex-col gap-0">
 				<img
-					class="rounded-3xl"
+					class="rounded-3xl shadow-lg"
 					src="https://media.discordapp.net/attachments/1128453887259594783/1128769815578955816/DALLE_2023-07-12_16.27.39_-_fill_the_blank_space_with_a_B_with_a_gradient_and_it_migth_have_a_purple_background.png"
 					alt="Logo"
 					width="100px"
@@ -98,14 +175,16 @@
 
 				<div class="flex flex-col gap-3">
 					<button
-						class="btn btn-accent text-left justify-start font-bold"
+						class="btn btn-accent text-left justify-start font-bold shadow-xl hover:-translate-y-[4px] hover:scale-105"
 						on:click={() => signInWithGitHub()}
 						on:click={() => toast('Iniciando sesion...')}
 					>
 						<iconify-icon icon="bi:github" class="icon" />
 						Iniciar con GitHub
 					</button>
-					<button class="btn justify-start font-bold" onclick="email.showModal()"
+					<button
+						class="btn justify-start font-bold shadow-xl hover:-translate-y-[4px] hover:scale-105"
+						onclick="email.showModal()"
 						><iconify-icon icon="ic:round-email" id="mail" class="icon" />
 						Usar correo</button
 					>
@@ -157,13 +236,14 @@
 									{:else if success === false}
 										<p style="color:red;">{message}</p>
 									{/if}
-									<button class="btn mt-4 btn-neutral" name="login" aria-label="Login">
+									<button class="btn mt-4 btn-neutral" name="loginUser" aria-label="Login">
 										<iconify-icon icon="ic:round-email" />
 										Iniciar sesion
 									</button>
 								</form>
 								<button
 									class="btn btn-ghost btn-sm btn-accent font-normal normal-case mt-2"
+									name="registerUser"
 									type="button"
 									on:click={() => handleTabClick('register')}>No tenes cuenta?</button
 								>
@@ -260,7 +340,7 @@
 									{:else if success === false}
 										<p style="color:red;">{message}</p>
 									{/if}
-									<button class="btn mt-4 btn-neutral" name="register" aria-label="Register">
+									<button class="btn mt-4 btn-neutral" name="register1" aria-label="Register">
 										<iconify-icon icon="ic:round-email" />
 										Crear cuenta
 									</button>
@@ -273,14 +353,17 @@
 							{/if}
 						</div>
 						<form method="dialog" class="modal-backdrop">
-							<button name="close">close</button>
+							<button name="closeee">close</button>
 						</form>
 					</dialog>
 				</div>
 			</div>
 		</section>
 	{:else}
-		<section id="login" class="prose hero min-h-screen mx-auto">
+		<section
+			id="login"
+			class="prose hero min-h-[calc(100vh-5rem)] max-w-[80vw] lg:max-w-[50ch] mx-auto rounded-box border-accent/[0.02] border-2 shadow-2xl"
+		>
 			<div class="hero-content text-center flex-col gap-0">
 				<img
 					class="rounded-3xl"
@@ -321,36 +404,110 @@
 								class="input input-bordered w-full max-w-xs"
 							/>
 						</div>
-						<button type="submit" name="send" class="btn btn-primary mt-10">Enviar</button>
+						<button
+							type="submit"
+							name="send"
+							class="btn btn-primary mt-10 shadow-xl hover:-translate-y-[4px] hover:scale-105 btn-wide lg:max-w-fit"
+							>Enviar</button
+						>
 					</form>
 				</div>
 			</div>
 		</section>
 	{/if}
-{:else}
-	<section id="login" class="prose hero min-h-screen mx-auto">
-		<div class="hero-content text-center flex-col">
-			<img
-				class="rounded-3xl"
-				src="https://media.discordapp.net/attachments/1128453887259594783/1128769815578955816/DALLE_2023-07-12_16.27.39_-_fill_the_blank_space_with_a_B_with_a_gradient_and_it_migth_have_a_purple_background.png"
-				alt="Logo"
-				width="100px"
-			/>
-			<h2 class="mt-0 mb-2">Ya iniciaste sesion!</h2>
-			<small>Queres volver al <a class="font-bold text-sm" href="/">inicio?</a></small>
-			<button name="logout" on:click={() => handleSignOut()} class="mt-5 btn btn-error"
-				>Cerrar sesion</button
-			>
-		</div>
-	</section>
-{/if}
+</section>
+<canvas id="canvas" in:blur />
 
-<style lang="postcss">
+<style>
+	:root {
+		--purple: rgb(123, 31, 162);
+		--violet: rgb(103, 58, 183);
+		--pink: rgb(244, 143, 177);
+	}
+
 	#inputs {
 		scrollbar-width: none;
 	}
 
 	#inputs::-webkit-scrollbar {
 		display: none;
+	}
+
+	.grain {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		pointer-events: none;
+		z-index: 49;
+		transform: translateZ(0);
+	}
+	.grain:before {
+		content: '';
+		top: -10rem;
+		left: -10rem;
+		width: calc(100% + 20rem);
+		height: calc(100% + 20rem);
+		z-index: 49;
+		position: fixed;
+		background-image: url('/noise.webp');
+		opacity: 0.05;
+		pointer-events: none;
+		-webkit-animation: noise 1s steps(2) infinite;
+		animation: noise 1s steps(2) infinite;
+	}
+
+	#canvas {
+		position: fixed;
+		z-index: -10;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		opacity: 0.5;
+		display: block;
+	}
+
+	@-webkit-keyframes noise {
+		to {
+			transform: translate3d(-7rem, 0, 0);
+		}
+	}
+
+	@keyframes noise {
+		0% {
+			transform: translate3d(0, 9rem, 0);
+		}
+		10% {
+			transform: translate3d(-1rem, -4rem, 0);
+		}
+		20% {
+			transform: translate3d(-8rem, 2rem, 0);
+		}
+		30% {
+			transform: translate3d(9rem, -9rem, 0);
+		}
+		40% {
+			transform: translate3d(-2rem, 7rem, 0);
+		}
+		50% {
+			transform: translate3d(-9rem, -4rem, 0);
+		}
+		60% {
+			transform: translate3d(2rem, 6rem, 0);
+		}
+		70% {
+			transform: translate3d(7rem, -8rem, 0);
+		}
+		80% {
+			transform: translate3d(-9rem, 1rem, 0);
+		}
+		90% {
+			transform: translate3d(6rem, -5rem, 0);
+		}
+		to {
+			transform: translate3d(-7rem, 0, 0);
+		}
 	}
 </style>

@@ -134,7 +134,7 @@
 	<title>Perfil</title>
 </svelte:head>
 
-<section class="bg-neutral w-full p-5 min-h-screen lg:rounded-tl-box">
+<section class="bg-neutral w-full p-5 min-h-screen">
 	<h1 class="font-semibold mb-5 text-2xl">Ajustes de cuenta</h1>
 	<div
 		class="bg-base-100 rounded-box flex-col lg:flex-row min-h-[calc(100vh-6rem)] overflow-hidden flex"
@@ -372,7 +372,7 @@
 					<button
 						class="btn btn-error"
 						onclick="deleteConfirm.showModal()"
-						name="deleteAccount"
+						name="deleteAccount1"
 						aria-label="Delete"
 					>
 						<iconify-icon icon="heroicons:trash-20-solid" class="text-lg" />
@@ -383,17 +383,17 @@
 							<form method="dialog">
 								<button
 									class="btn btn-sm btn-square btn-ghost absolute right-2 top-2"
-									name="closeModal"><iconify-icon icon="lucide:x" class="closeModalIcon" /></button
+									name="closeModal1"><iconify-icon icon="lucide:x" class="closeModalIcon" /></button
 								>
 							</form>
 							<h2 class="mt-0 text-error">Borrar cuenta</h2>
 							<p>Confirma la accion.</p>
-							<button class="btn btn-error" name='delete' on:click={() => deleteAccount()}
+							<button class="btn btn-error" name="delete" on:click={() => deleteAccount()}
 								>Borrar</button
 							>
 						</div>
 						<form method="dialog" class="modal-backdrop">
-							<button name="close">close</button>
+							<button name="closemodal1">close</button>
 						</form>
 					</dialog>
 				</div>

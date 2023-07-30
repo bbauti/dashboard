@@ -88,8 +88,10 @@
 <main class="">
 	{#if session}
 		<HorizontalNav data={profile} products={getProducts()} />
-	{/if}
-	{#if !session}
+		<section class={session ? 'lg:pl-56 pt-[4rem] w-full' : ''}>
+			<slot />
+		</section>
+	{:else}
 		<slot />
 		<nav class="fixed bottom-4 left-4 flex gap-2 rounded-xl p-2 border-2 border-secondary/50">
 			<button
@@ -104,9 +106,5 @@
 				><iconify-icon icon="akar-icons:sun-fill" />
 			</button>
 		</nav>
-	{:else}
-		<section class="lg:pl-56 pt-[4rem] w-full">
-			<slot />
-		</section>
 	{/if}
 </main>

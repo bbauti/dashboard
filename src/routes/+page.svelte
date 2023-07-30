@@ -15,7 +15,6 @@
 		if (session) {
 			goto('/app/');
 		}
-		loading = false;
 		// por cada boton, compruebo si el mouse se mueve, y si es asi, le paso las coords al css
 		document.querySelectorAll('.button').forEach((button) => {
 			const bounding = button.getBoundingClientRect();
@@ -76,8 +75,7 @@
 		}
 
 		setCanvasDimensions(ctx);
-		pic.src =
-			'https://hvtesogelzqmznbonyxt.supabase.co/storage/v1/object/public/images/gradient%20blur.png';
+		pic.src = '/index.svg';
 
 		// al cargar la imagen la imprime
 
@@ -95,19 +93,25 @@
 			},
 			false
 		);
+
+		loading = false;
 	});
 </script>
 
 <svelte:head>
 	<title>Dashboard</title>
 </svelte:head>
+<div class="grain" />
+
 {#if loading}
-	<div class="grid place-items-center w-screen h-screen bg-black z-[500] absolute" transition:blur>
+	<div
+		class="fixed flex items-center bg-base-100 justify-center z-[500] h-screen w-screen"
+		out:fade
+	>
 		<span class="loading loading-spinner loading-lg" />
 	</div>
-{:else}
-	<div class="grain" />
 {/if}
+
 <header class="flex items-center justify-center flex-col h-screen p-10">
 	<h1 class="text-center mb-10">
 		<span class="magic"
@@ -127,7 +131,7 @@
 		</a>
 	</div>
 </header>
-<canvas id="canvas" transition:fade />
+<canvas id="canvas" in:blur />
 
 <style>
 	:root {
@@ -154,7 +158,7 @@
 		height: calc(100% + 20rem);
 		z-index: 49;
 		position: fixed;
-		background-image: url(https://upload.wikimedia.org/wikipedia/commons/5/5c/Image_gaussian_noise_example.png);
+		background-image: url('/noise.webp');
 		opacity: 0.05;
 		pointer-events: none;
 		-webkit-animation: noise 1s steps(2) infinite;
