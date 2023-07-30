@@ -75,7 +75,7 @@
 		}
 
 		setCanvasDimensions(ctx);
-		pic.src = '/index.svg';
+		pic.src = '/home.svg';
 
 		// al cargar la imagen la imprime
 
