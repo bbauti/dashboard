@@ -94,10 +94,12 @@
 		<nav class="fixed bottom-4 left-4 flex gap-2 rounded-xl p-2 border-2 border-secondary/50">
 			<button
 				class="btn btn-square btn-sm {current_theme === 'dark' ? 'btn-success' : 'btn-secondary'}"
+				name="darkButton"
 				on:click={() => changeTheme('dark')}
 				><iconify-icon icon="akar-icons:moon-fill" />
 			</button><button
 				class="btn btn-square btn-sm {current_theme === 'light' ? 'btn-success' : 'btn-secondary'}"
+				name="lightButton"
 				on:click={() => changeTheme('light')}
 				><iconify-icon icon="akar-icons:sun-fill" />
 			</button>

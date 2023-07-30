@@ -69,6 +69,10 @@
 	let editing = false;
 </script>
 
+<svelte:head>
+	<title>Ajustes</title>
+</svelte:head>
+
 <section class="bg-neutral w-full p-5 min-h-screen lg:rounded-tl-box">
 	<h1 class="font-semibold mb-5 text-2xl">Ajustes</h1>
 	<div class="bg-base-100 rounded-box flex-col min-h-[calc(100vh-6rem)] overflow-hidden flex">
@@ -80,6 +84,7 @@
 				{#if index > 0}
 					<div class="border border-secondary rounded-box min-w-[10rem] p-5 relative">
 						<button
+							name="tax"
 							id="button{taxes.id}"
 							class="btn btn-square btn-sm btn-ghost absolute top-2 right-2"
 							on:click={() => {
@@ -92,6 +97,7 @@
 						<!-- <p>{formatCurrency.format(getDecimal(taxes.amount))}</p> -->
 						<div class="relative mt-2">
 							<input
+								aria-label="set tax"
 								id={taxes.id}
 								type="number"
 								class="input input-bordered w-[4.5rem] pr-[2rem]"
@@ -104,6 +110,7 @@
 				{:else}
 					<div class="border border-secondary rounded-box min-w-[10rem] p-5 relative">
 						<button
+							name="tax"
 							id="button{taxes.id}"
 							class="btn btn-square btn-sm btn-ghost absolute top-2 right-2"
 							on:click={() => {
@@ -117,6 +124,7 @@
 						<div class="relative mt-2">
 							<span class="absolute inset-y-0 left-[13px] flex items-center">$</span>
 							<input
+								aria-label="set tax"
 								id={taxes.id}
 								type="number"
 								class="input input-bordered w-[5rem] pl-[2rem]"

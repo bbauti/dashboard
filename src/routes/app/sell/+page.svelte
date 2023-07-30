@@ -292,6 +292,10 @@
 	);
 </script>
 
+<svelte:head>
+	<title>Carrito</title>
+</svelte:head>
+
 <section class="bg-neutral w-full p-5 min-h-screen lg:rounded-tl-box">
 	<h1 class="font-semibold mb-5 text-2xl">Carrito</h1>
 	<div class="bg-base-100 rounded-box min-h-[calc(100vh-6rem)] py-6">
@@ -326,15 +330,18 @@
 				/>
 			</div>
 			{#if loading}
-				<button class="btn" disabled>Enviar</button>
+				<button class="btn" disabled name="sendDisabled">Enviar</button>
 			{:else}
-				<button class="btn" on:click={() => searchData(document.getElementById('search').value)}
-					>Enviar</button
+				<button
+					class="btn"
+					name="send"
+					on:click={() => searchData(document.getElementById('search').value)}>Enviar</button
 				>
 			{/if}
 			{#if isSearch}
 				<button
 					class="btn btn-square btn-error"
+					name="search"
 					on:click={() => {
 						loadData();
 						document.getElementById('search').value = '';
@@ -378,17 +385,21 @@
 							<div class="card-actions flex justify-between mt-5">
 								<div class="flex gap-2">
 									<button
+										name="add"
 										class="btn btn-primary btn-square"
 										disabled={item.quantity < 1}
 										on:click={addProduct(item)}>+</button
 									>
 									<button
+										name="remove"
 										class="btn btn-outline btn-square btn-error"
 										on:click={removeProduct(item)}
 										disabled={item.quantity < 1}>-</button
 									>
 								</div>
-								<button class="btn btn-neutral">{formatMoney(item.value)}</button>
+								<button name="price" class="btn btn-neutral cursor-default no-animation hover:none"
+									>{formatMoney(item.value)}</button
+								>
 							</div>
 						</div>
 					</div>
@@ -402,26 +413,37 @@
 
 		{#if !loading && !isSearch}
 			<div class="flex justify-center gap-1 lg:gap-2 mt-5 mb-10">
-				<button on:click={goToFirstPage} disabled={currentPage === 1} class="btn">1</button>
+				<button name="firstPage" on:click={goToFirstPage} disabled={currentPage === 1} class="btn"
+					>1</button
+				>
 				<button
+					name="prevPage"
 					on:click={prevPage}
 					disabled={currentPage === 1}
 					class="btn max-w-[1rem] lg:max-w-none"><iconify-icon icon="typcn:arrow-left" /></button
 				>
 				{#if currentPage >= 2}
-					<button on:click={() => goToPage(currentPage - 1)} class="btn">{currentPage - 1}</button>
+					<button name="pageBefore" on:click={() => goToPage(currentPage - 1)} class="btn"
+						>{currentPage - 1}</button
+					>
 				{/if}
-				<button class="btn btn-primary">{currentPage}</button>
+				<button name="currentPage" class="btn btn-primary">{currentPage}</button>
 				{#if currentPage <= totalPages - 1}
-					<button on:click={() => goToPage(currentPage + 1)} class="btn">{currentPage + 1}</button>
+					<button name="pageAfter" on:click={() => goToPage(currentPage + 1)} class="btn"
+						>{currentPage + 1}</button
+					>
 				{/if}
 				<button
 					on:click={nextPage}
+					name="nextPage"
 					disabled={currentPage === totalPages}
 					class="btn max-w-[1rem] lg:max-w-none"><iconify-icon icon="typcn:arrow-right" /></button
 				>
-				<button on:click={goToLastPage} disabled={currentPage === totalPages} class="btn"
-					>{totalPages}</button
+				<button
+					name="lastPage"
+					on:click={goToLastPage}
+					disabled={currentPage === totalPages}
+					class="btn">{totalPages}</button
 				>
 			</div>
 		{/if}
@@ -443,15 +465,25 @@
 								<h2 class="m-0">{formatMoney(getAmount(item) * item.value)}</h2>
 							</div>
 							<div class="flex items-start">
-								<button class="btn btn-xs cursor-default capitalize">Stock: {item.quantity}</button>
+								<button name="currentStock" class="btn btn-xs cursor-default capitalize"
+									>Stock: {item.quantity}</button
+								>
 							</div>
 							<div class="flex items-end justify-between">
-								<button class="btn btn-xs cursor-default btn-accent">x {getAmount(item)}</button>
+								<button name="stock" class="btn btn-xs cursor-default btn-accent"
+									>x {getAmount(item)}</button
+								>
 								<div class="">
-									<button class="btn btn-square btn-sm" on:click={addProduct(item)}>+</button>
-									<button class="btn btn-square btn-sm" on:click={removeProduct(item)}>-</button>
+									<button name="add" class="btn btn-square btn-sm" on:click={addProduct(item)}
+										>+</button
+									>
+									<button name="remove" class="btn btn-square btn-sm" on:click={removeProduct(item)}
+										>-</button
+									>
 									<button
+										name="openModal"
 										class="btn btn-square btn-sm btn-error text-bold"
+										aria-label="Close"
 										onclick="delete{item.id}.showModal()"
 									>
 										<iconify-icon icon="lucide:x" />
@@ -466,19 +498,23 @@
 					<dialog id="delete{item.id}" class="modal">
 						<div class="modal-box w-fit">
 							<form method="dialog">
-								<button class="btn btn-sm btn-square btn-ghost absolute right-2 top-2"
+								<button
+									name="closeModal"
+									class="btn btn-sm btn-square btn-ghost absolute right-2 top-2"
 									><iconify-icon icon="lucide:x" class="closeModalIcon" /></button
 								>
 							</form>
 							<h2 class="mt-0 text-error mr-5">Borrar producto del carrito?</h2>
 							<form method="dialog">
-								<button class="btn btn-error mx-auto" on:click={() => deleteProduct(item)}
-									>Borrar</button
+								<button
+									name="deleteProduct"
+									class="btn btn-error mx-auto"
+									on:click={() => deleteProduct(item)}>Borrar</button
 								>
 							</form>
 						</div>
 						<form method="dialog" class="modal-backdrop">
-							<button>close</button>
+							<button name="closeModal">close</button>
 						</form>
 					</dialog>
 				{/each}
@@ -489,8 +525,10 @@
 						<p class="font-bold m-0 text-xl">{formatMoney(finalPrice)}</p>
 					</div>
 					<div class="flex mt-5 mb-10">
-						<button class="btn btn-primary btn-wide mx-auto" onclick="processPayment.showModal()"
-							>Procesar pago</button
+						<button
+							name="processPayment"
+							class="btn btn-primary btn-wide mx-auto"
+							onclick="processPayment.showModal()">Procesar pago</button
 						>
 					</div>
 				</footer>
@@ -498,7 +536,7 @@
 			<dialog id="processPayment" class="modal">
 				<div class="modal-box w-fit">
 					<form method="dialog">
-						<button class="btn btn-sm btn-square btn-ghost absolute right-2 top-2"
+						<button name="closeModal" class="btn btn-sm btn-square btn-ghost absolute right-2 top-2"
 							><iconify-icon icon="lucide:x" class="closeModalIcon" /></button
 						>
 					</form>
@@ -564,6 +602,7 @@
 						<p class="font-bold m-0 text-xl">{precioFinalImp}</p>
 					</div>
 					<button
+						name="submitPayment"
 						class="btn btn-success btn-wide mx-auto"
 						on:click={() => {
 							updateProducts(products);
@@ -572,7 +611,7 @@
 					>
 				</div>
 				<form method="dialog" class="modal-backdrop">
-					<button>close</button>
+					<button name="closeModal">close</button>
 				</form>
 			</dialog>
 		{/if}

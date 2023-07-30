@@ -34,6 +34,7 @@
 <select
 	bind:value={current_theme}
 	data-choose-theme
+	aria-label="select theme"
 	class="select select-bordered min-h-[3rem] capitalize h-[3rem] min-w-[1rem] w-full mr-3"
 	on:change={set_theme}
 >
