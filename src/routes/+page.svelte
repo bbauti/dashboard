@@ -105,14 +105,14 @@
 
 {#if loading}
 	<div
-		class="fixed flex items-center bg-base-100 justify-center z-[500] h-screen w-screen"
+		class="fixed flex items-center bg-base-100 justify-center z-[500] h-[100dvh] w-[100dvw]"
 		out:fade
 	>
 		<span class="loading loading-spinner loading-lg" />
 	</div>
 {/if}
 
-<header class="flex items-center justify-center flex-col h-screen p-10">
+<header class="flex items-center justify-center flex-col h-[100dvh] p-10">
 	<h1 class="text-center mb-10">
 		<span class="magic"
 			><span class="magic-text text-4xl lg:text-6xl font-bold"
@@ -226,8 +226,8 @@
 		z-index: -10;
 		top: 0;
 		left: 0;
-		width: 100vw;
-		height: 100vh;
+		width: 100dvw;
+		height: 100dvh;
 		opacity: 0.5;
 		display: block;
 	}
