@@ -26,52 +26,50 @@
 
 <svelte:window bind:innerWidth={width} />
 
-{#if width >= 1024}
-	<ul class="menu bg-base-100 w-56 top-[4rem] h-full box fixed z-10">
-		<li>
-			<a href="/app/" class={path === '/app/' ? 'active' : ''}>
-				<iconify-icon icon="majesticons:home" />
-				Inicio
-			</a>
-		</li>
-		<div class="divider" />
-		<li>
-			<a href="/app/sell" class={path === '/app/sell' ? 'active' : ''}>
-				<iconify-icon icon="fluent:cart-16-filled" />
-				Carrito
-			</a>
-		</li>
-		<li>
-			<a href="/app/stockmgm" class={path === '/app/stockmgm' ? 'active' : ''}>
-				<iconify-icon icon="solar:box-bold" />
-				Stock
-			</a>
-		</li>
-		<li>
-			<a href="/app/team" class={path === '/app/team' ? 'active' : ''}>
-				<iconify-icon icon="fluent:people-team-24-filled" />
-				Team
-			</a>
-		</li>
-		<li>
-			<a href="/app/sales" class={path === '/app/sales' ? 'active' : ''}>
-				<iconify-icon icon="solar:card-bold" />
-				Ventas
-			</a>
-		</li>
-		<div class="divider" />
-		<li>
-			<a href="/app/settings" class={path === '/app/settings' ? 'active' : ''}>
-				<iconify-icon icon="ic:round-settings" />
-				Ajustes
-			</a>
-		</li>
-		<div class="divider" />
-		<li>
-			<ThemeSelect />
-		</li>
-	</ul>
-{/if}
+<ul class="menu bg-base-100 w-56 top-[4rem] h-full box fixed z-10 hidden lg:flex flex-col gap-2">
+	<li>
+		<a href="/app/" class={path === '/app/' ? 'active' : ''}>
+			<iconify-icon icon="majesticons:home" />
+			Inicio
+		</a>
+	</li>
+	<div class="divider" />
+	<li>
+		<a href="/app/sell" class={path === '/app/sell' ? 'active' : ''}>
+			<iconify-icon icon="fluent:cart-16-filled" />
+			Carrito
+		</a>
+	</li>
+	<li>
+		<a href="/app/stockmgm" class={path === '/app/stockmgm' ? 'active' : ''}>
+			<iconify-icon icon="solar:box-bold" />
+			Stock
+		</a>
+	</li>
+	<li>
+		<a href="/app/team" class={path === '/app/team' ? 'active' : ''}>
+			<iconify-icon icon="fluent:people-team-24-filled" />
+			Team
+		</a>
+	</li>
+	<li>
+		<a href="/app/sales" class={path === '/app/sales' ? 'active' : ''}>
+			<iconify-icon icon="solar:card-bold" />
+			Ventas
+		</a>
+	</li>
+	<div class="divider" />
+	<li>
+		<a href="/app/settings" class={path === '/app/settings' ? 'active' : ''}>
+			<iconify-icon icon="ic:round-settings" />
+			Ajustes
+		</a>
+	</li>
+	<div class="divider" />
+	<li>
+		<ThemeSelect />
+	</li>
+</ul>
 
 <div class="drawer">
 	<input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
