@@ -144,18 +144,18 @@
 
 {#if loading}
 	<div
-		class="fixed flex items-center bg-base-100 justify-center z-[500] h-screen w-screen"
+		class="fixed flex items-center bg-base-100 justify-center z-[500] h-[100dvh] w-[100dvw]"
 		out:fade
 	>
 		<span class="loading loading-spinner loading-lg" />
 	</div>
 {/if}
 
-<section class="flex items-center justify-center min-h-screen">
+<section class="flex items-center justify-center min-h-[100dvh]">
 	{#if code}
 		<section
 			id="login"
-			class="prose hero min-h-[calc(100vh-5rem)] max-w-[80vw] lg:max-w-[50ch] mx-auto rounded-box border-accent/[0.02] border-2 shadow-2xl"
+			class="prose hero min-h-[calc(100dvh-5rem)] max-w-[80vw] lg:max-w-[50ch] mx-auto rounded-box border-accent/[0.02] border-2 shadow-2xl"
 		>
 			<div class="hero-content text-center flex-col gap-0">
 				<img
@@ -362,7 +362,7 @@
 	{:else}
 		<section
 			id="login"
-			class="prose hero min-h-[calc(100vh-5rem)] max-w-[80vw] lg:max-w-[50ch] mx-auto rounded-box border-accent/[0.02] border-2 shadow-2xl"
+			class="prose hero min-h-[calc(100dvh-5rem)] max-w-[80vw] lg:max-w-[50ch] mx-auto rounded-box border-accent/[0.02] border-2 shadow-2xl"
 		>
 			<div class="hero-content text-center flex-col gap-0">
 				<img
@@ -463,8 +463,8 @@
 		z-index: -10;
 		top: 0;
 		left: 0;
-		width: 100vw;
-		height: 100vh;
+		width: 100dvw;
+		height: 100dvh;
 		opacity: 0.5;
 		display: block;
 	}
