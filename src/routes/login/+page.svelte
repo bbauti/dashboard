@@ -73,6 +73,10 @@
 	const { trigger, portal, overlay, content, title, description, close, open } = createDialog();
 </script>
 
+<svelte:head>
+	<title>Login</title>
+</svelte:head>
+
 {#if !data.session}
 	{#if code}
 		<section id="login" class="prose hero min-h-screen mx-auto">
@@ -153,7 +157,7 @@
 									{:else if success === false}
 										<p style="color:red;">{message}</p>
 									{/if}
-									<button class="btn mt-4 btn-neutral">
+									<button class="btn mt-4 btn-neutral" name="login" aria-label="Login">
 										<iconify-icon icon="ic:round-email" />
 										Iniciar sesion
 									</button>
@@ -256,7 +260,7 @@
 									{:else if success === false}
 										<p style="color:red;">{message}</p>
 									{/if}
-									<button class="btn mt-4 btn-neutral">
+									<button class="btn mt-4 btn-neutral" name="register" aria-label="Register">
 										<iconify-icon icon="ic:round-email" />
 										Crear cuenta
 									</button>
@@ -269,7 +273,7 @@
 							{/if}
 						</div>
 						<form method="dialog" class="modal-backdrop">
-							<button>close</button>
+							<button name="close">close</button>
 						</form>
 					</dialog>
 				</div>
@@ -317,7 +321,7 @@
 								class="input input-bordered w-full max-w-xs"
 							/>
 						</div>
-						<button type="submit" class="btn btn-primary mt-10">Enviar</button>
+						<button type="submit" name="send" class="btn btn-primary mt-10">Enviar</button>
 					</form>
 				</div>
 			</div>
@@ -334,93 +338,12 @@
 			/>
 			<h2 class="mt-0 mb-2">Ya iniciaste sesion!</h2>
 			<small>Queres volver al <a class="font-bold text-sm" href="/">inicio?</a></small>
-			<button on:click={() => handleSignOut()} class="mt-5 btn btn-error">Cerrar sesion</button>
+			<button name="logout" on:click={() => handleSignOut()} class="mt-5 btn btn-error"
+				>Cerrar sesion</button
+			>
 		</div>
 	</section>
 {/if}
-
-<!-- <style lang="scss">
-
-	.smalllogo {
-		border-radius: 25px;
-	}
-
-	#loginTitle {
-		font-weight: 400;
-		font-size: 1.5rem;
-		margin-bottom: 0.3rem;
-	}
-
-	#loginDashboard {
-		font-weight: 700;
-	}
-
-	.loginSmall {
-		text-decoration: underline;
-		text-underline-offset: 0.2rem;
-		text-decoration-color: $bg-darker;
-		text-decoration-thickness: 2px;
-	}
-
-	#mail {
-		color: unset;
-	}
-
-	#emailButton {
-		background-color: $bg-darker;
-		color: $text-color;
-	}
-
-	label {
-		margin-left: 0.5rem;
-		margin-bottom: 0.5rem;
-	}
-
-	.actions {
-		margin: 16px;
-		margin-top: 0;
-		display: flex;
-		gap: 10px;
-		justify-content: flex-end;
-	}
-
-	#closeModal {
-		background-color: $danger;
-		max-width: 7.5rem;
-		font-weight: 700;
-	}
-
-	.submitModal {
-		background-color: $bg-light;
-		color: $text-color;
-		width: 100%;
-		font-weight: 500;
-		justify-content: center;
-	}
-
-	#submitIcon {
-		color: $text-color;
-	}
-
-	.wrong {
-		border-color: $danger;
-		color: $danger-light;
-	}
-
-	.signOutButton {
-		margin: 0 auto;
-		margin-top: 1rem;
-		padding: 0.5rem 1rem;
-		background-color: unset;
-		border: 1px solid $danger;
-		border-radius: 10px;
-		color: $danger;
-	}
-
-	/* #login > small {
-		margin-top: 0;
-	} */
-</!-->
 
 <style lang="postcss">
 	#inputs {

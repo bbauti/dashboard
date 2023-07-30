@@ -130,6 +130,10 @@
 	let current = 'profile';
 </script>
 
+<svelte:head>
+	<title>Perfil</title>
+</svelte:head>
+
 <section class="bg-neutral w-full p-5 min-h-screen lg:rounded-tl-box">
 	<h1 class="font-semibold mb-5 text-2xl">Ajustes de cuenta</h1>
 	<div
@@ -139,26 +143,31 @@
 			class="prose menu menu-horizontal lg:menu-vertical m-0 h-max lg:w-56 flex justify-evenly mx-auto lg:mx-0 w-full"
 		>
 			<li class="mt-[0.5rem]">
-				<button class={current === 'profile' ? 'active' : ''} on:click={() => (current = 'profile')}
-					>Perfil</button
+				<button
+					class={current === 'profile' ? 'active' : ''}
+					on:click={() => (current = 'profile')}
+					name="profile">Perfil</button
 				>
 			</li>
 			<li>
 				<button
 					class={current === 'settings' ? 'active' : ''}
-					on:click={() => (current = 'settings')}>Ajustes</button
+					on:click={() => (current = 'settings')}
+					name="settings">Ajustes</button
 				>
 			</li>
 			<li>
 				<button
 					class={current === 'security' ? 'active' : ''}
-					on:click={() => (current = 'security')}>Seguridad</button
+					on:click={() => (current = 'security')}
+					name="security">Seguridad</button
 				>
 			</li>
 			<li>
 				<button
 					class="text-error hover:text-error lg:mt-5 {current === 'delete' ? 'active' : ''}"
-					on:click={() => (current = 'delete')}>Borrar cuenta</button
+					on:click={() => (current = 'delete')}
+					name="delete">Borrar cuenta</button
 				>
 			</li>
 		</ul>
@@ -192,12 +201,20 @@
 							</label>
 							<input id="avatarUpload" type="file" class="hidden" on:input={() => editProfile()} />
 						{:else if editingProfile === false}
-							<button class="btn btn-xs btn-error text-right" on:click={() => editProfile()}>
+							<button
+								class="btn btn-xs btn-error text-right"
+								on:click={() => editProfile()}
+								name="editProfile"
+							>
 								Editar
 								<iconify-icon icon="mingcute:pencil-2-fill" class="text-base" />
 							</button>
 						{:else if editingProfile === 'loading'}
-							<button class="btn btn-xs btn-info text-right">
+							<button
+								class="btn btn-xs btn-info text-right"
+								name="loadingProfile"
+								aria-label="Loading"
+							>
 								Cargando...
 								<span class="loading loading-spinner loading-xs" />
 							</button>
@@ -208,17 +225,29 @@
 					<div class="flex justify-between">
 						<h4 class="mt-0 mb-5">Informacion personal</h4>
 						{#if editingPersonal === true}
-							<button class="btn btn-xs btn-success text-right" on:click={() => editPersonal()}>
+							<button
+								class="btn btn-xs btn-success text-right"
+								on:click={() => editPersonal()}
+								name="editPersonal"
+							>
 								Enviar
 								<iconify-icon icon="mingcute:send-fill" class="text-base" />
 							</button>
 						{:else if editingPersonal === false}
-							<button class="btn btn-xs btn-error text-right" on:click={() => editPersonal()}>
+							<button
+								class="btn btn-xs btn-error text-right"
+								on:click={() => editPersonal()}
+								name="savePersonal"
+							>
 								Editar
 								<iconify-icon icon="mingcute:pencil-2-fill" class="text-base" />
 							</button>
 						{:else if editingPersonal === 'loading'}
-							<button class="btn btn-xs btn-info text-right">
+							<button
+								class="btn btn-xs btn-info text-right"
+								name="loadingPersonal"
+								aria-label="Loading"
+							>
 								Cargando...
 								<span class="loading loading-spinner loading-xs" />
 							</button>
@@ -317,13 +346,19 @@
 								/>
 							</div>
 							{#if passwordLoading}
-								<button class="btn btn-info lg:mx-0 mx-auto">
+								<button
+									class="btn btn-info lg:mx-0 mx-auto"
+									name="loadingPassword"
+									aria-label="Loading"
+								>
 									Cargando...
 									<span class="loading loading-spinner loading-xs" />
 								</button>
 							{:else}
-								<button class="btn btn-success lg:mx-0 mx-auto" on:click={() => changePassword()}
-									>Enviar</button
+								<button
+									class="btn btn-success lg:mx-0 mx-auto"
+									on:click={() => changePassword()}
+									name="savePassword">Enviar</button
 								>
 							{/if}
 						</div>
@@ -334,23 +369,31 @@
 				<div class="border-2 border-secondary rounded-box p-5">
 					<p class="mt-0">Estas seguro de que deseas borrar tu cuenta?</p>
 					<p class="text-error mt-2 mb-4">Esta accion no es reversible</p>
-					<button class="btn btn-error" onclick="deleteConfirm.showModal()">
+					<button
+						class="btn btn-error"
+						onclick="deleteConfirm.showModal()"
+						name="deleteAccount"
+						aria-label="Delete"
+					>
 						<iconify-icon icon="heroicons:trash-20-solid" class="text-lg" />
 						Borrar
 					</button>
 					<dialog id="deleteConfirm" class="modal">
 						<div class="modal-box w-fit">
 							<form method="dialog">
-								<button class="btn btn-sm btn-square btn-ghost absolute right-2 top-2"
-									><iconify-icon icon="lucide:x" class="closeModalIcon" /></button
+								<button
+									class="btn btn-sm btn-square btn-ghost absolute right-2 top-2"
+									name="closeModal"><iconify-icon icon="lucide:x" class="closeModalIcon" /></button
 								>
 							</form>
 							<h2 class="mt-0 text-error">Borrar cuenta</h2>
 							<p>Confirma la accion.</p>
-							<button class="btn btn-error" on:click={() => deleteAccount()}>Borrar</button>
+							<button class="btn btn-error" name='delete' on:click={() => deleteAccount()} name="confirmDelete"
+								>Borrar</button
+							>
 						</div>
 						<form method="dialog" class="modal-backdrop">
-							<button>close</button>
+							<button name="close">close</button>
 						</form>
 					</dialog>
 				</div>
