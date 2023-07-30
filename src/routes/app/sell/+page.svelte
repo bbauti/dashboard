@@ -307,21 +307,21 @@
 	<h1 class="font-semibold mb-5 text-2xl">Carrito</h1>
 	<div class="bg-base-100 rounded-box min-h-[calc(100vh-6rem)] py-6">
 		<header class="relative">
-			<select
-				name="perPage"
-				id="perPage"
-				class="select select-primary w-full max-w-[5rem] absolute top-0 right-6"
-				bind:value={perPage}
-				on:change={() => loadData()}
-			>
-				<option value="3">3</option>
-				<!-- TODO Temporal fix -->
-				{#if backup.length >= 3}
-					<option value="6">6</option>
+			<!-- TODO temporal pagination fix -->
+			{#if currentPage !== totalPages}
+				<select
+					name="perPage"
+					id="perPage"
+					class="select select-primary w-full max-w-[5rem] absolute top-0 right-6"
+					bind:value={perPage}
+					on:change={() => loadData()}
+				>
+					<option value="3">3</option>
+					<option selected={perPage === '6'} value="6">6</option>
 					<option value="9">9</option>
 					<option value="12">12</option>
-				{/if}
-			</select>
+				</select>
+			{/if}
 			<h1 class="font-semibold pt-0 lg:pt-10 pb-5 text-center text-4xl max-w-[12rem] lg:max-w-none">
 				Calcular precios
 			</h1>
