@@ -504,8 +504,9 @@
 		{/if}
 
 		{#if products.length > 0}
+			<div class="divider" />
 			<section class="w-full prose mx-auto max-w-max flex gap-5 flex-col">
-				<h2 class="text-center mt-20 mb-10">Carrito</h2>
+				<h2 class="text-center my-10">Carrito</h2>
 				{#each uniqueProducts as item, index}
 					<div class="card w-[18rem] lg:w-96 min-h-[10rem] bg-secondary shadow-xl relative">
 						<div class="card-body justify-between">

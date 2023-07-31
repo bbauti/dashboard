@@ -28,7 +28,7 @@
 
 <ul class="menu bg-base-100 w-56 top-[4rem] h-full box fixed z-10 hidden lg:flex flex-col gap-2">
 	<li>
-		<a href="/app/" class={path === '/app/' ? 'active' : ''}>
+		<a href="/app/" class="mt-[1.5rem] {path === '/app/' ? 'active' : ''}">
 			<iconify-icon icon="majesticons:home" />
 			Inicio
 		</a>
@@ -73,7 +73,7 @@
 
 <div class="drawer">
 	<input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
-	<div class="drawer-content fixed top-0 w-full z-10 flex flex-col">
+	<div class="drawer-content fixed top-0 w-full z-10 flex flex-col border-secondary border-b-2">
 		<!-- Navbar -->
 		<div class="w-full navbar bg-base-100">
 			<div class="flex-none lg:hidden">
