@@ -75,7 +75,9 @@
 
 <section class="bg-neutral w-full p-5 min-h-screen">
 	<h1 class="font-semibold mb-5 text-2xl">Ajustes</h1>
-	<div class="bg-base-100 rounded-box flex-col min-h-[calc(100vh-6rem)] overflow-hidden flex">
+	<div
+		class="bg-base-100 rounded-box flex-col min-h-[calc(100vh-6rem)] overflow-hidden flex shadow-2xl shadow-primary/5"
+	>
 		<div class="prose mx-auto mt-10">
 			<h2>Impuestos</h2>
 		</div>

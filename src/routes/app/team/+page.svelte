@@ -62,7 +62,9 @@
 </svelte:head>
 <section class="bg-neutral w-full p-5 min-h-screen">
 	<h1 class="font-semibold mb-5 text-2xl">Team</h1>
-	<div class="bg-base-100 rounded-box min-h-[calc(100vh-6rem)] flex flex-col overflow-auto p-10">
+	<div
+		class="bg-base-100 rounded-box min-h-[calc(100vh-6rem)] flex flex-col overflow-auto p-10 shadow-2xl shadow-primary/5"
+	>
 		<h1 class="mx-auto mb-8 font-bold text-2xl">Miembros del equipo</h1>
 		{#if pageData.length > 0}
 			<table class="table border-separate rounded-box border border-secondary overflow-hidden">

@@ -137,7 +137,7 @@
 <section class="bg-neutral w-full p-5 min-h-screen">
 	<h1 class="font-semibold mb-5 text-2xl">Ajustes de cuenta</h1>
 	<div
-		class="bg-base-100 rounded-box flex-col lg:flex-row min-h-[calc(100vh-6rem)] overflow-hidden flex"
+		class="bg-base-100 rounded-box flex-col lg:flex-row min-h-[calc(100vh-6rem)] overflow-hidden flex shadow-2xl shadow-primary/5"
 	>
 		<ul
 			class="prose menu menu-horizontal lg:menu-vertical m-0 h-max lg:w-56 flex justify-evenly mx-auto lg:mx-0 w-full"
