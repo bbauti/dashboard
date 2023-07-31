@@ -73,7 +73,7 @@
 	<title>Ajustes</title>
 </svelte:head>
 
-<section class="bg-neutral w-full p-5 min-h-screen ">
+<section class="bg-neutral w-full p-5 min-h-screen">
 	<h1 class="font-semibold mb-5 text-2xl">Ajustes</h1>
 	<div class="bg-base-100 rounded-box flex-col min-h-[calc(100vh-6rem)] overflow-hidden flex">
 		<div class="prose mx-auto mt-10">
@@ -82,7 +82,9 @@
 		<div class="grid sm:grid-cols-3 lg:grid-cols-5 gap-5 m-10">
 			{#each taxes as taxes, index}
 				{#if index > 0}
-					<div class="border border-secondary rounded-box min-w-[10rem] p-5 relative">
+					<div
+						class="border border-secondary rounded-box min-w-[10rem] p-5 relative shadow-xl hover:border-accent/10 transition-all hover:-translate-y-[1.5px] hover:scale-[1.01]"
+					>
 						<button
 							name="tax{taxes.id}"
 							id="button{taxes.id}"
@@ -108,7 +110,9 @@
 						</div>
 					</div>
 				{:else}
-					<div class="border border-secondary rounded-box min-w-[10rem] p-5 relative">
+					<div
+						class="border border-secondary rounded-box min-w-[10rem] p-5 relative shadow-xl hover:border-accent/10 transition-all hover:-translate-y-[1.5px] hover:scale-[1.01]"
+					>
 						<button
 							name="taax{taxes.id}"
 							id="button{taxes.id}"

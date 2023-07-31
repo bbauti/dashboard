@@ -65,7 +65,7 @@
 	<div class="bg-base-100 rounded-box min-h-[calc(100vh-6rem)] flex flex-col overflow-auto p-10">
 		<h1 class="mx-auto mb-8 font-bold text-2xl">Miembros del equipo</h1>
 		{#if pageData.length > 0}
-			<table class="table border-separate rounded-box border border-secondary overflow-y-hidden">
+			<table class="table border-separate rounded-box border border-secondary overflow-hidden">
 				<!-- head -->
 				<thead class="leading-10">
 					<tr class="bg-secondary/25">
@@ -80,7 +80,7 @@
 				<tbody>
 					{#each pageData as item, index}
 						<tr
-							class="hover:bg-secondary/50 transition ease-in-out{index & 1
+							class="hover:bg-secondary/50 transition ease-in-out {index & 1
 								? 'bg-secondary/25'
 								: ''}"
 						>
