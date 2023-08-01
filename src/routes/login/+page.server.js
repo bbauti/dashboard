@@ -1,11 +1,7 @@
-import { fail, redirect } from '@sveltejs/kit'
+import { fail } from '@sveltejs/kit'
 import { LOGIN_CODE } from '$env/static/private'
 
 export const load = async ({ cookies, locals: { getSession } }) => {
-  const session = await getSession()
-  if (session) {
-    throw redirect(303, '/app/')
-  }
   const code = cookies.get('code')
   if (LOGIN_CODE === code) {
     return {code: true, session: await getSession()}

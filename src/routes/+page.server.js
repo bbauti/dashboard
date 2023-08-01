@@ -1,9 +1,4 @@
-import { redirect } from "@sveltejs/kit";
 
-export const load = async ({ url, locals: { getSession } }) => {
-  const session = await getSession();
-  if (session) {
-    throw redirect(303, '/app')
-  }
+export const load = async ({ url }) => {
   return { url: url.origin }
 }

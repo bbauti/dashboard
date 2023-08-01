@@ -2,7 +2,7 @@
 	import '../app.postcss';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { fade } from 'svelte/transition';
-	import HorizontalNav from '../components/horizontalNav.svelte';
+	import Navbar from '$lib/navbar.svelte';
 	import '@fontsource-variable/inter';
 
 	import { dev } from '$app/environment';
@@ -12,6 +12,12 @@
 	import { themeChange } from 'theme-change';
 
 	import { invalidate } from '$app/navigation';
+
+	import { page } from '$app/stores';
+
+	let path;
+
+	$: path = $page.url.pathname;
 
 	const themes = ['dark', 'light'];
 
@@ -43,6 +49,7 @@
 	}
 
 	onMount(async () => {
+		console.log(path);
 		themeChange(false);
 		if (typeof window !== 'undefined') {
 			const theme = window.localStorage.getItem('theme');
@@ -85,9 +92,9 @@
 
 <Toaster richColors closeButton />
 
-<main class="">
-	{#if session}
-		<HorizontalNav data={profile} products={getProducts()} />
+<main>
+	{#if session && path !== '/'}
+		<Navbar data={profile} products={getProducts()} />
 		<section class={session ? 'lg:pl-56 pt-[4rem] w-full' : ''}>
 			<slot />
 		</section>

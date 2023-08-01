@@ -74,7 +74,7 @@
 						<th class="rounded-md rounded-tl-[0.8rem]">Nombre</th>
 						<th class="rounded-md">Email</th>
 						<th class="rounded-md">Ganancia</th>
-						<th class="rounded-md">Productos vendidos</th>
+						<th class="rounded-md">Ventas totales</th>
 						<th class="rounded-md">Ultima vez</th>
 						<th class="rounded-md rounded-tr-[0.8rem]">Fecha de creacion</th>
 					</tr>
