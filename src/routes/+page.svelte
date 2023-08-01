@@ -11,10 +11,11 @@
 
 	let loading = true;
 
+	if (session) {
+		goto('/app/');
+	}
+
 	onMount(() => {
-		if (session) {
-			goto('/app/');
-		}
 		// por cada boton, compruebo si el mouse se mueve, y si es asi, le paso las coords al css
 		document.querySelectorAll('.button').forEach((button) => {
 			const bounding = button.getBoundingClientRect();

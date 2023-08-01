@@ -13,6 +13,12 @@
 
 	import { invalidate } from '$app/navigation';
 
+	import { page } from '$app/stores';
+
+	let path;
+
+	$: path = $page.url.pathname;
+
 	const themes = ['dark', 'light'];
 
 	inject({ mode: dev ? 'development' : 'production' });
@@ -43,6 +49,7 @@
 	}
 
 	onMount(async () => {
+		console.log(path);
 		themeChange(false);
 		if (typeof window !== 'undefined') {
 			const theme = window.localStorage.getItem('theme');
@@ -85,8 +92,8 @@
 
 <Toaster richColors closeButton />
 
-<main class="">
-	{#if session}
+<main>
+	{#if session && path !== '/'}
 		<HorizontalNav data={profile} products={getProducts()} />
 		<section class={session ? 'lg:pl-56 pt-[4rem] w-full' : ''}>
 			<slot />
