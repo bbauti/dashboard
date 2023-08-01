@@ -2,7 +2,7 @@
 	import '../app.postcss';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { fade } from 'svelte/transition';
-	import HorizontalNav from '../components/horizontalNav.svelte';
+	import Navbar from '$lib/navbar.svelte';
 	import '@fontsource-variable/inter';
 
 	import { dev } from '$app/environment';
@@ -94,7 +94,7 @@
 
 <main>
 	{#if session && path !== '/'}
-		<HorizontalNav data={profile} products={getProducts()} />
+		<Navbar data={profile} products={getProducts()} />
 		<section class={session ? 'lg:pl-56 pt-[4rem] w-full' : ''}>
 			<slot />
 		</section>
