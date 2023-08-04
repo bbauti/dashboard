@@ -1,5 +1,4 @@
 <script>
-	import ThemeSelect from '$lib/theme-select.svelte';
 	import { page } from '$app/stores';
 
 	let path;
@@ -51,7 +50,8 @@
 			icon: 'ic:round-settings',
 			color: 'text-gray-300',
 			active: 'text-gray-500'
-		}
+		},
+		{ divider: true }
 	];
 </script>
 
@@ -75,7 +75,8 @@
 		<div class="divider" />
 	{/if}
 {/each}
-<div class="divider" />
-<li>
-	<ThemeSelect />
+<li class="mt-[80%] hover:bg-unset">
+	<div class="p-5">
+		<p>aca iria el perfil y eso</p>
+	</div>
 </li>
