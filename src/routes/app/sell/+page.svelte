@@ -304,7 +304,6 @@
 </svelte:head>
 
 <section class="bg-neutral w-full p-5 min-h-screen">
-	<h1 class="font-semibold mb-5 text-2xl">Carrito</h1>
 	<div class="bg-base-100 rounded-box min-h-[calc(100vh-6rem)] py-6 shadow-2xl shadow-primary/5">
 		<header class="relative">
 			<!-- TODO temporal pagination fix -->

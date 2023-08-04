@@ -4,6 +4,7 @@
 	import { fade } from 'svelte/transition';
 	import Navbar from '$lib/navbar.svelte';
 	import '@fontsource-variable/inter';
+	import { browser } from '$app/environment';
 
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
@@ -95,7 +96,7 @@
 <main>
 	{#if session && path !== '/'}
 		<Navbar data={profile} products={getProducts()} />
-		<section class={session ? 'lg:pl-56 pt-[4rem] w-full' : ''}>
+		<section class={session ? 'lg:pl-56 w-full' : ''}>
 			<slot />
 		</section>
 	{:else}
