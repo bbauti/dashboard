@@ -1,37 +1,39 @@
 <script>
-	import '../app.postcss';
+	export let data;
+
 	import { Toaster, toast } from 'svelte-sonner';
 	import { fade } from 'svelte/transition';
 	import Navbar from '$lib/navbar.svelte';
-	import '@fontsource-variable/inter';
 	import { browser } from '$app/environment';
-
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
-
 	import { onMount } from 'svelte';
 	import { themeChange } from 'theme-change';
-
 	import { invalidate } from '$app/navigation';
-
 	import { page } from '$app/stores';
+	import { setContext } from 'svelte';
 
-	let path;
+	setContext('changeNav', { toggleMenu });
 
-	$: path = $page.url.pathname;
-
-	const themes = ['dark', 'light'];
+	import '../app.postcss';
 
 	inject({ mode: dev ? 'development' : 'production' });
 
-	export let data;
+	const themes = ['dark', 'light'];
 
+	let open = true;
 	let outdatedProducts;
+	let current_theme;
+	let path;
 
 	let { supabase, session, profile } = data;
 	$: ({ supabase, session, profile } = data);
 
-	const waitFor = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+	$: path = $page.url.pathname;
+
+	function toggleMenu() {
+		open = !open;
+	}
 
 	async function getProducts() {
 		const { data: products, error } = await supabase
@@ -47,6 +49,17 @@
 				toast.error(`Bajo stock (${prod.quantity}) en ${prod.product}`);
 			}, index * 500);
 		});
+	}
+
+	function changeTheme(userTheme) {
+		const theme = userTheme;
+		if (themes.includes(theme)) {
+			const one_year = 60 * 60 * 24 * 365;
+			window.localStorage.setItem('theme', theme);
+			document.cookie = `theme=${theme}; max-age=${one_year}; path=/; SameSite=Lax`;
+			document.documentElement.setAttribute('data-theme', theme);
+			current_theme = theme;
+		}
 	}
 
 	onMount(async () => {
@@ -76,27 +89,14 @@
 
 		return () => data.subscription.unsubscribe();
 	});
-
-	let current_theme;
-
-	function changeTheme(userTheme) {
-		const theme = userTheme;
-		if (themes.includes(theme)) {
-			const one_year = 60 * 60 * 24 * 365;
-			window.localStorage.setItem('theme', theme);
-			document.cookie = `theme=${theme}; max-age=${one_year}; path=/; SameSite=Lax`;
-			document.documentElement.setAttribute('data-theme', theme);
-			current_theme = theme;
-		}
-	}
 </script>
 
 <Toaster richColors closeButton />
 
 <main>
 	{#if session && path !== '/'}
-		<Navbar data={profile} products={getProducts()} />
-		<section class={session ? 'lg:pl-56 w-full' : ''}>
+		<Navbar data={profile} products={getProducts()} {open} on:toggleMenu={toggleMenu} />
+		<section class="{session ? 'w-full' : ''} {open ? 'lg:pl-56' : 'lg:pl-[81px]'} transition-all">
 			<slot />
 		</section>
 	{:else}
