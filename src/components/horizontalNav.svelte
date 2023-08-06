@@ -76,11 +76,14 @@
 </script>
 
 <li class="w-full">
-	<button class="hover:bg-secondary/50 flex items-center gap-5 p-5" on:click={handleToggleMenu}>
-		<img src="/logo.svg" alt="icon" width="25" height="25" class="text-sky-300" />
+	<button
+		class="hover:bg-secondary/50 flex items-center gap-5 p-5 bg-secondary/20 text-accent menu-title rounded-[10px]"
+		on:click={handleToggleMenu}
+	>
+		<img src="/logo.svg" alt="icon" width="25" height="25" />
 		{#if localOpen}
 			<h1
-				class="font-bold text-xl whitespace-nowrap"
+				class="font-bold text-accent/95 text-xl whitespace-nowrap"
 				in:fade={{ delay: 0, duration: 100 }}
 				out:fade={{ delay: 0, duration: 25 }}
 			>
@@ -119,7 +122,7 @@
 		<h1
 			class="mt-3 ml-3 subpixel-antialiased font-medium text-xs text-accent/30 uppercase tracking-widest cursor-default select-none {open
 				? ''
-				: 'text-white/0 line-through decoration-white/20 -ml-5 tracking-[5rem]'}"
+				: 'text-white/0 line-through decoration-accent/20 ml-[-10px] tracking-[10rem]'}"
 		>
 			{link.divider}
 		</h1>
@@ -173,7 +176,7 @@
 
 <style>
 	.separator {
-		background-image: linear-gradient(to right, #262626 50%, rgba(255, 255, 255, 0) 0%);
+		background-image: linear-gradient(to right, #3a3a3a 50%, rgba(255, 255, 255, 0) 0%);
 		background-size: 1.5rem 1px;
 		position: relative;
 		flex: 0 0 2px;
