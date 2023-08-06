@@ -103,7 +103,7 @@
 			</div>
 		{/if}
 		<div class="flex w-full">
-			<h1 class="{width < 1024 ? '' : 'ml-10'} font-bold text-2xl ml-[80px]" in:fade>{title}</h1>
+			<h1 class="font-bold text-2xl ml-[80px] lg:ml-10" in:fade>{title}</h1>
 			<div class="flex items-center mr-4 ml-auto">
 				<ul class="menu menu-horizontal items-center p-0 mr-4">
 					<div class="dropdown dropdown-end">
