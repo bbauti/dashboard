@@ -207,7 +207,7 @@
 	<ul
 		class="fondo menu bg-base-100 {localOpen
 			? 'w-56 gap-2'
-			: 'w-[81px] gap-1'} overflow-hidden h-full box fixed z-10 hidden lg:flex flex-col flex-nowrap transition-all ease-in-out"
+			: 'w-[81px] gap-1'} overflow-hidden h-full box fixed z-10 hidden lg:flex flex-col flex-nowrap transition-all ease-in-out justify-between"
 		style={open ? '' : '--opacity: 0.2;'}
 	>
 		<HorizontalNav profile={data} {localOpen} {toggleMenu} />
