@@ -56,7 +56,7 @@
 	async function editProfile() {
 		if (editingProfile === true) {
 			let select = document.getElementById('avatarUpload');
-			let file = avatar.files[0];
+			let file = select.files[0];
 			editingProfile = 'loading';
 			const data = new FormData();
 			data.append('avatar', file);
