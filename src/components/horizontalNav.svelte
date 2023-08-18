@@ -76,9 +76,9 @@
 		{ divider: true }
 	];
 </script>
-{#if fullname == "" || fullname == null}
+<!-- {#if fullname == "" || fullname == null}
 	 {fullname="Cambie su nombre uwu"}
-{/if}
+{/if} -->
 <li class="w-full">
 	<button
 		class="hover:bg-secondary/50 flex items-center gap-5 p-5 bg-secondary/20 text-accent menu-title rounded-[10px]"
