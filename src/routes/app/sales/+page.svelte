@@ -78,7 +78,7 @@
 							<td class="rounded-md">{item.price}</td>
 							<td class="rounded-md">{item.product_amount}</td>
 							<td class="rounded-md {index === pageData.length - 1 ? 'rounded-br-[0.8rem]' : ''}"
-								>{item.profiles.first_name} {item.profiles.last_name}</td
+								>{item.profiles.full_name}</td
 							>
 							<td class="rounded-md">{getTime(item.created_at)}</td>
 						</tr>

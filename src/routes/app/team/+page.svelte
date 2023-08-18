@@ -23,7 +23,7 @@
 			const { data: newData, count: cant } = await supabase
 				.from('profiles')
 				.select(
-					'first_name, last_name, avatar_url, users ( id, email, last_sign_in_at, created_at ), sells ( * )',
+					'full_name, avatar_url, users ( id, email, last_sign_in_at, created_at ), sells ( * )',
 					{ count: 'exact' }
 				)
 				.range((currentPage - 1) * parseInt(perPage), currentPage * parseInt(perPage) - 1)
@@ -97,13 +97,13 @@
 										<div class="avatar placeholder">
 											<div class="bg-secondary text-neutral-content rounded-full w-12">
 												<span class="uppercase"
-													>{item.first_name.charAt(0) + item.last_name.charAt(0)}</span
+													>{item.full_name.charAt(0)}</span
 												>
 											</div>
 										</div>
 									{/if}
 									<div>
-										<div class="font-bold">{item.first_name} {item.last_name}</div>
+										<div class="font-bold">{item.full_name} </div>
 									</div>
 								</div>
 							</td>

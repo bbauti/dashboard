@@ -15,13 +15,12 @@ export const actions = {
   register: async ({ request, url, locals: { supabase, getSession } }) => {
     const session = await getSession()
     const formData = await request.formData()
-    const firstName = formData.get('firstName')
-    const lastName = formData.get('lastName')
+    const fullName = formData.get('fullName')
     const email = formData.get('emailInput')
     const password = formData.get('passwordInput')
     const confirmPassword = formData.get("confirmPassword")
     
-    if (!email || !password || !firstName || !lastName) {
+    if (!email || !password || !fullName) {
       return fail(500, { message: 'Debes introducir todos los campos.', success: false, email })
     }
 
@@ -35,8 +34,7 @@ export const actions = {
       options: {
         emailRedirectTo: `${url.origin}/auth/callback`,
         data: {
-          first_name: firstName,
-          last_name: lastName,
+          full_name: fullName
         },
       },
     })
