@@ -11,8 +11,7 @@
 
 	$: console.log(open);
 
-	let firstName = profile.first_name ?? '';
-	let lastName = profile.last_name ?? '';
+	let fullname = profile.full_name ?? '';
 	let avatarUrl = profile.avatar_url ?? '';
 
 	let path;
@@ -144,8 +143,7 @@
 		{/if}
 		{#if open}
 			<div class="flex flex-col">
-				<p>{firstName}</p>
-				<p>{lastName}</p>
+				<p>{fullname}</p>
 			</div>
 		{/if}
 		<div class={open ? '' : 'w-full'}>
