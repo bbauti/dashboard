@@ -32,8 +32,6 @@ export const actions = {
       full_name: fullname,
       updated_at: new Date(),
     })
-    console.log(fullname);
-    console.log(session.user.id);
 
     if (error) {
       return fail(500, {

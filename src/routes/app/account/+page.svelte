@@ -127,10 +127,6 @@
 	let current = 'profile';
 </script>
 
-{#if fullname == "" || fullname == null}
-	 {fullname="Cambie su nombre uwu"}
-{/if} 
-
 <svelte:head>
 	<title>Ajustes de cuenta</title>
 </svelte:head>
@@ -258,7 +254,7 @@
 							<div class="flex flex-col lg:flex-row gap-5">
 								<div class="form-control w-fit">
 									<label class="label" for="fullname">
-										<span class="label-text pl-[0.8rem]">Nombre</span>
+										<span class="label-text pl-[0.8rem]">Nombre completo</span>
 									</label>
 									<input
 										class="input input-bordered {!editingPersonal ? 'input-ghost ' : ''}"
@@ -267,7 +263,7 @@
 										id="fullname"
 										value={fullname}
 										disabled={!editingPersonal}
-										placeholder="Nombre"
+										placeholder="Nombre completo"
 									/>
 								</div>
 							</div>

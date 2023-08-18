@@ -63,7 +63,6 @@
 	}
 
 	onMount(async () => {
-		console.log(path);
 		themeChange(false);
 		if (typeof window !== 'undefined') {
 			const theme = window.localStorage.getItem('theme');

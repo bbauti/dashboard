@@ -85,8 +85,14 @@
 					{/each}
 				</tbody>
 			</table>
-		{:else if pageData.length <= 0 && !loading}
-			<span class="loading loading-spinner loading-lg" />
+		{:else if loading}
+			<div class="flex items-center justify-center mx-auto">
+				<span class="loading loading-spinner loading-lg" />
+			</div>
+		{:else if pageData.length <= 0}
+			<div class="flex items-center justify-center mx-auto">
+				<p class="text-error/80 font-bold text-xl mt-5">No hay productos.</p>
+			</div>
 		{/if}
 	</div>
 </section>

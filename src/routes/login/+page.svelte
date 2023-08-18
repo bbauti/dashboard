@@ -4,6 +4,8 @@
 	import { blur } from 'svelte/transition';
 	import { fade } from 'svelte/transition';
 
+	import { goto } from '$app/navigation';
+
 	import { createDialog } from '@melt-ui/svelte';
 	import { onMount } from 'svelte';
 
@@ -72,7 +74,9 @@
 	}
 
 	onMount(() => {
-		loading = false;
+		if (data.session) {
+			goto('/app');
+		}
 		//creo un canvas para la imagen de fondo
 		let canvas = document.getElementById('canvas'),
 			ctx = canvas.getContext('2d'),
@@ -131,6 +135,7 @@
 			},
 			false
 		);
+		loading = false;
 	});
 
 	const { trigger, portal, overlay, content, title, description, close, open } = createDialog();
@@ -211,7 +216,7 @@
 											type="email"
 											name="emailInput"
 											id="emailInput"
-											placeholder="nombre@dominio.com"
+											placeholder="john@bbauti.com"
 											value={form?.email ?? ''}
 										/>
 									</div>
@@ -252,8 +257,8 @@
 								<form method="post" action="?/register" use:enhance>
 									<div id="inputs" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 										<div class="form-control mx-auto w-fit">
-											<label class="label" for="firstName">
-												<span class="label-text">Nombre</span>
+											<label class="label" for="fullName">
+												<span class="label-text">Nombre completo</span>
 											</label>
 											<input
 												class="input input-bordered {success === true
@@ -262,27 +267,10 @@
 													? 'input-error'
 													: ''}"
 												type="text"
-												name="firstName"
-												id="firstName"
-												placeholder="Nombre"
-												value={form?.firstName ?? ''}
-											/>
-										</div>
-										<div class="form-control mx-auto w-fit">
-											<label class="label" for="lastName">
-												<span class="label-text">Apellido</span>
-											</label>
-											<input
-												class="input input-bordered {success === true
-													? 'input-success'
-													: success === false
-													? 'input-error'
-													: ''}"
-												type="text"
-												name="lastName"
-												id="lastName"
-												placeholder="Apellido"
-												value={form?.lastName ?? ''}
+												name="fullName"
+												id="fullName"
+												placeholder="John Doe"
+												value={form?.fullName ?? ''}
 											/>
 										</div>
 										<div class="form-control mx-auto w-fit">
@@ -298,7 +286,7 @@
 												type="email"
 												name="emailInput"
 												id="emailInput"
-												placeholder="nombre@dominio.com"
+												placeholder="john@bbauti.com"
 												value={form?.email ?? ''}
 											/>
 										</div>

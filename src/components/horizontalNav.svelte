@@ -9,13 +9,11 @@
 
 	$: open = localOpen;
 
-	$: console.log(open);
+	let fullname = profile.full_name ?? '';
+	let avatarUrl = profile.avatar_url ?? '';
 
-	// let fullname = profile.full_name ?? '';
-	// let avatarUrl = profile.avatar_url ?? '';
-
-	let fullname = 'hola'
-	let avatarUrl = 'pato'
+	// let fullname = 'hola';
+	// let avatarUrl = 'pato';
 
 	let path;
 
@@ -23,7 +21,7 @@
 
 	function handleToggleMenu() {
 		if (toggleMenu) {
-			toggleMenu(); // Trigger the toggleMenu function passed from the parent
+			toggleMenu();
 		}
 	}
 
@@ -76,9 +74,7 @@
 		{ divider: true }
 	];
 </script>
-<!-- {#if fullname == "" || fullname == null}
-	 {fullname="Cambie su nombre uwu"}
-{/if} -->
+
 <li class="w-full">
 	<button
 		class="hover:bg-secondary/50 flex items-center gap-5 p-5 bg-secondary/20 text-accent menu-title rounded-[10px]"
@@ -133,11 +129,12 @@
 	{/if}
 {/each}
 
-<li class="hover:bg-unset">
+<li>
 	<div
 		class="flex {open
 			? 'py-4'
-			: 'flex-col px-0'} border-2 border-secondary hover:border-accent/10 hover:bg-inherit"
+			: 'flex-col px-0'} border-2 border-secondary hover:border-accent/10 hover:bg-inherit profile"
+		id="profile"
 	>
 		{#if avatarUrl}
 			<div class="avatar">
@@ -185,5 +182,13 @@
 		flex: 0 0 2px;
 		opacity: 0.5;
 		margin: 10px;
+	}
+
+	#profile {
+		cursor: default;
+	}
+
+	#profile:active {
+		background-color: unset;
 	}
 </style>

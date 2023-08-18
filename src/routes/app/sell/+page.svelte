@@ -22,7 +22,6 @@
 	let backup = [];
 
 	$: if (pageData.length > 0) {
-		console.log(backup);
 		backup = pageData.slice();
 	}
 
