@@ -281,7 +281,7 @@
 			{:else if current === 'settings'}
 				<h3 class="mb-8 text-2xl font-bold leading-none tracking-tight">Ajustes</h3>
 				<div class="border-2 border-secondary rounded-box w-full p-5">
-					<h2 class="mt-0 lg:text-start text-center">Toasts</h2>
+					<h2 class="mt-0 lg:text-start text-center">Notificaciones pop-ups</h2>
 					<div class="flex items-center lg:items-start flex-col gap-5 mt-5">
 						<select
 							bind:value={stockNotifications}
