@@ -3,5 +3,8 @@ export const GET = async ({ url, locals: { supabase } }) => {
 
   if (code) {
     await supabase.auth.exchangeCodeForSession(code)
+    return new Response('Autenticado correctamente!', {
+      headers: { 'Content-Type': 'text/plain' },
+    })
   }
 }

@@ -9,11 +9,11 @@
 
 	$: open = localOpen;
 
-	$: console.log(open);
-
-	let firstName = profile.first_name ?? '';
-	let lastName = profile.last_name ?? '';
+	let fullname = profile.full_name ?? '';
 	let avatarUrl = profile.avatar_url ?? '';
+
+	// let fullname = 'hola';
+	// let avatarUrl = 'pato';
 
 	let path;
 
@@ -21,7 +21,7 @@
 
 	function handleToggleMenu() {
 		if (toggleMenu) {
-			toggleMenu(); // Trigger the toggleMenu function passed from the parent
+			toggleMenu();
 		}
 	}
 
@@ -129,11 +129,12 @@
 	{/if}
 {/each}
 
-<li class="hover:bg-unset">
+<li>
 	<div
 		class="flex {open
 			? 'py-4'
-			: 'flex-col px-0'} border-2 border-secondary hover:border-accent/10 hover:bg-inherit"
+			: 'flex-col px-0'} border-2 border-secondary hover:border-accent/10 hover:bg-inherit profile"
+		id="profile"
 	>
 		{#if avatarUrl}
 			<div class="avatar">
@@ -144,8 +145,7 @@
 		{/if}
 		{#if open}
 			<div class="flex flex-col">
-				<p>{firstName}</p>
-				<p>{lastName}</p>
+				<p>{fullname}</p>
 			</div>
 		{/if}
 		<div class={open ? '' : 'w-full'}>
@@ -182,5 +182,13 @@
 		flex: 0 0 2px;
 		opacity: 0.5;
 		margin: 10px;
+	}
+
+	#profile {
+		cursor: default;
+	}
+
+	#profile:active {
+		background-color: unset;
 	}
 </style>

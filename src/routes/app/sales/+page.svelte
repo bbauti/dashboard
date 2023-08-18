@@ -78,15 +78,21 @@
 							<td class="rounded-md">{item.price}</td>
 							<td class="rounded-md">{item.product_amount}</td>
 							<td class="rounded-md {index === pageData.length - 1 ? 'rounded-br-[0.8rem]' : ''}"
-								>{item.profiles.first_name} {item.profiles.last_name}</td
+								>{item.profiles.full_name}</td
 							>
 							<td class="rounded-md">{getTime(item.created_at)}</td>
 						</tr>
 					{/each}
 				</tbody>
 			</table>
-		{:else if pageData.length <= 0 && !loading}
-			<span class="loading loading-spinner loading-lg" />
+		{:else if loading}
+			<div class="flex items-center justify-center mx-auto">
+				<span class="loading loading-spinner loading-lg" />
+			</div>
+		{:else if pageData.length <= 0}
+			<div class="flex items-center justify-center mx-auto">
+				<p class="text-error/80 font-bold text-xl mt-5">No hay productos.</p>
+			</div>
 		{/if}
 	</div>
 </section>

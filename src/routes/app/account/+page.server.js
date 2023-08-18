@@ -12,7 +12,7 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select(`first_name, last_name, avatar_url, stockNotifications`)
+    .select(`full_name, avatar_url, stockNotifications`)
     .eq('id', session.user.id)
     .single()
 
@@ -22,31 +22,26 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 export const actions = {
   editPersonal: async ({ request, locals: { supabase, getSession } }) => {
     const formData = await request.formData()
-    const firstName = formData.get('firstName')
-    const lastName = formData.get('lastName')
-
+    const fullname = formData.get('fullname')
     const session = await getSession()
-
+    
     const email = session.user.email
-
+    
     const { error } = await supabase.from('profiles').upsert({
       id: session.user.id,
-      first_name: firstName,
-      last_name: lastName,
+      full_name: fullname,
       updated_at: new Date(),
     })
 
     if (error) {
       return fail(500, {
-        firstName,
-        lastName,
+        fullname,
         email
       })
     }
 
     return {
-      firstName,
-      lastName,
+      fullname,
       email
     }
   },
