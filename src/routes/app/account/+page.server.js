@@ -3,6 +3,7 @@ import { fail, redirect } from '@sveltejs/kit'
 import { PUBLIC_SUPABASE_URL } from '$env/static/public'
 import { SUPABASE_ROLE_KEY } from '$env/static/private'
 
+import fs from 'fs';
 
 import { createClient } from '@supabase/supabase-js'
 
@@ -47,29 +48,32 @@ export const actions = {
   },
   editProfile: async ({ request, locals: { supabase, getSession } }) => {
     const formData = await request.formData()
-    const avatar = formData.get('avatar')
+    let avatar = formData.get('avatar')
 
     const session = await getSession()
+    
+    const file = await avatar.arrayBuffer();
+    avatar = Buffer.from(file).toString('base64');
 
-    const email = session.user.email
+    
+    // async function uploadAvatar(file) {
+    //   const { data, error } = await supabase
+    //     .storage
+    //     .from('avatars')
+    //     .upload(`public/${session?.user.id}.png`, file, {
+    //       upsert: true
+    //     })
+    //     console.log(data)
+    //     return {data, error}
+    // }
 
-    async function uploadAvatar(file) {
-      const { data, error } = await supabase
-        .storage
-        .from('avatars')
-        .upload(`public/${session?.user.id}.png`, file, {
-          upsert: true
-        })
-        return {data, error}
-    }
-
-    async function getAvatarUrl() {
-      const { data } = supabase
-        .storage
-        .from('avatars')
-        .getPublicUrl(`public/${session?.user.id}.png`)
-      return data['publicUrl']
-    }
+    // async function getAvatarUrl() {
+    //   const { data } = supabase
+    //     .storage
+    //     .from('avatars')
+    //     .getPublicUrl(`public/${session?.user.id}.png`)
+    //   return data['publicUrl']
+    // }
 
     async function changeProfileAvatar(url) {
       const { error } = await supabase.from('profiles').upsert({
@@ -80,8 +84,8 @@ export const actions = {
       return error
     }
 
-    uploadAvatar(avatar)
-    const url = await getAvatarUrl()
+    // uploadAvatar(avatar)
+    const url = 'data:image/jpeg;base64,' + await avatar
     changeProfileAvatar(url)
 
     return {
