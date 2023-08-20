@@ -118,19 +118,19 @@
 		{/if}
 	</header>
 	<section class="z-10">
-		<h1 class="text-center text-3xl font-bold">Características</h1>
+		<h1 class="text-center text-3xl font-bold mx-5">Características</h1>
 		<Features />
 	</section>
 	<section class="z-10 mt-10">
-		<h1 class="text-center text-3xl font-bold">Creemos en lo Open Source</h1>
-		<h2 class="text-center text-xl font-semibold">
+		<h1 class="text-center text-3xl font-bold mx-5">Creemos en lo Open Source</h1>
+		<h2 class="text-center text-xl font-semibold mx-5 my-3">
 			Por eso, podes hostear vos mismo este dashboard!
 		</h2>
 		<OpenSource />
 	</section>
 	<section class="z-10 bg-accent/5 pt-10 documentation">
-		<h1 class="text-center text-3xl font-bold">Te quedó alguna duda?</h1>
-		<h2 class="text-center text-xl font-semibold">Visita la wiki!</h2>
+		<h1 class="text-center text-3xl font-bold mx-5">Te quedó alguna duda?</h1>
+		<h2 class="text-center text-xl font-semibold mx-5 my-3">Visita la wiki!</h2>
 		<div class="mx-auto w-fit p-10">
 			<a class="btn btn-wide btn-accent" href="https://github.com/bbauti/dashboard/wiki/Inicio">
 				<iconify-icon icon="octicon:link-16" />
