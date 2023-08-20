@@ -39,7 +39,7 @@
 	];
 </script>
 
-<div class="grid md:grid-cols-2 lg:grid-cols-3 mx-auto gap-5 w-fit p-10">
+<div class="grid md:grid-cols-2 lg:grid-cols-3 mx-auto gap-5 w-fit py-10">
 	<!-- {#each Array(6) as _, index (index)} -->
 	{#each features as item}
 		<div

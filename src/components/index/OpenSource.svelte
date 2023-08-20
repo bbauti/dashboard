@@ -53,7 +53,7 @@
 	];
 </script>
 
-<div class="grid sm:grid-cols-2 lg:grid-cols-3 mx-auto gap-5 w-fit p-10">
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 mx-auto gap-5 w-fit py-10">
 	{#each guide as item, index}
 		<article
 			class="h-fit w-[32ch] rounded-box bg-accent/5 border border-accent/20 overflow-hidden p-3"
