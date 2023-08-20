@@ -35,8 +35,6 @@ export const actions = {
     const password = formData.get('passwordInput')
     const confirmPassword = formData.get("confirmPassword")
 
-    console.log(password, confirmPassword)
-
     if (!password) {
       return fail(500, { message: 'Debes ingresar una contraseña', success: false })
     }

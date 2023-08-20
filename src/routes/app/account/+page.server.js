@@ -63,7 +63,6 @@ export const actions = {
     //     .upload(`public/${session?.user.id}.png`, file, {
     //       upsert: true
     //     })
-    //     console.log(data)
     //     return {data, error}
     // }
 

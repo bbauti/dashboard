@@ -4,10 +4,15 @@
 	import { blur } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 
+	import Features from '../components/index/Features.svelte';
+	import OpenSource from '../components/index/OpenSource.svelte';
+
 	export let data;
 
 	let { supabase, session } = data;
 	$: ({ supabase, session } = data);
+
+	let y;
 
 	let loading = true;
 
@@ -35,65 +40,6 @@
 			});
 		});
 
-		//creo un canvas para la imagen de fondo
-		let canvas = document.getElementById('canvas'),
-			ctx = canvas.getContext('2d'),
-			pic = new Image();
-
-		// dependiendo del width de la pantalla va a ser tener distinto width
-
-		function setCanvasDimensions(context) {
-			context.canvas.width = context.canvas.clientWidth;
-			context.canvas.height = context.canvas.clientHeight;
-		}
-
-		function getImageSize(context, image) {
-			let canvasWidth = context.canvas.width,
-				canvasHeight = context.canvas.height,
-				canvasRatio = canvasHeight / canvasWidth,
-				imageWidth = image.naturalWidth,
-				imageHeight = image.naturalHeight,
-				imageRatio = imageHeight / imageWidth,
-				widthValue = imageRatio > canvasRatio ? canvasWidth : canvasHeight / imageRatio,
-				heightValue = imageRatio > canvasRatio ? canvasWidth * imageRatio : canvasHeight,
-				adjX = imageRatio > canvasRatio ? 0 : (canvasWidth - widthValue) / 2,
-				adjY = imageRatio > canvasRatio ? (canvasHeight - heightValue) / 2 : 0;
-
-			return {
-				width: widthValue,
-				height: heightValue,
-				offsetX: adjX,
-				offsetY: adjY
-			};
-		}
-
-		//imrpime la image
-
-		function drawSizedImage(context, image) {
-			let { offsetX, offsetY, width, height } = getImageSize(context, image);
-			context.drawImage(pic, offsetX, offsetY, width, height);
-		}
-
-		setCanvasDimensions(ctx);
-		pic.src = '/home.svg';
-
-		// al cargar la imagen la imprime
-
-		pic.onload = function () {
-			drawSizedImage(ctx, this);
-		};
-
-		//cada vez que cambia el width de la pagina se cambia el size de la imagen
-
-		window.addEventListener(
-			'resize',
-			() => {
-				setCanvasDimensions(ctx);
-				drawSizedImage(ctx, pic);
-			},
-			false
-		);
-
 		loading = false;
 	});
 </script>
@@ -101,7 +47,8 @@
 <svelte:head>
 	<title>Dashboard</title>
 </svelte:head>
-<div class="grain" />
+
+<svelte:window bind:scrollY={y} />
 
 {#if loading}
 	<div
@@ -111,58 +58,94 @@
 		<span class="loading loading-spinner loading-lg" />
 	</div>
 {/if}
-
-<header class="flex items-center justify-center flex-col h-[100dvh] p-10">
-	<h1 class="text-center mb-10">
-		<span class="magic"
-			><span class="magic-text text-4xl lg:text-6xl font-bold"
-				>Potencia tu comercio con nosotros</span
-			></span
-		>
-	</h1>
-	<h2 class="prose text-balance text-center text-lg lg:text-2xl">
-		Nuestro Dashboard te ofrece la libertad de gestionar ventas, calcular precios y mantener tu
-		inventario siempre actualizado. Simplifica tus tareas diarias y concéntrate en lo que más
-		importa: <span class="font-semibold text-accent underline">hacer crecer tu negocio</span>.
-	</h2>
-	<div class="mt-10">
-		<a class="button" href="/login">
-			<span>Iniciar sesion</span>
-		</a>
+<div class="w-screen">
+	<div class="w-full h-screen absolute z-0 blur-[200px] opacity-40 overflow-hidden">
+		<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+			<path
+				fill="#c930c4"
+				d="M43.4,-72.7C54.9,-68.6,61.9,-54.1,68.8,-40.3C75.8,-26.5,82.8,-13.2,81.5,-0.7C80.2,11.8,70.7,23.5,62.9,36C55.1,48.4,49.1,61.5,38.9,71.4C28.7,81.4,14.4,88.2,0.7,86.9C-12.9,85.6,-25.8,76.3,-39.9,68.7C-54.1,61,-69.4,55,-77.6,43.8C-85.7,32.6,-86.7,16.3,-86.3,0.2C-85.9,-15.9,-84.2,-31.7,-77.3,-45.1C-70.4,-58.4,-58.3,-69.3,-44.6,-72.2C-30.8,-75,-15.4,-70,0.3,-70.4C16,-70.9,31.9,-76.9,43.4,-72.7Z"
+				transform="translate(250 0)"
+			/>
+		</svg>
 	</div>
-</header>
-<canvas id="canvas" in:blur />
+	<div class="w-full h-screen absolute z-0 blur-[120px] opacity-30 overflow-hidden">
+		<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+			<path
+				fill="#30c9b2"
+				d="M43.4,-72.7C54.9,-68.6,61.9,-54.1,68.8,-40.3C75.8,-26.5,82.8,-13.2,81.5,-0.7C80.2,11.8,70.7,23.5,62.9,36C55.1,48.4,49.1,61.5,38.9,71.4C28.7,81.4,14.4,88.2,0.7,86.9C-12.9,85.6,-25.8,76.3,-39.9,68.7C-54.1,61,-69.4,55,-77.6,43.8C-85.7,32.6,-86.7,16.3,-86.3,0.2C-85.9,-15.9,-84.2,-31.7,-77.3,-45.1C-70.4,-58.4,-58.3,-69.3,-44.6,-72.2C-30.8,-75,-15.4,-70,0.3,-70.4C16,-70.9,31.9,-76.9,43.4,-72.7Z"
+				transform="translate(180 0)"
+			/>
+		</svg>
+	</div>
+	<div class="w-full h-screen absolute z-0 blur-[80px] opacity-10 overflow-hidden">
+		<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+			<path
+				fill="#30c9b2"
+				d="M43.4,-72.7C54.9,-68.6,61.9,-54.1,68.8,-40.3C75.8,-26.5,82.8,-13.2,81.5,-0.7C80.2,11.8,70.7,23.5,62.9,36C55.1,48.4,49.1,61.5,38.9,71.4C28.7,81.4,14.4,88.2,0.7,86.9C-12.9,85.6,-25.8,76.3,-39.9,68.7C-54.1,61,-69.4,55,-77.6,43.8C-85.7,32.6,-86.7,16.3,-86.3,0.2C-85.9,-15.9,-84.2,-31.7,-77.3,-45.1C-70.4,-58.4,-58.3,-69.3,-44.6,-72.2C-30.8,-75,-15.4,-70,0.3,-70.4C16,-70.9,31.9,-76.9,43.4,-72.7Z"
+				transform="translate(250 250)"
+			/>
+		</svg>
+	</div>
+</div>
+<main class="bg-primary/[0.03]">
+	<header
+		class="flex items-center pt-24 lg:pt-0 lg:justify-center flex-col h-screen p-10 overflow z-10"
+	>
+		<h1 class="text-center mb-10">
+			<span class="magic"
+				><span class="magic-text text-4xl lg:text-6xl font-bold">Potencia tu comercio.</span></span
+			>
+		</h1>
+		<h2 class="prose text-balance text-center text-lg lg:text-xl z-10">
+			Nuestro Dashboard te ofrece la libertad de gestionar ventas, calcular precios y mantener tu
+			inventario siempre actualizado. Simplifica tus tareas diarias y concéntrate en lo que más
+			importa: <span class="font-semibold text-accent/70 underline decoration-secondary/50"
+				>hacer crecer tu negocio</span
+			>.
+		</h2>
+		<div class="mt-10">
+			<a class="button" href="/login">
+				<span>Proba Punto Bazar. Gratis!</span>
+			</a>
+		</div>
+		{#if y < 50}
+			<div
+				transition:fade
+				class="absolute bottom-14 text-2xl bg-secondary/40 w-10 h-10 flex items-center justify-center rounded-xl float"
+			>
+				<iconify-icon icon="mingcute:arrow-down-fill" />
+			</div>
+		{/if}
+	</header>
+	<section class="z-10">
+		<h1 class="text-center text-3xl font-bold">Características</h1>
+		<Features />
+	</section>
+	<section class="z-10 mt-10">
+		<h1 class="text-center text-3xl font-bold">Creemos en lo Open Source</h1>
+		<h2 class="text-center text-xl font-semibold">
+			Por eso, podes hostear vos mismo este dashboard!
+		</h2>
+		<OpenSource />
+	</section>
+	<section class="z-10 bg-accent/5 pt-10 documentation">
+		<h1 class="text-center text-3xl font-bold">Te quedó alguna duda?</h1>
+		<h2 class="text-center text-xl font-semibold">Visita la wiki!</h2>
+		<div class="mx-auto w-fit p-10">
+			<a class="btn btn-wide btn-accent" href="https://github.com/bbauti/dashboard/wiki/Inicio">
+				<iconify-icon icon="octicon:link-16" />
+				Ir a la documentacion
+				<iconify-icon icon="mdi:pickaxe" />
+			</a>
+		</div>
+	</section>
+</main>
 
 <style>
 	:root {
 		--purple: rgb(123, 31, 162);
 		--violet: rgb(103, 58, 183);
 		--pink: rgb(244, 143, 177);
-	}
-
-	.grain {
-		position: fixed;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
-		pointer-events: none;
-		z-index: 49;
-		transform: translateZ(0);
-	}
-	.grain:before {
-		content: '';
-		top: -10rem;
-		left: -10rem;
-		width: calc(100% + 20rem);
-		height: calc(100% + 20rem);
-		z-index: 49;
-		position: fixed;
-		background-image: url('/noise.webp');
-		opacity: 0.05;
-		pointer-events: none;
-		-webkit-animation: noise 1s steps(2) infinite;
-		animation: noise 1s steps(2) infinite;
 	}
 
 	h1 > .magic {
@@ -221,15 +204,24 @@
 		box-shadow: 0 4px 8px var(--shadow);
 	}
 
-	#canvas {
-		position: fixed;
-		z-index: -10;
-		top: 0;
-		left: 0;
-		width: 100dvw;
-		height: 100dvh;
-		opacity: 0.5;
-		display: block;
+	.float {
+		animation: float 4s ease infinite;
+	}
+
+	.documentation {
+		box-shadow: inset 0 20px 20px -20px rgba(0, 0, 0, 0.664);
+	}
+
+	@keyframes float {
+		0% {
+			transform: translatey(0px);
+		}
+		50% {
+			transform: translatey(-10px);
+		}
+		100% {
+			transform: translatey(0px);
+		}
 	}
 
 	@media only screen and (max-width: 600px) {
@@ -237,48 +229,6 @@
 			padding: 12px 25px 12px 25px;
 			line-height: 32px;
 			font-size: 18px;
-		}
-	}
-
-	@-webkit-keyframes noise {
-		to {
-			transform: translate3d(-7rem, 0, 0);
-		}
-	}
-
-	@keyframes noise {
-		0% {
-			transform: translate3d(0, 9rem, 0);
-		}
-		10% {
-			transform: translate3d(-1rem, -4rem, 0);
-		}
-		20% {
-			transform: translate3d(-8rem, 2rem, 0);
-		}
-		30% {
-			transform: translate3d(9rem, -9rem, 0);
-		}
-		40% {
-			transform: translate3d(-2rem, 7rem, 0);
-		}
-		50% {
-			transform: translate3d(-9rem, -4rem, 0);
-		}
-		60% {
-			transform: translate3d(2rem, 6rem, 0);
-		}
-		70% {
-			transform: translate3d(7rem, -8rem, 0);
-		}
-		80% {
-			transform: translate3d(-9rem, 1rem, 0);
-		}
-		90% {
-			transform: translate3d(6rem, -5rem, 0);
-		}
-		to {
-			transform: translate3d(-7rem, 0, 0);
 		}
 	}
 
