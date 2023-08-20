@@ -128,7 +128,7 @@
 		</h2>
 		<OpenSource />
 	</section>
-	<section class="z-10 bg-accent/5 pt-10 documentation">
+	<section class="z-10 bg-accent/5 py-10 documentation">
 		<h1 class="text-center text-3xl font-bold mx-5">Te quedó alguna duda?</h1>
 		<h2 class="text-center text-xl font-semibold mx-5 my-3">Visita la wiki!</h2>
 		<div class="mx-auto w-fit p-10">
