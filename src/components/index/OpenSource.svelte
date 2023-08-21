@@ -10,7 +10,7 @@
 				{
 					desc: `Agrega las 
                         <a 
-                            href=https://github.com/bbauti/dashboard#-api-keys" 
+                            href='https://github.com/bbauti/dashboard#-api-keys' 
                             class='text-accent underline decoration-primary/50 decoration-2 underline-offset-2'
                         >
 							Variables de entorno
